@@ -10,7 +10,7 @@
 
 ```
 TmuxSessionManager (manager.ts)
-  ├─→ DecisionEngine: Should we spawn/close panes?
+  ├─→ DecisionEngine: Spawn/close panes?
   ├─→ ActionExecutor: Execute spawn/close/replace actions
   ├─→ PollingManager: Monitor pane health
   └─→ EventHandlers: React to session create/delete

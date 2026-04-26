@@ -4,7 +4,7 @@
 
 ## OVERVIEW
 
-`bunx oh-my-opencode doctor` — parallel diagnostic checks across 4 categories (System, Config, Tools, Models). Catches broken installs, config typos, missing dependencies, provider misconfigurations before they become runtime errors.
+`bunx oh-my-opencode doctor` — parallel diagnostic checks across 4 categories (System, Config, Tools, Models). Catches broken installs, config typos, missing dependencies, provider misconfigurations before runtime errors.
 
 ## COMMAND FLAGS
 

@@ -1,7 +1,7 @@
 > [!WARNING]
 > **임시 공지 (이번 주): 메인테이너 대응 지연 안내**
 >
-> 핵심 메인테이너 Q가 부상을 입어, 이번 주에는 이슈/PR 응답 및 릴리스가 지연될 수 있다.
+> 핵심 메인테이너 Q가 부상을 입어, 이번 주에는 이슈/PR 응답과 릴리스가 지연될 수 있다.
 > 양해와 응원에 감사드린다.
 
 > [!TIP]
@@ -87,7 +87,6 @@ Claude Code, Codex, 온갖 OSS 모델들 사이에서 헤매고 있나. 워크�
 OmO 설치하고. `ultrawork` 치라. 끝.
 
 
-
 ## 설치
 
 ### 사람용
@@ -164,11 +163,11 @@ Read this and tell me why it's not just another boilerplate: https://raw.githubu
 <td align="center"><img src=".github/assets/hephaestus.png" height="300" /></td>
 </tr></table>
 
-**Sisyphus** (`claude-opus-4-7` / **`kimi-k2.5`** / **`glm-5`**)는 당신의 메인 오케스트레이터. 공격적인 병렬 실행으로 계획을 세우고, 전문가들에게 위임하며, 완료될 때까지 밀어붙인다. 중간에 포기하는 법이 없다.
+**Sisyphus** (`claude-opus-4-7` / **`kimi-k2.5`** / **`glm-5`** )는 당신의 메인 오케스트레이터. 공격적인 병렬 실행으로 계획을 세우고, 전문가들에게 위임하며, 완료될 때까지 밀어붙인다. 중간에 포기하는 법이 없다.
 
 **Hephaestus** (`gpt-5.4`)는 당신의 자율 딥 워커. 레시피가 아니라 목표를 주라. 베이비시터 없이 알아서 코드베이스를 탐색하고, 패턴을 연구하며, 끝에서 끝까지 전부 해낸다. *진정한 장인(The Legitimate Craftsman).*
 
-**Prometheus** (`claude-opus-4-7` / **`kimi-k2.5`** / **`glm-5`**)는 당신의 전략 플래너. 인터뷰 모드로 작동한다. 코드 한 줄 만지기 전에 질문을 던져 스코프를 파악하고 상세한 계획부터 세운다.
+**Prometheus** (`claude-opus-4-7` / **`kimi-k2.5`** / **`glm-5`** )는 당신의 전략 플래너. 인터뷰 모드로 작동한다. 코드 한 줄 만지기 전에 질문을 던져 스코프를 파악하고 상세한 계획부터 세운다.
 
 모든 에이전트는 해당 모델의 특장점에 맞춰 튜닝되어 있다. 수동으로 모델 바꿔가며 뻘짓하지 마라. [더 알아보기 →](docs/guide/overview.md)
 

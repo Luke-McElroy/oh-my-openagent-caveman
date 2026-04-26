@@ -4,7 +4,7 @@
 
 ## OVERVIEW
 
-Standalone feature modules wired into plugin/ layer. Each is self-contained with own types, implementation, and tests.
+Standalone feature modules wired into plugin/ layer. Each self-contained with own types, implementation, and tests.
 
 ## MODULE MAP
 

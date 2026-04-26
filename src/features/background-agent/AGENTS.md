@@ -40,7 +40,7 @@ Two signals combined:
 1. **Session idle event** — OpenCode reports session became idle
 2. **Stability detection** — message count unchanged for 10s (3+ stable polls at 3s interval)
 
-Both must agree before marking a task complete. Prevents premature completion on brief pauses.
+Both must agree before marking task complete. Prevents premature completion on brief pauses.
 
 ## CONCURRENCY MODEL
 
