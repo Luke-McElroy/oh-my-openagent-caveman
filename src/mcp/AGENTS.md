@@ -4,7 +4,7 @@
 
 ## OVERVIEW
 
-Tier 1 of the three-tier MCP system. 3 remote HTTP MCPs created via `createBuiltinMcps(disabledMcps, config)`.
+Tier 1 of three-tier MCP system. 3 remote HTTP MCPs created via `createBuiltinMcps(disabledMcps, config)`.
 
 ## BUILT-IN MCPs
 

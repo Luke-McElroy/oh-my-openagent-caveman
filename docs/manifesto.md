@@ -1,43 +1,43 @@
 # Manifesto
 
-The principles and philosophy behind Oh My OpenAgent.
+Principles and philosophy behind Oh My OpenAgent.
 
 ---
 
-## Human Intervention is a Failure Signal
+## Human Intervention is Failure Signal
 
 **HUMAN IN THE LOOP = BOTTLENECK**
 
-Think about autonomous driving. When a human has to take over the wheel, that's not a feature. It's a failure of the system. The car couldn't handle the situation on its own.
+Think about autonomous driving. When human has to take over wheel, that's not feature. It's failure of system. Car couldn't handle situation on its own.
 
 **Why is coding any different?**
 
 When you find yourself:
-- Fixing the AI's half-finished code
+- Fixing AI's half-finished code
 - Manually correcting obvious mistakes
-- Guiding the agent step-by-step through a task
-- Repeatedly clarifying the same requirements
+- Guiding agent step-by-step through task
+- Repeatedly clarifying same requirements
 
-That's not "human-AI collaboration." That's the AI failing to do its job.
+That's not "human-AI collaboration." That's AI failing to do its job.
 
-**Oh My OpenAgent is built on this premise**: Human intervention during agentic work is fundamentally a wrong signal. If the system is designed correctly, the agent should complete the work without requiring you to babysit it.
+**Oh My OpenAgent is built on this premise**: Human intervention during agentic work is fundamentally wrong signal. If system is designed correctly, agent should complete work without requiring you to ysit it.
 
 ---
 
 ## Indistinguishable Code
 
-**Goal: Code written by the agent should be indistinguishable from code written by a senior engineer.**
+**Goal: Code written by agent should be indistinguishable from code written by senior engineer.**
 
-Not "AI-generated code that needs cleanup." Not "a good starting point." The actual, final, production-ready code.
+Not "AI-generated code that needs cleanup." Not "good starting point." Actual, final, production-ready code.
 
 This means:
 - Following existing codebase patterns exactly
 - Proper error handling without being asked
-- Tests that actually test the right things
+- Tests that actually test right things
 - No AI slop (over-engineering, unnecessary abstractions, scope creep)
 - Comments only when they add value
 
-If you can tell whether a commit was made by a human or an agent, the agent has failed.
+If you can tell whether commit was made by human or agent, agent has failed.
 
 ---
 
@@ -47,27 +47,27 @@ If you can tell whether a commit was made by a human or an agent, the agent has 
 
 Using more tokens to:
 - Have multiple specialized agents research in parallel
-- Get the job done completely without human intervention
+- Get job done completely without human intervention
 - Verify work thoroughly before completion
 - Accumulate knowledge across tasks
 
-That's a worthwhile investment when it means 10x, 20x, or 100x productivity gains.
+That's worthwhile investment when it means 10x, 20x, or 100x productivity gains.
 
 **However:**
 
-Unnecessary token waste is not pursued. The system optimizes for:
+Unnecessary token waste is not pursued. System optimizes for:
 - Using cheaper models (Haiku, Flash) for simple tasks
 - Avoiding redundant exploration
 - Caching learnings across sessions
 - Stopping research when sufficient context is gathered
 
-Token efficiency matters. But not at the cost of work quality or human cognitive load.
+Token efficiency matters. But not at cost of work quality or human cognitive load.
 
 ---
 
 ## Minimize Human Cognitive Load
 
-**The human should only need to say what they want. Everything else is the agent's job.**
+**Human should only need to say what they want. Everything else is agent's job.**
 
 Two approaches achieve this:
 
@@ -80,39 +80,39 @@ Prometheus:
 - Asks clarifying questions based on actual findings
 - Surfaces edge cases you hadn't considered
 - Documents decisions as you make them
-- Generates a complete work plan
+- Generates complete work plan
 
-**You provide intent. The agent provides structure.**
+**You provide intent. Agent provides structure.**
 
-### Approach 2: Ultrawork (Just Do It Mode)
+### Approach 2: Ultrawork (Do It Mode)
 
 You say: "ulw add authentication"
 
-The agent:
-- Figures out the right approach
+Agent:
+- Figures out right approach
 - Researches best practices
 - Implements following conventions
 - Verifies everything works
 - Keeps going until complete
 
-**You provide intent. The agent handles everything.**
+**You provide intent. Agent handles everything.**
 
-In both cases, the human's job is to **express what they want**, not to manage how it gets done.
+In both cases, human's job is to **express what they want**, not to manage how it gets done.
 
 ---
 
 ## Predictable, Continuous, Delegatable
 
-**The ideal agent should work like a compiler**: markdown document goes in, working code comes out.
+**Ideal agent should work like compiler**: markdown document goes in, working code comes out.
 
 ### Predictable
 
-Given the same inputs:
+Given same inputs:
 - Same codebase patterns
 - Same requirements
 - Same constraints
 
-The output should be consistent. Not random, not surprising, not "creative" in ways you didn't ask for.
+Output should be consistent. Not random, not surprising, not "creative" in ways you didn't ask for.
 
 ### Continuous
 
@@ -121,11 +121,11 @@ Work should survive interruptions:
 - Need to step away? Progress is tracked
 - Multi-day project? Context is preserved
 
-The agent maintains state. You don't have to.
+Agent maintains state. You don't have to.
 
 ### Delegatable
 
-Just like you can assign a task to a capable team member and trust them to handle it, you should be able to delegate to the agent.
+Like you can assign task to capable team member and trust them to handle it, you should be able to delegate to agent.
 
 This means:
 - Clear acceptance criteria, verified independently
@@ -135,13 +135,13 @@ This means:
 
 ---
 
-## The Core Loop
+## Core Loop
 
 ```
 Human Intent → Agent Execution → Verified Result
-       ↑                              ↓
-       └──────── Minimum ─────────────┘
-          (intervention only on true failure)
+↑ ↓
+└──────── Minimum ─────────────┘
+(intervention only on true failure)
 ```
 
 Everything in Oh My OpenAgent is designed to make this loop work:
@@ -164,28 +164,28 @@ Everything in Oh My OpenAgent is designed to make this loop work:
 **You should be able to:**
 
 1. Describe what you want (high-level or detailed, your choice)
-2. Let the agent interview you if needed
-3. Confirm the plan (or just let ultrawork handle it)
+2. Let agent interview you if needed
+3. Confirm plan (or let ultrawork handle it)
 4. Walk away
 5. Come back to completed, verified, production-ready work
 
-**If you can't do this, something in the system needs to improve.**
+**If you can't do this, something in system needs improvement.**
 
 ---
 
-## The Future We're Building
+## Future We're Building
 
-A world where:
+World where:
 - Human developers focus on **what** to build, not **how** to get AI to build it
 - Code quality is independent of who (or what) wrote it
-- Complex projects are as easy as simple ones (just take longer)
+- Complex projects are as easy as simple ones (take longer)
 - "Prompt engineering" becomes as obsolete as "compiler debugging"
 
-**The agent should be invisible.** Not in the sense that it's hidden, but in the sense that it just works. Like electricity, like running water, like the internet.
+**Agent should be invisible.** Not in sense that it's hidden, but in sense that it works. Like electricity, like running water, like internet.
 
-You flip the switch. The light turns on. You don't think about the power grid.
+You flip switch. Light turns on. You don't think about power grid.
 
-That's the goal.
+That's goal.
 
 ---
 

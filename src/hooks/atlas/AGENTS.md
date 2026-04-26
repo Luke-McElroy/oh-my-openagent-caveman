@@ -4,21 +4,21 @@
 
 ## OVERVIEW
 
-17 files (~1976 LOC). The `atlasHook` — Continuation Tier hook that monitors session.idle events and forces continuation when boulder sessions (ralph-loop, task-spawned agents) have incomplete work. Also enforces write/edit policies for subagent sessions.
+17 files (~1976 LOC). `atlasHook` — Continuation Tier hook monitoring session.idle events, forces continuation when boulder sessions (ralph-loop, task-spawned agents) have incomplete work. Enforces write/edit policies for subagent sessions.
 
 ## WHAT ATLAS DOES
 
-Atlas is the "keeper of sessions" — it tracks every session and decides:
-1. Should this session be forced to continue? (if boulder session with incomplete todos)
-2. Should write/edit be blocked? (policy enforcement for certain session types)
-3. Should a verification reminder be injected? (after tool execution)
+Atlas is "keeper of sessions" — tracks every session, decides:
+1. Force continuation? (boulder session with incomplete todos)
+2. Block write/edit? (policy enforcement for certain session types)
+3. Inject verification reminder? (after tool execution)
 
 ## DECISION GATE (session.idle)
 
 ```
 session.idle event
-  → Is this a boulder/ralph/atlas session? (session-last-agent.ts)
-  → Is there an abort signal? (is-abort-error.ts)
+  → Boulder/ralph/atlas session? (session-last-agent.ts)
+  → Abort signal? (is-abort-error.ts)
   → Failure count < max? (state.promptFailureCount)
   → No running background tasks?
   → Agent matches expected? (recent-model-resolver.ts)
@@ -41,7 +41,7 @@ session.idle event
 | `verification-reminders.ts` | Reminder content for verifying work |
 | `session-last-agent.ts` | Determine which agent owns the session |
 | `recent-model-resolver.ts` | Resolve model used in recent messages |
-| `subagent-session-id.ts` | Detect if session is a subagent session |
+| `subagent-session-id.ts` | Detect if session is subagent session |
 | `sisyphus-path.ts` | Resolve `.sisyphus/` directory path |
 | `is-abort-error.ts` | Detect abort signals in session output |
 | `types.ts` | `SessionState`, `AtlasHookOptions`, `AtlasContext` |
@@ -61,4 +61,4 @@ Max consecutive failures before 5min pause: 5 (exponential backoff in todo-conti
 
 - **atlasHook** (Continuation Tier): Master orchestrator, handles boulder sessions
 - **todoContinuationEnforcer** (Continuation Tier): "Boulder" mechanism for main Sisyphus sessions
-- Both inject into session.idle but serve different session types
+- Both inject into session.idle but check session type first

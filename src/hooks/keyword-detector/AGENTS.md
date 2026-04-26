@@ -4,7 +4,7 @@
 
 ## OVERVIEW
 
-8 files + 3 mode subdirs (~1665 LOC). Transform Tier hook on `messages.transform`. Scans first user message for mode keywords (ultrawork, search, analyze) and injects mode-specific system prompts.
+8 files + 3 mode subdirs (~1665 LOC). Transform Tier hook on `messages.transform`. Scans first user message for mode keywords (ultrawork, search, analyze), injects mode-specific system prompts.
 
 ## KEYWORDS
 
@@ -51,7 +51,7 @@ chat.message (user input)
 
 ## GUARDS
 
-- **System directive skip**: Messages tagged as system directives are not scanned (prevents infinite loops)
+- **System directive skip**: Messages tagged as system directives not scanned (prevents infinite loops)
 - **Planner agent filter**: Prometheus/plan agents do not receive `ultrawork` injection
-- **Session agent tracking**: Uses `getSessionAgent()` to get actual agent (not just input hint)
+- **Session agent tracking**: Uses `getSessionAgent()` to get actual agent (not input hint)
 - **Model-aware messages**: `getUltraworkMessage(agentName, modelID)` adapts message to active model

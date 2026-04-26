@@ -4,17 +4,17 @@ argument-hint: <patch|minor|major>
 ---
 
 <command-instruction>
-You are the release manager for oh-my-opencode. Execute the FULL publish workflow from start to finish.
+You are release manager for oh-my-opencode. Execute FULL publish workflow from start to finish.
 
 ## CRITICAL: ARGUMENT REQUIREMENT
 
-**You MUST receive a version bump type from the user.** Valid options:
+**You MUST receive version bump type from user.** Valid options:
 - `patch`: Bug fixes, backward-compatible (1.1.7 → 1.1.8)
 - `minor`: New features, backward-compatible (1.1.7 → 1.2.0)
 - `major`: Breaking changes (1.1.7 → 2.0.0)
 
-**If the user did not provide a bump type argument, STOP IMMEDIATELY and ask:**
-> "To proceed with deployment, please specify a version bump type: `patch`, `minor`, or `major`"
+**If user did not provide bump type argument, STOP IMMEDIATELY and ask:**
+> "To proceed with deployment, please specify version bump type: `patch`, `minor`, or `major`"
 
 **DO NOT PROCEED without explicit user confirmation of bump type.**
 
@@ -22,7 +22,7 @@ You are the release manager for oh-my-opencode. Execute the FULL publish workflo
 
 ## STEP 0: REGISTER TODO LIST (MANDATORY FIRST ACTION)
 
-**Before doing ANYTHING else**, create a detailed todo list using TodoWrite:
+**Before doing ANYTHING else**, create detailed todo list using TodoWrite:
 
 ```
 [
@@ -75,18 +75,18 @@ git log origin/master..HEAD --oneline
 git pull --rebase && git push
 ```
 
-This ensures the GitHub Actions workflow runs on the latest code including all local commits.
+This ensures GitHub Actions workflow runs on latest code including all local commits.
 
 ---
 
 ## STEP 3: TRIGGER GITHUB ACTIONS WORKFLOW
 
-Run the publish workflow:
+Run publish workflow:
 ```bash
 gh workflow run publish -f bump={bump_type}
 ```
 
-Wait 3 seconds, then get the run ID:
+Wait 3 seconds, then get run ID:
 ```bash
 gh run list --workflow=publish --limit=1 --json databaseId,status --jq '.[0]'
 ```
@@ -113,7 +113,7 @@ gh run view {run_id} --log-failed
 
 ## STEP 5: VERIFY RELEASE & PREVIEW AUTO-GENERATED CONTENT
 
-Two goals: confirm the release exists, then show the user what the workflow already generated.
+Two goals: confirm release exists, then show user what workflow already generated.
 
 ```bash
 # Pull latest (workflow committed version bump)
@@ -124,25 +124,25 @@ NEW_VERSION=$(node -p "require('./package.json').version")
 gh release view "v${NEW_VERSION}" --json tagName,url --jq '{tag: .tagName, url: .url}'
 ```
 
-**After verifying, generate a local preview of the auto-generated content:**
+**After verifying, generate local preview of auto-generated content:**
 
 ```bash
 bun run script/generate-changelog.ts
 ```
 
 <agent-instruction>
-After running the preview, present the output to the user and say:
+After running preview, present output to user and say:
 
-> **The following content is ALREADY included in the release automatically:**
+> **Following content is ALREADY included in release automatically:**
 > - Commit changelog (grouped by feat/fix/refactor)
 > - Contributor thank-you messages (for non-team contributors)
 >
 > You do NOT need to write any of this. It's handled.
 >
-> **For a patch release**, this is usually sufficient on its own. However, if there are notable bug fixes or changes worth highlighting, an enhanced summary can be added.
-> **For a minor/major release**, an enhanced summary is **required** — I'll draft one in the next step.
+> **For patch release**, this is usually sufficient on its own. However, if there are notable bug fixes or changes worth highlighting, enhanced summary can be added.
+> **For minor/major release**, enhanced summary is **required** — I'll draft one in next step.
 
-Wait for the user to acknowledge before proceeding.
+Wait for user to acknowledge before proceeding.
 </agent-instruction>
 
 ---
@@ -153,18 +153,18 @@ Wait for the user to acknowledge before proceeding.
 
 | Release Type | Action |
 |-------------|--------|
-| **patch** | ASK the user: "Would you like me to draft an enhanced summary highlighting the key bug fixes / changes? Or is the auto-generated changelog sufficient?" If user declines → skip to Step 8. If user accepts → draft a concise bug-fix / change summary below. |
-| **minor** | MANDATORY. Draft a concise feature summary. Do NOT proceed without one. |
-| **major** | MANDATORY. Draft a full release narrative with migration notes if applicable. Do NOT proceed without one. |
+| **patch** | ASK user: "Would you like me to draft enhanced summary highlighting key bug fixes / changes? Or is auto-generated changelog sufficient?" If user declines → skip to Step 8. If user accepts → draft concise bug-fix / change summary below. |
+| **minor** | MANDATORY. Draft concise feature summary. Do NOT proceed without one. |
+| **major** | MANDATORY. Draft full release narrative with migration notes if applicable. Do NOT proceed without one. |
 
 </decision-gate>
 
 ### What You're Writing (and What You're NOT)
 
-You are writing the **headline layer** — a product announcement that sits ABOVE the auto-generated commit log. Think "release blog post", not "git log".
+You are writing **headline layer** — product announcement that sits ABOVE auto-generated commit log. Think "release blog post", not "git log".
 
 <rules>
-- NEVER duplicate commit messages. The auto-generated section already lists every commit.
+- NEVER duplicate commit messages. Auto-generated section already lists every commit.
 - NEVER write generic filler like "Various bug fixes and improvements" or "Several enhancements".
 - ALWAYS focus on USER IMPACT: what can users DO now that they couldn't before?
 - ALWAYS group by THEME or CAPABILITY, not by commit type (feat/fix/refactor).
@@ -182,7 +182,7 @@ You are writing the **headline layer** — a product announcement that sits ABOV
 <good title="User-impact narrative — DO this">
 ## 🔐 Smarter Authentication
 
-Token refresh is now automatic and seamless. Sessions no longer expire mid-task — the system silently rotates credentials in the background. If you've been frustrated by random logouts, this release fixes that.
+Token refresh is now automatic and seamless. Sessions no longer expire mid-task — system silently rotates credentials in background. If you've been frustrated by random logouts, this release fixes that.
 </good>
 
 <bad title="Vague filler — DO NOT do this">
@@ -194,15 +194,15 @@ Token refresh is now automatic and seamless. Sessions no longer expire mid-task 
 <good title="Specific and measurable — DO this">
 ## ⚡ 3x Faster Rule Parsing
 
-Rules are now cached by file modification time. If your project has 50+ rule files, you'll notice startup is noticeably faster — we measured a 3x improvement in our test suite.
+Rules are now cached by file modification time. If your project has 50+ rule files, you'll notice startup is noticeably faster — we measured 3x improvement in our test suite.
 </good>
 </examples>
 
 ### Drafting Process
 
-1. **Analyze** the commit list from Step 5's preview. Identify 2-5 themes that matter to users.
-2. **Write** the summary to `/tmp/release-summary-v${NEW_VERSION}.md`.
-3. **Present** the draft to the user for review and approval before applying.
+1. **Analyze** commit list from Step 5's preview. Identify 2-5 themes that matter to users.
+2. **Write** summary to `/tmp/release-summary-v${NEW_VERSION}.md`.
+3. **Present** draft to user for review and approval before applying.
 
 ```bash
 # Write your draft here
@@ -214,8 +214,8 @@ cat /tmp/release-summary-v${NEW_VERSION}.md
 ```
 
 <agent-instruction>
-After drafting, ask the user:
-> "Here's the release summary I drafted. This will appear AT THE TOP of the release notes, above the auto-generated commit changelog and contributor thanks. Want me to adjust anything before applying?"
+After drafting, ask user:
+> "Here's release summary I drafted. This will appear AT THE TOP of release notes, above auto-generated commit changelog and contributor thanks. Want me to adjust anything before applying?"
 
 Do NOT proceed to Step 7 without user confirmation.
 </agent-instruction>
@@ -224,10 +224,10 @@ Do NOT proceed to Step 7 without user confirmation.
 
 ## STEP 7: APPLY ENHANCED SUMMARY TO RELEASE
 
-**Skip this step ONLY if the user opted out of the enhanced summary in Step 6** — proceed directly to Step 8.
+**Skip this step ONLY if user opted out of enhanced summary in Step 6** — proceed directly to Step 8.
 
 <architecture>
-The final release note structure:
+Final release note structure:
 
 ```
 ┌─────────────────────────────────────┐
@@ -244,9 +244,9 @@ The final release note structure:
 </architecture>
 
 <zero-content-loss-policy>
-- Fetch the existing release body FIRST
+- Fetch existing release body FIRST
 - PREPEND your summary above it
-- The existing auto-generated content must remain 100% INTACT
+- Existing auto-generated content must remain 100% INTACT
 - NOT A SINGLE CHARACTER of existing content may be removed or modified
 </zero-content-loss-policy>
 
@@ -263,7 +263,7 @@ EXISTING_BODY=$(gh release view "v${NEW_VERSION}" --json body --jq '.body')
   echo "$EXISTING_BODY"
 } > /tmp/final-release-v${NEW_VERSION}.md
 
-# 3. Update the release (additive only)
+# 3. Update release (additive only)
 gh release edit "v${NEW_VERSION}" --notes-file /tmp/final-release-v${NEW_VERSION}.md
 
 # 4. Confirm
@@ -275,7 +275,7 @@ gh release view "v${NEW_VERSION}" --json url --jq '.url'
 
 ## STEP 8: VERIFY NPM PUBLICATION
 
-Poll npm registry until the new version appears:
+Poll npm registry until new version appears:
 ```bash
 npm view oh-my-opencode version
 ```
@@ -286,9 +286,9 @@ Compare with expected version. If not matching after 2 minutes, warn user about 
 
 ## STEP 8.5: WAIT FOR PLATFORM WORKFLOW COMPLETION
 
-The main publish workflow triggers a separate `publish-platform` workflow for platform-specific binaries.
+Main publish workflow triggers separate `publish-platform` workflow for platform-specific binaries.
 
-1. Find the publish-platform workflow run triggered by the main workflow:
+1. Find publish-platform workflow run triggered by main workflow:
 ```bash
 gh run list --workflow=publish-platform --limit=1 --json databaseId,status,conclusion --jq '.[0]'
 ```
@@ -318,7 +318,7 @@ for PLATFORM in $PLATFORMS; do
 done
 ```
 
-All 7 packages should show the same version as the main package (`${NEW_VERSION}`).
+All 7 packages should show same version as main package (`${NEW_VERSION}`).
 
 **Expected packages:**
 | Package | Description |
@@ -331,7 +331,7 @@ All 7 packages should show the same version as the main package (`${NEW_VERSION}
 | `oh-my-opencode-linux-arm64-musl` | Linux ARM64 (musl/Alpine) |
 | `oh-my-opencode-windows-x64` | Windows x64 |
 
-If any platform package version doesn't match, warn the user and suggest checking the publish-platform workflow logs.
+If any platform package version doesn't match, warn user and suggest checking publish-platform workflow logs.
 
 ---
 

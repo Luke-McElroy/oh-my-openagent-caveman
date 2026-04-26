@@ -4,7 +4,7 @@
 
 ## OVERVIEW
 
-14 files (~1687 LOC). The `ralphLoop` Session Tier hook — powers the `/ralph-loop` command. Iterates a development loop until the agent emits `<promise>DONE</promise>` or max iterations reached.
+14 files (~1687 LOC). `ralphLoop` Session Tier hook — powers `/ralph-loop` command. Iterates development loop until agent emits `<promise>DONE</promise>` or max iterations reached.
 
 ## LOOP LIFECYCLE
 

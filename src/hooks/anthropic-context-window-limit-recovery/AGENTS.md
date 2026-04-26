@@ -6,7 +6,7 @@
 
 31 files (~2232 LOC). Most complex hook. Recovers from context window limit errors via multiple strategies applied in sequence.
 
-## RECOVERY STRATEGIES (in priority order)
+## RECOVERY STRATEGIES (priority order)
 
 | Strategy | File | Mechanism |
 |----------|------|-----------|

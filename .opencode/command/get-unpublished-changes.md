@@ -1,15 +1,15 @@
 ---
-description: Compare HEAD with the latest published npm version and list all unpublished changes
+description: Compare HEAD with latest published npm version and list all unpublished changes
 ---
 
 <command-instruction>
-IMMEDIATELY output the analysis. NO questions. NO preamble.
+IMMEDIATELY output analysis. NO questions. NO preamble.
 
-## CRITICAL: DO NOT just copy commit messages!
+## CRITICAL: DO NOT copy commit messages!
 
 For each commit, you MUST:
-1. Read the actual diff to understand WHAT CHANGED
-2. Describe the REAL change in plain language
+1. Read actual diff to understand WHAT CHANGED
+2. Describe REAL change in plain language
 3. Explain WHY it matters (if not obvious)
 
 ## Steps:
@@ -19,9 +19,9 @@ For each commit, you MUST:
 4. Recommend version bump (major/minor/patch)
 
 ## Output Format:
-- feat: "Added X that does Y" (not just "add X feature")
-- fix: "Fixed bug where X happened, now Y" (not just "fix X bug")
-- refactor: "Changed X from A to B, now supports C" (not just "rename X")
+- feat: "Added X that does Y" (not "add X feature")
+- fix: "Fixed bug where X happened, now Y" (not "fix X bug")
+- refactor: "Changed X from A to B, now supports C" (not "rename X")
 </command-instruction>
 
 <version-context>
@@ -87,7 +87,7 @@ None or list
 
 **Trigger keywords**: "safe to deploy", "can I deploy", "is it safe", "review", "check", "oracle"
 
-When user includes any of the above keywords in their request:
+When user includes any of above keywords in their request:
 
 ### 1. Pre-validation
 ```bash
@@ -98,7 +98,7 @@ bun test
 
 ### 2. Oracle Invocation Prompt
 
-Collect the following information and pass to Oracle:
+Collect following information and pass to Oracle:
 
 ```
 ## Deployment Safety Review Request
@@ -121,7 +121,7 @@ Collect the following information and pass to Oracle:
 5. **Deployment Recommendation**: SAFE / CAUTION / UNSAFE
 
 ### Request
-Please analyze the above changes deeply and provide your judgment on deployment safety.
+Please analyze above changes deeply and provide your judgment on deployment safety.
 If there are risks, explain with specific scenarios.
 Suggest keywords to monitor after deployment if any.
 ```

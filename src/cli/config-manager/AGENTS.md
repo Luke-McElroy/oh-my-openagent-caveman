@@ -4,7 +4,7 @@
 
 ## OVERVIEW
 
-20 files. Stateless utility functions for the `install` command. Handles OpenCode config manipulation, provider configuration, JSONC operations, binary detection, and npm registry queries. No class — flat utility collection.
+20 files. Stateless utility functions for `install` command. Handles OpenCode config manipulation, provider configuration, JSONC operations, binary detection, npm registry queries. No class — flat utility collection.
 
 ## FILE CATALOG
 
@@ -31,7 +31,7 @@
 
 ## USAGE PATTERN
 
-Functions are called sequentially by `src/cli/install.ts` / `src/cli/tui-installer.ts`:
+Functions called sequentially by `src/cli/install.ts` / `src/cli/tui-installer.ts`:
 
 ```
 1. ensure-config-directory-exists

@@ -4,7 +4,7 @@
 
 ## OVERVIEW
 
-16 files + storage/ subdir. Session Tier hook handling `session.error` events. Detects recoverable error types, applies targeted recovery strategies, and resumes the session transparently.
+16 files + storage/ subdir. Session Tier hook handling `session.error` events. Detects recoverable error types, applies targeted recovery strategies, resumes session transparently.
 
 ## RECOVERY STRATEGIES
 

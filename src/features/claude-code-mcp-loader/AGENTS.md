@@ -4,7 +4,7 @@
 
 ## OVERVIEW
 
-11 files. Loads `.mcp.json` files from project/user scopes and expands `${VAR}` env vars. Feeds Tier 2 of the 3-tier MCP system into `mcp-config-handler.ts` during Phase 5 of config loading.
+11 files. Loads `.mcp.json` files from project/user scopes and expands `${VAR}` env vars. Feeds Tier 2 of 3-tier MCP system into `mcp-config-handler.ts` during Phase 5 of config loading.
 
 ## WHY IT EXISTS
 
@@ -61,7 +61,7 @@ loadMcpConfigs(ctx)
 
 | Tier | Loader | Scope |
 |------|--------|-------|
-| 1. Built-in | `src/mcp/` `createBuiltinMcps()` | Global, 3 remote HTTP MCPs |
+| 1. Built-in | `createBuiltinMcps()` (src/mcp/) | Global, 3 remote HTTP MCPs |
 | 2. **Claude Code** | **This module** | **From `.mcp.json`, project + user** |
 | 3. Skill-embedded | `src/features/skill-mcp-manager/` | Per-session, from SKILL.md YAML |
 

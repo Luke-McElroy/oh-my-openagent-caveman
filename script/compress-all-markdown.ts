@@ -1,13 +1,8 @@
-import { spawnSync } from "child_process";
-import { readdirSync, statSync } from "fs";
+import { readdirSync, statSync, readFileSync, writeFileSync, renameSync } from "fs";
 import { join, resolve, extname, basename } from "path";
 
-// ── Config ────────────────────────────────────────────────────────────────────
-
 const REPO_ROOT = resolve(import.meta.dir, "..");
-const CAVEMAN_DIR = join(REPO_ROOT, ".caveman");
-
-// ── File discovery ────────────────────────────────────────────────────────────
+const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY;
 
 function findMarkdownFiles(dir: string, files: string[] = []): string[] {
   for (const entry of readdirSync(dir)) {
@@ -24,28 +19,15 @@ function findMarkdownFiles(dir: string, files: string[] = []): string[] {
   return files;
 }
 
-// ── Exclusion rules ───────────────────────────────────────────────────────────
-//
-// Rule 1: Never compress backup files (created by the caveman CLI itself).
-// Rule 2: Never compress legal documents (Terms of Service, Privacy Policy).
-// Rule 3: Never compress test fixture markdown (used by unit tests; changing
-//         content would cause snapshot or assertion failures).
-// Rule 4: Never compress the caveman scripts directory itself.
-
 const EXCLUDED_DIRS: string[] = [
-  // Test fixtures — content is asserted against in tests
   "src/__tests__",
-  // Caveman vendor directory
   ".caveman",
-  // Node modules (should not exist in a clean fork, but guard anyway)
   "node_modules",
 ];
 
 const EXCLUDED_FILES: string[] = [
-  // Legal — must not be paraphrased or altered
   "docs/legal/privacy-policy.md",
   "docs/legal/terms-of-service.md",
-  // Eval outputs — these are test reference outputs, not prose docs
   ".opencode/skills/work-with-pr-workspace/iteration-1/eval-1/with_skill/outputs/code-changes.md",
   ".opencode/skills/work-with-pr-workspace/iteration-1/eval-1/with_skill/outputs/execution-plan.md",
   ".opencode/skills/work-with-pr-workspace/iteration-1/eval-1/with_skill/outputs/pr-description.md",
@@ -86,79 +68,100 @@ const EXCLUDED_FILES: string[] = [
   ".opencode/skills/work-with-pr-workspace/iteration-1/eval-5/without_skill/outputs/execution-plan.md",
   ".opencode/skills/work-with-pr-workspace/iteration-1/eval-5/without_skill/outputs/pr-description.md",
   ".opencode/skills/work-with-pr-workspace/iteration-1/eval-5/without_skill/outputs/verification-strategy.md",
-  // The benchmark output doc (data, not prose)
   ".opencode/skills/work-with-pr-workspace/iteration-1/benchmark.md",
 ];
 
 function isExcluded(absolutePath: string): boolean {
-  // Never compress backup files created by the caveman CLI
   if (basename(absolutePath).endsWith(".original.md")) return true;
-
-  // Check against relative-path exclusion list
   const relPath = absolutePath.replace(REPO_ROOT + "/", "");
   if (EXCLUDED_FILES.includes(relPath)) return true;
-
   return false;
 }
-
-// ── Compression ───────────────────────────────────────────────────────────────
-//
-// The caveman compress CLI is invoked via:
-//   cd <CAVEMAN_DIR> && python3 -m scripts <absolute_file_path>
-//
-// The CLI handles internally:
-//   - Calling Claude to compress
-//   - Validating output
-//   - Retrying up to 2 times on validation failure
-//   - Writing compressed content back to the file
-//   - Saving original as <file>.original.md
-//
-// Exit codes from the CLI:
-//   0  = success, file was compressed and written
-//   non-zero = failure after all retries; original file was left untouched
 
 interface CompressResult {
   file: string;
   success: boolean;
-  exitCode: number;
-  stderr: string;
+  error?: string;
 }
 
-function compressFile(absolutePath: string): CompressResult {
-  const result = spawnSync("python3", ["-m", "scripts", absolutePath], {
-    cwd: CAVEMAN_DIR,
-    encoding: "utf-8",
-    // No timeout — large files may take time. Claude API calls can be slow.
-    // If a timeout is needed operationally, pass: timeout: 120_000
-  });
+async function compressFile(absolutePath: string): Promise<CompressResult> {
+  const content = readFileSync(absolutePath, "utf-8");
+  const relPath = absolutePath.replace(REPO_ROOT + "/", "");
 
-  return {
-    file: absolutePath.replace(REPO_ROOT + "/", ""),
-    success: result.status === 0,
-    exitCode: result.status ?? -1,
-    stderr: result.stderr ?? "",
-  };
+  const prompt = `Compress this markdown file to "caveman" style - remove filler words and simplify language while preserving all structure and technical content.
+
+Caveman compression rules:
+REMOVE:
+- Articles: a, an, the (when possible)
+- Filler words: just, really, basically, actually, simply, essentially, generally
+- Pleasantries: sure, certainly, of course, happy to, I'd recommend
+- Hedging: it might be worth, you could consider, it would be good to
+- Redundant phrases: "in order to" → "to", "make sure to" → "ensure"
+- Connective fluff: however, furthermore, additionally, in addition
+
+PRESERVE EXACTLY:
+- All code blocks (fenced \`\`\` and indented)
+- All inline code (backtick content)
+- All URLs and markdown links
+- All file paths
+- All shell commands
+- All technical terms, library names, API names, protocols
+- All proper nouns (project names, company names)
+- All dates, version numbers, numeric values
+- All environment variables
+
+PRESERVE STRUCTURE:
+- All markdown heading levels and heading text
+- All bullet hierarchy and nesting
+- All numbered lists
+- All tables (compress cell text, keep structure)
+- All frontmatter / YAML headers
+
+Output ONLY the compressed markdown content. No explanations, no markdown code fences around the output.
+
+File content to compress:
+
+${content}`;
+
+  try {
+    const response = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": ANTHROPIC_API_KEY!,
+        "anthropic-version": "2023-06-01",
+      },
+      body: JSON.stringify({
+        model: "claude-sonnet-4-20250514",
+        max_tokens: 8192,
+        messages: [{ role: "user", content: prompt }],
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}: ${await response.text()}`);
+    }
+
+    const data = await response.json();
+    const compressed = data.content[0]?.text;
+
+    if (!compressed) {
+      throw new Error("No content in response");
+    }
+
+    renameSync(absolutePath, absolutePath + ".original.md");
+    writeFileSync(absolutePath, compressed, "utf-8");
+
+    return { file: relPath, success: true };
+  } catch (error) {
+    return { file: relPath, success: false, error: String(error) };
+  }
 }
 
-// ── Main ──────────────────────────────────────────────────────────────────────
-
-function main(): void {
-  // Guard: ANTHROPIC_API_KEY must be set
-  if (!process.env.ANTHROPIC_API_KEY) {
+async function main(): Promise<void> {
+  if (!ANTHROPIC_API_KEY) {
     console.error("ERROR: ANTHROPIC_API_KEY is not set.");
     console.error("Export it before running: export ANTHROPIC_API_KEY=<key>");
-    process.exit(1);
-  }
-
-  // Guard: caveman scripts must be vendored
-  const cavemainEntry = join(CAVEMAN_DIR, "scripts", "__main__.py");
-  try {
-    statSync(cavemainEntry);
-  } catch {
-    console.error(`ERROR: Caveman scripts not found at ${cavemainEntry}`);
-    console.error(
-      "Vendor the caveman-compress scripts directory to .caveman/scripts/ first."
-    );
     process.exit(1);
   }
 
@@ -172,20 +175,16 @@ function main(): void {
     const relPath = file.replace(REPO_ROOT + "/", "");
     process.stdout.write(`[${i + 1}/${files.length}] ${relPath} ... `);
 
-    const result = compressFile(file);
+    const result = await compressFile(file);
     results.push(result);
 
     if (result.success) {
       console.log("OK");
     } else {
-      console.log(`FAILED (exit ${result.exitCode})`);
-      if (result.stderr) {
-        console.error(`  stderr: ${result.stderr.trim()}`);
-      }
+      console.log(`FAILED: ${result.error}`);
     }
   }
 
-  // Summary
   const passed = results.filter((r) => r.success);
   const failed = results.filter((r) => !r.success);
 
@@ -195,11 +194,10 @@ function main(): void {
   console.log(`  Failed:  ${failed.length}`);
 
   if (failed.length > 0) {
-    console.log("\nFailed files (originals untouched):");
+    console.log("\nFailed files:");
     for (const r of failed) {
-      console.log(`  - ${r.file}`);
+      console.log(`  - ${r.file}: ${r.error}`);
     }
-    // Non-zero exit so CI or a calling script can detect failures
     process.exit(1);
   }
 }

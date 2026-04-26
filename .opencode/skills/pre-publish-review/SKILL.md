@@ -26,7 +26,7 @@ skill(name="get-unpublished-changes")
 This command automatically:
 - Detects published npm version vs local version
 - Lists all commits since last release
-- Reads actual diffs (not just commit messages) to describe REAL changes
+- Reads actual diffs (not commit messages) to describe REAL changes
 - Groups changes by type (feat/fix/refactor/docs) with scope
 - Identifies breaking changes
 - Recommends version bump (patch/minor/major)
@@ -111,19 +111,19 @@ ANALYSIS CHECKLIST:
 
 1. **Intent Clarity**: What is this change trying to do? Is the intent clear from the code and commit messages? If you have to guess, that's a finding.
 
-2. **Correctness**: Trace through the logic for 3+ scenarios. Does the code actually do what it claims? Off-by-one errors, null handling, async edge cases, resource cleanup.
+2. **Correctness**: Trace through the logic for 3+ scenarios. Does the code do what it claims? Off-by-one errors, null handling, async edge cases, resource cleanup.
 
 3. **Breaking Changes**: Does this change alter any public API, config format, CLI behavior, or hook contract? If yes, is it backward compatible? Would existing users be surprised?
 
 4. **Pattern Adherence**: Does the new code follow the established patterns visible in the existing file contents? New patterns where old ones exist = finding.
 
-5. **Edge Cases**: What inputs or conditions would break this? Empty arrays, undefined values, concurrent calls, very large inputs, missing config fields.
+5. **Edge Cases**: What inputs or conditions would break this? Empty arrays, undefined values, concurrent calls, large inputs, missing config fields.
 
 6. **Error Handling**: Are errors properly caught and propagated? No empty catch blocks? No swallowed promises?
 
 7. **Type Safety**: Any `as any`, `@ts-ignore`, `@ts-expect-error`? Loose typing where strict is possible?
 
-8. **Test Coverage**: Are the behavioral changes covered by tests? Are the tests meaningful or just coverage padding?
+8. **Test Coverage**: Are the behavioral changes covered by tests? Are the tests meaningful or coverage padding?
 
 9. **Side Effects**: Could this change break something in a different module? Check imports and exports — who depends on what changed?
 
@@ -218,7 +218,7 @@ You are the final gate before an npm publish. 10 ultrabrain agents are reviewing
 
 SYNTHESIS CHECKLIST:
 
-1. **Release Coherence**: Do these changes tell a coherent story? Or is this a grab-bag of unrelated changes that should be split into multiple releases?
+1. **Release Coherence**: Do these changes tell a coherent story? Or is this a grab-bag of unrelated changes that split into multiple releases?
 
 2. **Version Bump**: Based on semver:
    - PATCH: Bug fixes only, no behavior changes
@@ -251,7 +251,7 @@ SYNTHESIS CHECKLIST:
    - RISKY: Large surface area changes, insufficient testing, or breaking changes without migration
    - BLOCK: Critical issues found, do NOT publish
 
-8. **Post-Publish Monitoring**: What should be monitored after publish? Error rates, specific features, user feedback channels.
+8. **Post-Publish Monitoring**: What monitored after publish? Error rates, specific features, user feedback channels.
 
 OUTPUT FORMAT:
 <verdict>SAFE / CAUTION / RISKY / BLOCK</verdict>

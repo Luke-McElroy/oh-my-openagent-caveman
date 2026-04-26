@@ -1,18 +1,18 @@
 # Dev Browser Installation Guide
 
-This guide covers installation for all platforms: macOS, Linux, and Windows.
+Guide covers installation for all platforms: macOS, Linux, and Windows.
 
 ## Prerequisites
 
 - [Node.js](https://nodejs.org) v18 or later with npm
-- Git (for cloning the skill)
+- Git (for cloning skill)
 
 ## Installation
 
-### Step 1: Clone the Skill
+### Step 1: Clone Skill
 
 ```bash
-# Clone dev-browser to a temporary location
+# Clone dev-browser to temporary location
 git clone https://github.com/sawyerhood/dev-browser /tmp/dev-browser-skill
 
 # Copy to skills directory (adjust path as needed)
@@ -51,7 +51,7 @@ cd "$env:USERPROFILE\.config\opencode\skills\dev-browser"
 npm install
 ```
 
-### Step 3: Start the Server
+### Step 3: Start Server
 
 #### Standalone Mode (New Browser Instance)
 
@@ -77,7 +77,7 @@ cd %USERPROFILE%\.config\opencode\skills\dev-browser
 start /B node server.js
 ```
 
-Wait for the `Ready` message before running scripts.
+Wait for `Ready` message before running scripts.
 
 #### Extension Mode (Use Existing Chrome)
 
@@ -97,23 +97,23 @@ Wait for `Extension connected` message.
 
 ## Chrome Extension Setup (Optional)
 
-The Chrome extension allows controlling your existing Chrome browser with all your logged-in sessions.
+Chrome extension allows controlling your existing Chrome browser with all your logged-in sessions.
 
 ### Installation
 
 1. Download `extension.zip` from [latest release](https://github.com/sawyerhood/dev-browser/releases/latest)
-2. Extract to a permanent location:
+2. Extract to permanent location:
    - **macOS/Linux:** `~/.dev-browser-extension`
    - **Windows:** `%USERPROFILE%\.dev-browser-extension`
 3. Open Chrome → `chrome://extensions`
 4. Enable "Developer mode" (toggle in top right)
-5. Click "Load unpacked" → select the extracted folder
+5. Click "Load unpacked" → select extracted folder
 
 ### Usage
 
-1. Click the Dev Browser extension icon in Chrome toolbar
+1. Click Dev Browser extension icon in Chrome toolbar
 2. Toggle to "Active"
-3. Start the extension relay server (see above)
+3. Start extension relay server (see above)
 4. Use dev-browser scripts - they'll control your existing Chrome
 
 ## Troubleshooting
@@ -163,7 +163,7 @@ cd "$env:USERPROFILE\.config\opencode\skills\dev-browser"
 1. Ensure extension is "Active" (click icon to toggle)
 2. Check relay server is running (`npm run start-extension`)
 3. Look for `Extension connected` message in console
-4. Try reloading the extension in `chrome://extensions`
+4. Try reloading extension in `chrome://extensions`
 
 ## Permissions
 

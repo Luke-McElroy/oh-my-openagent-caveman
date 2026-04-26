@@ -4,14 +4,14 @@
 
 ## OVERVIEW
 
-33 files. Full LSP (Language Server Protocol) client stack exposed as 6 tools. Custom implementation that manages server processes, opens files, and forwards requests — does NOT delegate to OpenCode's built-in LSP.
+33 files. Full LSP (Language Server Protocol) client stack exposed as 6 tools. Custom implementation managing server processes, opens files, forwards requests — does NOT delegate to OpenCode's built-in LSP.
 
 ## TOOL EXPOSURE
 
 | Tool | File | What It Does |
 |------|------|--------------|
 | `lsp_goto_definition` | `goto-definition-tool.ts` | Jump to symbol definition |
-| `lsp_find_references` | `find-references-tool.ts` | All usages of a symbol |
+| `lsp_find_references` | `find-references-tool.ts` | All usages of symbol |
 | `lsp_symbols` | `symbols-tool.ts` | Document outline or workspace symbol search |
 | `lsp_diagnostics` | `diagnostics-tool.ts` | Errors/warnings from language server |
 | `lsp_prepare_rename` | `rename-tools.ts` | Validate rename before applying |
@@ -46,7 +46,7 @@ LSPProcess (lsp-process.ts) — spawns server binary
 | `lsp-manager-temp-directory-cleanup.ts` | Clean temp dirs used by some servers |
 | `server-definitions.ts` | 40+ builtin servers synced from OpenCode's `server.ts` |
 | `server-config-loader.ts` | Load custom server config from `.opencode/lsp.json` |
-| `server-resolution.ts` | Resolve which server handles a file extension |
+| `server-resolution.ts` | Resolve which server handles file extension |
 | `server-installation.ts` | Detect missing binaries, surface install hints |
 | `language-mappings.ts` | Extension → language ID mapping |
 | `lsp-formatters.ts` | Format LSP responses into human-readable strings |

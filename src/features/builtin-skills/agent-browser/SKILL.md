@@ -1,6 +1,6 @@
 ---
 name: agent-browser
-description: Automates browser interactions for web testing, form filling, screenshots, and data extraction. Use when the user needs to navigate websites, interact with web pages, fill forms, take screenshots, test web applications, or extract information from web pages.
+description: Automates browser interactions for web testing, form filling, screenshots, and data extraction. Use when user needs to navigate websites, interact with web pages, fill forms, take screenshots, test web applications, or extract information from web pages.
 ---
 
 # Browser Automation with agent-browser
@@ -19,7 +19,7 @@ agent-browser close             # Close browser
 
 1. Navigate: `agent-browser open <url>`
 2. Snapshot: `agent-browser snapshot -i` (returns elements with refs like `@e1`, `@e2`)
-3. Interact using refs from the snapshot
+3. Interact using refs from snapshot
 4. Re-snapshot after navigation or significant DOM changes
 
 ## Commands
@@ -44,7 +44,7 @@ agent-browser snapshot -s "#main" # Scope to CSS selector
 agent-browser snapshot -i -c -d 5 # Combine options
 ```
 
-The `-C` flag is useful for modern web apps that use custom clickable elements (divs, spans) instead of standard buttons/links.
+`-C` flag is useful for modern web apps that use custom clickable elements (divs, spans) instead of standard buttons/links.
 
 ### Interactions (use @refs from snapshot)
 ```bash
@@ -102,7 +102,7 @@ Annotated screenshots overlay numbered labels `[N]` on interactive elements. Eac
 ```bash
 agent-browser screenshot --annotate ./page.png
 # Output: [1] @e1 button "Submit", [2] @e2 link "Home", [3] @e3 textbox "Email"
-agent-browser click @e2     # Click the "Home" link labeled [2]
+agent-browser click @e2     # Click "Home" link labeled [2]
 ```
 
 ### Video recording
@@ -112,7 +112,7 @@ agent-browser click @e1                   # Perform actions
 agent-browser record stop                 # Stop and save video
 agent-browser record restart ./take2.webm # Stop current + start new recording
 ```
-Recording creates a fresh context but preserves cookies/storage from your session.
+Recording creates fresh context but preserves cookies/storage from your session.
 
 ### Wait
 ```bash
@@ -360,7 +360,7 @@ agent-browser set headers '{"X-Custom-Header": "value"}'
 
 ### Authentication Vault
 ```bash
-# Store credentials locally (encrypted). The LLM never sees passwords.
+# Store credentials locally (encrypted). LLM never sees passwords.
 echo "pass" | agent-browser auth save github --url https://github.com/login --username user --password-stdin
 agent-browser auth login github
 ```

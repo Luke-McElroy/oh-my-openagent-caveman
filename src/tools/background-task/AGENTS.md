@@ -4,13 +4,13 @@
 
 ## OVERVIEW
 
-18 files. Tool-layer wrappers for `background_output` and `background_cancel`. Does NOT implement the background execution engine — that lives in `src/features/background-agent/`. This directory provides the LLM-facing tool interface.
+18 files. Tool-layer wrappers for `background_output` and `background_cancel`. Does NOT implement background execution engine — that lives in `src/features/background-agent/`. This directory provides LLM-facing tool interface.
 
 ## THREE TOOLS
 
 | Tool | Factory | Purpose |
 |------|---------|---------|
-| `background_output` | `createBackgroundOutput` | Get results from a running/completed background task |
+| `background_output` | `createBackgroundOutput` | Get results from running/completed background task |
 | `background_cancel` | `createBackgroundCancel` | Cancel running task(s) |
 | `createBackgroundTask` | internal | Shared factory used by both |
 

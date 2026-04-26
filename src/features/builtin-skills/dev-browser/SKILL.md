@@ -5,56 +5,56 @@ description: Browser automation with persistent page state. Use when users ask t
 
 # Dev Browser Skill
 
-Browser automation that maintains page state across script executions. Write small, focused scripts to accomplish tasks incrementally. Once you've proven out part of a workflow and there is repeated work to be done, you can write a script to do the repeated work in a single execution.
+Browser automation maintains page state across script executions. Write small, focused scripts to accomplish tasks incrementally. Once you've proven out part of workflow and there is repeated work to be done, you can write script to do repeated work in single execution.
 
 ## Choosing Your Approach
 
-- **Local/source-available sites**: Read the source code first to write selectors directly
+- **Local/source-available sites**: Read source code first to write selectors directly
 - **Unknown page layouts**: Use `getAISnapshot()` to discover elements and `selectSnapshotRef()` to interact with them
-- **Visual feedback**: Take screenshots to see what the user sees
+- **Visual feedback**: Take screenshots to see what user sees
 
 ## Setup
 
 > **Installation**: See [references/installation.md](references/installation.md) for detailed setup instructions including Windows support.
 
-Two modes available. Ask the user if unclear which to use.
+Two modes available. Ask user if unclear which to use.
 
 ### Standalone Mode (Default)
 
-Launches a new Chromium browser for fresh automation sessions.
+Launches new Chromium browser for fresh automation sessions.
 
 ```bash
 ./skills/dev-browser/server.sh &
 ```
 
-Add `--headless` flag if user requests it. **Wait for the `Ready` message before running scripts.**
+Add `--headless` flag if user requests it. **Wait for `Ready` message before running scripts.**
 
 ### Extension Mode
 
 Connects to user's existing Chrome browser. Use this when:
 
-- The user is already logged into sites and wants you to do things behind an authed experience that isn't local dev.
-- The user asks you to use the extension
+- User is already logged into sites and wants you to do things behind authed experience that isn't local dev.
+- User asks you to use extension
 
-**Important**: The core flow is still the same. You create named pages inside of their browser.
+**Important**: Core flow is still same. You create named pages inside their browser.
 
-**Start the relay server:**
+**Start relay server:**
 
 ```bash
 cd skills/dev-browser && npm i && npm run start-extension &
 ```
 
-Wait for `Waiting for extension to connect...` followed by `Extension connected` in the console. To know that a client has connected and the browser is ready to be controlled.
+Wait for `Waiting for extension to connect...` followed by `Extension connected` in console. To know that client has connected and browser is ready to be controlled.
 **Workflow:**
 
-1. Scripts call `client.page("name")` just like the normal mode to create new pages / connect to existing ones.
-2. Automation runs on the user's actual browser session
+1. Scripts call `client.page("name")` like normal mode to create new pages / connect to existing ones.
+2. Automation runs on user's actual browser session
 
-If the extension hasn't connected yet, tell the user to launch and activate it. Download link: https://github.com/SawyerHood/dev-browser/releases
+If extension hasn't connected yet, tell user to launch and activate it. Download link: https://github.com/SawyerHood/dev-browser/releases
 
 ## Writing Scripts
 
-> **Run all scripts from `skills/dev-browser/` directory.** The `@/` import alias requires this directory's config.
+> **Run all scripts from `skills/dev-browser/` directory.** `@/` import alias requires this directory's config.
 
 Execute scripts inline using heredocs:
 
@@ -74,12 +74,12 @@ await client.disconnect();
 EOF
 ```
 
-**Write to `tmp/` files only when** the script needs reuse, is complex, or user explicitly requests it.
+**Write to `tmp/` files only when** script needs reuse, is complex, or user explicitly requests it.
 
 ### Key Principles
 
 1. **Small scripts**: Each script does ONE thing (navigate, click, fill, check)
-2. **Evaluate state**: Log/return state at the end to decide next steps
+2. **Evaluate state**: Log/return state at end to decide next steps
 3. **Descriptive page names**: Use `"checkout"`, `"login"`, not `"main"`
 4. **Disconnect to exit**: `await client.disconnect()` - pages persist on server
 5. **Plain JS in evaluate**: `page.evaluate()` runs in browser - no TypeScript syntax
@@ -88,15 +88,15 @@ EOF
 
 Follow this pattern for complex tasks:
 
-1. **Write a script** to perform one action
-2. **Run it** and observe the output
-3. **Evaluate** - did it work? What's the current state?
-4. **Decide** - is the task complete or do we need another script?
+1. **Write script** to perform one action
+2. **Run it** and observe output
+3. **Evaluate** - did it work? What's current state?
+4. **Decide** - is task complete or do we need another script?
 5. **Repeat** until task is done
 
 ### No TypeScript in Browser Context
 
-Code passed to `page.evaluate()` runs in the browser, which doesn't understand TypeScript:
+Code passed to `page.evaluate()` runs in browser, which doesn't understand TypeScript:
 
 ```typescript
 // ✅ Correct: plain JavaScript
@@ -113,7 +113,7 @@ const text = await page.evaluate(() => {
 
 ## Scraping Data
 
-For scraping large datasets, intercept and replay network requests rather than scrolling the DOM. See [references/scraping.md](references/scraping.md) for the complete guide covering request capture, schema discovery, and paginated API replay.
+For scraping large datasets, intercept and replay network requests rather than scrolling DOM. See [references/scraping.md](references/scraping.md) for complete guide covering request capture, schema discovery, and paginated API replay.
 
 ## Client API
 
@@ -133,7 +133,7 @@ const snapshot = await client.getAISnapshot("name"); // Get accessibility tree
 const element = await client.selectSnapshotRef("name", "e5"); // Get element by ref
 ```
 
-The `page` object is a standard Playwright Page.
+`page` object is standard Playwright Page.
 
 ## Waiting
 
@@ -184,7 +184,7 @@ Use `getAISnapshot()` to discover page elements. Returns YAML-formatted accessib
 
 ```typescript
 const snapshot = await client.getAISnapshot("hackernews");
-console.log(snapshot); // Find the ref you need
+console.log(snapshot); // Find ref you need
 
 const element = await client.selectSnapshotRef("hackernews", "e2");
 await element.click();

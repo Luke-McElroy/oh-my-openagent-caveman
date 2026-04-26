@@ -4,7 +4,7 @@
 
 ## OVERVIEW
 
-~2110 LOC across 19 files. Provides Claude Code settings.json compatibility layer. Parses CC permission rules and maps CC hooks (PreToolUse, PostToolUse) to OpenCode hooks.
+~2110 LOC across 19 files. Claude Code settings.json compatibility layer. Parses CC permission rules, maps CC hooks (PreToolUse, PostToolUse) to OpenCode hooks.
 
 ## WHAT IT DOES
 

@@ -4,7 +4,7 @@
 
 ## OVERVIEW
 
-6 files. Hephaestus agent -- autonomous deep worker powered by GPT-5.5. Goal-oriented: give it objectives, not step-by-step instructions. "The Legitimate Craftsman."
+6 files. Hephaestus agent -- autonomous deep worker powered by GPT-5.5. Goal-oriented: give objectives, not step-by-step instructions. "The Legitimate Craftsman."
 
 ## FILES
 

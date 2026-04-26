@@ -27,7 +27,7 @@ Same-named skill at higher scope overrides lower.
 | `merger.ts` | Priority-based deduplication across scopes |
 | `skill-content.ts` | YAML frontmatter parsing from SKILL.md |
 | `skill-discovery.ts` | Find SKILL.md files in directory trees |
-| `skill-directory-loader.ts` | Load all skills from a single directory |
+| `skill-directory-loader.ts` | Load all skills from single directory |
 | `config-source-discovery.ts` | Discover scope directories from config |
 | `skill-template-resolver.ts` | Variable substitution in skill templates |
 | `skill-mcp-config.ts` | Extract MCP configs from skill YAML |
@@ -47,7 +47,7 @@ mcp:
     args: [-y, my-mcp-server]
 ---
 
-Skill content (instructions for the agent)...
+Skill content (instructions for agent)...
 ```
 
 ## MERGER SUBDIRECTORY

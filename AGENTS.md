@@ -158,7 +158,7 @@ bunx oh-my-opencode run     # Non-interactive session
 - Logger writes to `/tmp/oh-my-opencode.log` -- check there for debugging
 - Background tasks: 5 concurrent per model/provider (configurable, circuit breaker support)
 - Plugin load timeout: 10s for Claude Code plugins
-- Model fallback: per-agent chains in `shared/model-requirements.ts`, not a single global priority
+- Model fallback: per-agent chains in `shared/model-requirements.ts`, not single global priority
 - Two fallback systems: `model-fallback` (proactive, chat.params) vs `runtime-fallback` (reactive, session.error)
 - Config migration: idempotent via `_migrations` tracking, creates timestamped backups before atomic writes
 - Build: bun build (ESM) + tsc --emitDeclarationOnly, externals: @ast-grep/napi

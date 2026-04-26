@@ -4,7 +4,7 @@
 
 ## OVERVIEW
 
-Cross-cutting utilities used throughout the plugin. Barrel-exported from `index.ts`. Logger writes to `/tmp/oh-my-opencode.log`.
+Cross-cutting utilities used throughout plugin. Barrel-exported from `index.ts`. Logger writes to `/tmp/oh-my-opencode.log`.
 
 ## CATEGORY MAP
 

@@ -4,7 +4,7 @@
 
 ## OVERVIEW
 
-23 files. The `call_omo_agent` tool — direct invocation of named agents (explore, librarian only). Distinct from `delegate-task`: no category system, no skill loading, no model selection. Fixed agent set, same execution modes (background/sync).
+23 files. `call_omo_agent` tool — direct invocation of named agents (explore, librarian only). Distinct from `delegate-task`: no category system, no skill loading, no model selection. Fixed agent set, same execution modes (background/sync).
 
 ## DISTINCTION FROM delegate-task
 
@@ -48,4 +48,4 @@ Same two modes as delegate-task:
 
 ## SESSION CONTINUATION
 
-Pass `session_id` to resume an existing session rather than create a new one — handled in both executors.
+Pass `session_id` to resume existing session rather than create new one — handled in both executors.

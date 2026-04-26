@@ -4,7 +4,7 @@
 
 ## OVERVIEW
 
-18 files. Manages **tier 3** of the MCP system: skill-embedded MCP servers declared in SKILL.md YAML frontmatter. Per-session client isolation, dual transport (stdio + HTTP), OAuth 2.0 with step-up authentication, idle cleanup.
+18 files. Manages **tier 3** of MCP system: skill-embedded MCP servers declared in SKILL.md YAML frontmatter. Per-session client isolation, dual transport (stdio + HTTP), OAuth 2.0 with step-up authentication, idle cleanup.
 
 ## THREE-TIER MCP CONTEXT
 
@@ -39,7 +39,7 @@ interface SkillMcpManagerState {
   pendingConnections: Map<clientKey, Promise<Client>> // Race prevention
   disconnectedSessions: Map<sessionID, generation>    // Stale connection detection
   authProviders: Map<url, OAuthProvider>              // OAuth state per server
-  inFlightConnections: Map<sessionID, count>          // Connection counting
+  inFlightConnections: Map<sessionID, count>            // Connection counting
 }
 ```
 

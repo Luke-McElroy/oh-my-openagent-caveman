@@ -4,7 +4,7 @@
 
 ## OVERVIEW
 
-18 files. Bidirectional integration system: **outbound** session event notifications (Discord/Telegram/HTTP webhook/shell command) AND **inbound** reply handling (daemon polls chat apps, injects replies back into tmux session). Named "claw" because it reaches out from OpenCode and pulls replies back in.
+18 files. Bidirectional integration system: **outbound** session event notifications (Discord/Telegram/HTTP webhook/shell command) AND **inbound** reply handling (daemon polls chat apps, injects replies back into tmux session). Named "claw" — reaches out from OpenCode, pulls replies back in.
 
 ## BIDIRECTIONAL FLOW
 

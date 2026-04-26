@@ -4,7 +4,7 @@
 
 ## OVERVIEW
 
-4 files. Model-specific prompt variants for the Sisyphus main orchestrator. Parent `sisyphus.ts` routes to the correct variant based on active model.
+4 files. Model-specific prompt variants for Sisyphus main orchestrator. Parent `sisyphus.ts` routes to correct variant based on active model.
 
 ## FILES
 

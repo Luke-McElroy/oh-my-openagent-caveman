@@ -6,7 +6,7 @@ description: "Read-only GitHub triage for issues AND PRs. 1 item = 1 background 
 # GitHub Triage - Read-Only Analyzer
 
 <role>
-Read-only GitHub triage orchestrator. Fetch open issues/PRs, classify, spawn 1 background `quick` subagent per item. Each subagent analyzes and writes a report file. ZERO GitHub mutations.
+Read-only GitHub triage orchestrator. Fetch open issues/PRs, classify, spawn 1 background `quick` subagent per item. Each subagent analyzes and writes report file. ZERO GitHub mutations.
 </role>
 
 ## Architecture
@@ -45,23 +45,23 @@ Subagents MUST NEVER run ANY command that writes or mutates GitHub state.
 ## Evidence Rule (MANDATORY)
 
 <evidence>
-**Every factual claim in a report MUST include a GitHub permalink as proof.**
+**Every factual claim in report MUST include GitHub permalink as proof.**
 
-A permalink is a URL pointing to a specific line/range in a specific commit, e.g.:
+Permalink is URL pointing to specific line/range in specific commit, e.g.:
 `https://github.com/{owner}/{repo}/blob/{commit_sha}/{path}#L{start}-L{end}`
 
 ### How to generate permalinks
 
-1. Find the relevant file and line(s) via Grep/Read.
-2. Get the current commit SHA: `git rev-parse HEAD`
+1. Find relevant file and line(s) via Grep/Read.
+2. Get current commit SHA: `git rev-parse HEAD`
 3. Construct: `https://github.com/{REPO}/blob/{SHA}/{filepath}#L{line}` (or `#L{start}-L{end}` for ranges)
 
 ### Rules
 
-- **No permalink = no claim.** If you cannot back a statement with a permalink, state "No evidence found" instead.
+- **No permalink = no claim.** If you cannot back statement with permalink, state "No evidence found" instead.
 - Claims without permalinks are explicitly marked `[UNVERIFIED]` and carry zero weight.
 - Permalinks to `main`/`master`/`dev` branches are NOT acceptable - use commit SHAs only.
-- For bug analysis: permalink to the problematic code. For fix verification: permalink to the fixing commit diff.
+- For bug analysis: permalink to problematic code. For fix verification: permalink to fixing commit diff.
 </evidence>
 
 ---
@@ -131,8 +131,8 @@ echo "Total issues: $ISSUE_COUNT, Total PRs: $PR_COUNT"
 ```
 
 **LARGE REPOSITORY HANDLING:**
-If total items exceeds 50, you MUST process ALL items. Use the pagination code above to fetch every single open issue and PR.
-**DO NOT** sample or limit to 50 items - process the entire backlog.
+If total items exceeds 50, you MUST process ALL items. Use pagination code above to fetch every single open issue and PR.
+**DO NOT** sample or limit to 50 items - process entire backlog.
 
 Example: If there are 500 open issues, spawn 500 subagents. If there are 1000 open PRs, spawn 1000 subagents.
 
@@ -205,7 +205,7 @@ CONTEXT:
 - Current commit SHA: {COMMIT_SHA}
 
 PERMALINK FORMAT:
-Every factual claim MUST include a permalink: https://github.com/{REPO}/blob/{COMMIT_SHA}/{filepath}#L{start}-L{end}
+Every factual claim MUST include permalink: https://github.com/{REPO}/blob/{COMMIT_SHA}/{filepath}#L{start}-L{end}
 No permalink = no claim. Mark unverifiable claims as [UNVERIFIED].
 To get current SHA if needed: git rev-parse HEAD
 
@@ -214,7 +214,7 @@ ABSOLUTE RULES (violating ANY = critical failure):
 - NEVER run gh pr comment, gh pr merge, gh pr review, gh pr edit
 - NEVER run any gh command with -X POST, -X PUT, -X PATCH, -X DELETE
 - NEVER run git checkout, git fetch, git pull, git switch, git worktree
-- Your ONLY writable output: {REPORT_DIR}/{issue|pr}-{number}.md via the Write tool
+- Your ONLY writable output: {REPORT_DIR}/{issue|pr}-{number}.md via Write tool
 ```
 
 
@@ -232,12 +232,12 @@ ITEM:
 - Comments: {comments_summary}
 
 TASK:
-1. Understand the question.
-2. Search the codebase (Grep, Read) for the answer.
-3. For every finding, construct a permalink: https://github.com/{REPO}/blob/{COMMIT_SHA}/{path}#L{N}
+1. Understand question.
+2. Search codebase (Grep, Read) for answer.
+3. For every finding, construct permalink: https://github.com/{REPO}/blob/{COMMIT_SHA}/{path}#L{N}
 4. Write report to {REPORT_DIR}/issue-{number}.md
 
-REPORT FORMAT (write this as the file content):
+REPORT FORMAT (write this as file content):
 
 # Issue #{number}: {title}
 **Type:** Question | **Author:** {author} | **Created:** {createdAt}
@@ -247,7 +247,7 @@ REPORT FORMAT (write this as the file content):
 
 ## Findings
 [Each finding with permalink proof. Example:]
-- The config is parsed in [`src/config/loader.ts#L42-L58`](https://github.com/{REPO}/blob/{SHA}/src/config/loader.ts#L42-L58)
+- Config is parsed in [`src/config/loader.ts#L42-L58`](https://github.com/{REPO}/blob/{SHA}/src/config/loader.ts#L42-L58)
 
 ## Suggested Answer
 [Draft answer with code references and permalinks]
@@ -259,7 +259,7 @@ REPORT FORMAT (write this as the file content):
 [What maintainer should do]
 
 ---
-REMEMBER: No permalink = no claim. Every code reference needs a permalink.
+REMEMBER: No permalink = no claim. Every code reference needs permalink.
 ```
 
 ---
@@ -277,20 +277,20 @@ ITEM:
 
 TASK:
 1. Understand: expected behavior, actual behavior, reproduction steps.
-2. Search the codebase for relevant code. Trace the logic.
+2. Search codebase for relevant code. Trace logic.
 3. Determine verdict: CONFIRMED_BUG, NOT_A_BUG, ALREADY_FIXED, or UNCLEAR.
-4. For ALREADY_FIXED: find the fixing commit using git log/git blame. Include the commit SHA and what changed.
-5. For every finding, construct a permalink.
+4. For ALREADY_FIXED: find fixing commit using git log/git blame. Include commit SHA and what changed.
+5. For every finding, construct permalink.
 6. Write report to {REPORT_DIR}/issue-{number}.md
 
 FINDING "ALREADY_FIXED" COMMITS:
 - Use `git log --all --oneline -- {file}` to find recent changes to relevant files
 - Use `git log --all --grep="fix" --grep="{keyword}" --all-match --oneline` to search commit messages
-- Use `git blame {file}` to find who last changed the relevant lines
-- Use `git show {commit_sha}` to verify the fix
+- Use `git blame {file}` to find who last changed relevant lines
+- Use `git show {commit_sha}` to verify fix
 - Construct commit permalink: https://github.com/{REPO}/commit/{fix_commit_sha}
 
-REPORT FORMAT (write this as the file content):
+REPORT FORMAT (write this as file content):
 
 # Issue #{number}: {title}
 **Type:** Bug Report | **Author:** {author} | **Created:** {createdAt}
@@ -311,7 +311,7 @@ REPORT FORMAT (write this as the file content):
 [Which file, which function, what goes wrong]
 - Problematic code: [`{path}#L{N}`](permalink)
 
-### Why Not A Bug (if NOT_A_BUG)
+### Why Not Bug (if NOT_A_BUG)
 [Rigorous proof with permalinks that current behavior is correct]
 
 ### Fix Details (if ALREADY_FIXED)
@@ -352,21 +352,21 @@ ITEM:
 - Comments: {comments_summary}
 
 TASK:
-1. Understand the request.
+1. Understand request.
 2. Search codebase for existing (partial/full) implementations.
 3. Assess feasibility.
 4. Write report to {REPORT_DIR}/issue-{number}.md
 
-REPORT FORMAT (write this as the file content):
+REPORT FORMAT (write this as file content):
 
 # Issue #{number}: {title}
 **Type:** Feature Request | **Author:** {author} | **Created:** {createdAt}
 
 ## Request Summary
-[What the user wants]
+[What user wants]
 
 ## Existing Implementation: [YES_FULLY | YES_PARTIALLY | NO]
-[If exists: where, with permalinks to the implementation]
+[If exists: where, with permalinks to implementation]
 
 ## Feasibility: [EASY | MODERATE | HARD | ARCHITECTURAL_CHANGE]
 
@@ -395,7 +395,7 @@ ITEM:
 
 TASK: Assess and write report to {REPORT_DIR}/issue-{number}.md
 
-REPORT FORMAT (write this as the file content):
+REPORT FORMAT (write this as file content):
 
 # Issue #{number}: {title}
 **Type:** [QUESTION | BUG | FEATURE | DISCUSSION | META | STALE]
@@ -430,7 +430,7 @@ TASK:
 3. Search codebase to verify fix correctness.
 4. Write report to {REPORT_DIR}/pr-{number}.md
 
-REPORT FORMAT (write this as the file content):
+REPORT FORMAT (write this as file content):
 
 # PR #{number}: {title}
 **Type:** Bugfix | **Author:** {author}
@@ -491,7 +491,7 @@ TASK:
 2. Read diff: gh api repos/{REPO}/pulls/{number}/files
 3. Write report to {REPORT_DIR}/pr-{number}.md
 
-REPORT FORMAT (write this as the file content):
+REPORT FORMAT (write this as file content):
 
 # PR #{number}: {title}
 **Type:** [FEATURE | REFACTOR | DOCS | CHORE | TEST | OTHER]
@@ -551,7 +551,7 @@ Write to `{REPORT_DIR}/SUMMARY.md` AND display to user:
 |----------|-------|
 | Bug Confirmed | {n} |
 | Bug Already Fixed | {n} |
-| Not A Bug | {n} |
+| Not Bug | {n} |
 | Needs Investigation | {n} |
 | Question Analyzed | {n} |
 | Feature Assessed | {n} |

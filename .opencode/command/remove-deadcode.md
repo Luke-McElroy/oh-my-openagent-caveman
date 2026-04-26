@@ -4,12 +4,12 @@ description: Remove unused code from this project with ultrawork mode, LSP-verif
 
 <command-instruction>
 
-Dead code removal via massively parallel deep agents. You are the ORCHESTRATOR — you scan, verify, batch, then delegate ALL removals to parallel agents.
+Dead code removal via massively parallel deep agents. You are ORCHESTRATOR — you scan, verify, batch, then delegate ALL removals to parallel agents.
 
 <rules>
 - **LSP is law.** Verify with `LspFindReferences(includeDeclaration=false)` before ANY removal decision.
 - **Never remove entry points.** `src/index.ts`, `src/cli/index.ts`, test files, config files, `packages/` — off-limits.
-- **You do NOT remove code yourself.** You scan, verify, batch, then fire deep agents. They do the work.
+- **You do NOT remove code yourself.** You scan, verify, batch, then fire deep agents. They do work.
 </rules>
 
 <false-positive-guards>
@@ -34,7 +34,7 @@ Run ALL of these in parallel:
 ```bash
 bunx tsc --noEmit --noUnusedLocals --noUnusedParameters 2>&1
 ```
-This gives you the definitive list of unused locals, imports, parameters, and types with exact file:line locations.
+This gives you definitive list of unused locals, imports, parameters, and types with exact file:line locations.
 
 **Explore agents (fire ALL simultaneously as background):**
 
@@ -45,12 +45,12 @@ task(subagent_type="explore", run_in_background=true, load_skills=[],
 
 task(subagent_type="explore", run_in_background=true, load_skills=[],
   description="Find unused exported symbols",
-  prompt="Find exported functions/types/constants in src/ that are never imported by other files. Cross-reference: for each export, grep the symbol name across src/ — if it only appears in its own file, it's a candidate. EXCLUDE: src/index.ts exports, test files. Return: file path, line, symbol name, export type.")
+  prompt="Find exported functions/types/constants in src/ that are never imported by other files. Cross-reference: for each export, grep symbol name across src/ — if it only appears in its own file, it's candidate. EXCLUDE: src/index.ts exports, test files. Return: file path, line, symbol name, export type.")
 ```
 
 </parallel-scan>
 
-Collect all results into a master candidate list.
+Collect all results into master candidate list.
 
 ---
 
@@ -64,7 +64,7 @@ LspFindReferences(filePath, line, character, includeDeclaration=false)
 // 1+ references → NOT dead, drop from list
 ```
 
-Also apply the false-positive-guards above. Produce a confirmed list:
+Also apply false-positive-guards above. Produce confirmed list:
 
 ```
 | # | File | Symbol | Type | Action |
@@ -75,7 +75,7 @@ Also apply the false-positive-guards above. Produce a confirmed list:
 ```
 
 **Action types:**
-- `REMOVE` — delete the symbol/import/file entirely
+- `REMOVE` — delete symbol/import/file entirely
 - `PREFIX _` — unused function parameter required by signature → rename to `_paramName`
 
 If ZERO confirmed: report "No dead code found" and STOP.
@@ -89,8 +89,8 @@ If ZERO confirmed: report "No dead code found" and STOP.
 **Goal: maximize parallel agents with ZERO git conflicts.**
 
 1. Group confirmed dead code items by FILE PATH
-2. All items in the SAME file go to the SAME batch (prevents two agents editing the same file)
-3. If a dead FILE (entire file deletion) exists, it's its own batch
+2. All items in SAME file go to SAME batch (prevents two agents editing same file)
+3. If dead FILE (entire file deletion) exists, it's its own batch
 4. Target 5-15 batches. If fewer than 5 items total, use 1 batch per item.
 
 **Example batching:**
@@ -101,7 +101,7 @@ Batch C: [src/tools/baz/tool.ts — 1 unused param, src/tools/baz/types.ts — 1
 Batch D: [src/dead-file.ts — entire file deletion]
 ```
 
-Files in the same directory CAN be batched together (they won't conflict as long as no two agents edit the same file). Maximize batch count for parallelism.
+Files in same directory CAN be batched together (they won't conflict as long as no two agents edit same file). Maximize batch count for parallelism.
 
 </batching-rules>
 
@@ -109,7 +109,7 @@ Files in the same directory CAN be batched together (they won't conflict as long
 
 ## PHASE 4: EXECUTE — Fire Parallel Deep Agents
 
-For EACH batch, fire a deep agent:
+For EACH batch, fire deep agent:
 
 ```
 task(
@@ -123,7 +123,7 @@ task(
 
 <agent-prompt-template>
 
-Every deep agent gets this prompt structure (fill in the specifics per batch):
+Every deep agent gets this prompt structure (fill in specifics per batch):
 
 ```
 ## TASK: Remove dead code from [file list]
@@ -139,19 +139,19 @@ Every deep agent gets this prompt structure (fill in the specifics per batch):
 
 ## PROTOCOL
 
-1. Read each file to understand exact syntax at the target lines
+1. Read each file to understand exact syntax at target lines
 2. For each symbol, run LspFindReferences to RE-VERIFY it's still dead (another agent may have changed things)
-3. Apply the change:
+3. Apply change:
    - Unused import (only symbol in line): remove entire import line
-   - Unused import (one of many): remove only that symbol from the import list
-   - Unused constant/function/type: remove the declaration. Clean up trailing blank lines.
+   - Unused import (one of many): remove only that symbol from import list
+   - Unused constant/function/type: remove declaration. Clean up trailing blank lines.
    - Unused parameter: prefix with `_` (do NOT remove — required by signature)
    - Dead file: delete with `rm`
 4. After ALL edits in this batch, run: `bun run typecheck`
 5. If typecheck fails: `git checkout -- [files]` and report failure
 6. If typecheck passes: stage ONLY your files and commit:
    `git add [your-specific-files] && git commit -m "refactor: remove dead code from [brief file list]"`
-7. Report what you removed and the commit hash
+7. Report what you removed and commit hash
 
 ## CRITICAL
 - Stage ONLY your batch's files (`git add [specific files]`). NEVER `git add -A` — other agents are working in parallel.
@@ -202,7 +202,7 @@ Produce summary:
 
 ## SCOPE CONTROL
 
-If `$ARGUMENTS` is provided, narrow the scan:
+If `$ARGUMENTS` is provided, narrow scan:
 - File path → only that file
 - Directory → only that directory
 - Symbol name → only that symbol

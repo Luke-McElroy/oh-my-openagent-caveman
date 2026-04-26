@@ -1,6 +1,6 @@
 # Contributing to Oh My OpenCode
 
-First off, thanks for taking the time to contribute! This document provides guidelines and instructions for contributing to oh-my-opencode.
+Thanks for taking time to contribute! This document provides guidelines and instructions for contributing to oh-my-opencode.
 
 ## Table of Contents
 
@@ -28,7 +28,7 @@ Be respectful, inclusive, and constructive. We're all here to make better tools 
 
 ## Language Policy
 
-**English is the primary language for all communications in this repository.**
+**English is primary language for all communications in this repository.**
 
 This includes:
 
@@ -40,8 +40,8 @@ This includes:
 ### Why English?
 
 - **Global Accessibility**: English allows contributors from all regions to collaborate effectively
-- **Consistency**: A single language keeps discussions organized and searchable
-- **Open Source Best Practice**: Most successful open-source projects use English as the lingua franca
+- **Consistency**: Single language keeps discussions organized and searchable
+- **Open Source Best Practice**: Most successful open-source projects use English as lingua franca
 
 ### Need Help with English?
 
@@ -55,20 +55,20 @@ If English isn't your first language, don't worry! We value your contributions r
 
 ### Prerequisites
 
-- **Bun** (latest version) - The only supported package manager
+- **Bun** (latest version) - Only supported package manager
 - **TypeScript** - Strict mode for type checking and declarations
 
 ### Development Setup
 
 ```bash
-# Clone the repository
+# Clone repository
 git clone https://github.com/code-yeongyu/oh-my-openagent.git
 cd oh-my-openagent
 
 # Install dependencies (bun only - never use npm/yarn)
 bun install
 
-# Build the project
+# Build project
 bun run build
 ```
 
@@ -76,7 +76,7 @@ bun run build
 
 After making changes, you can test your local build in OpenCode:
 
-1. **Build the project**:
+1. **Build project**:
 
    ```bash
    bun run build
@@ -98,11 +98,11 @@ After making changes, you can test your local build in OpenCode:
    }
    ```
 
-   > **Note**: Remove `"oh-my-opencode"` from the plugin array if it exists, to avoid conflicts with the npm version.
+   > **Note**: Remove `"oh-my-opencode"` from plugin array if it exists, to avoid conflicts with npm version.
 
-3. **Restart OpenCode** to load the changes.
+3. **Restart OpenCode** to load changes.
 
-4. **Verify** the plugin is loaded by checking for OmO agent availability or startup messages.
+4. **Verify** plugin is loaded by checking for OmO agent availability or startup messages.
 
 ## Project Structure
 
@@ -171,11 +171,11 @@ bun run build:schema
 
 ### Adding a New Agent
 
-1. Create a new `.ts` file in `src/agents/`
-2. Define the agent configuration following existing patterns
+1. Create new `.ts` file in `src/agents/`
+2. Define agent configuration following existing patterns
 3. Add to `builtinAgents` in `src/agents/index.ts`
 4. Update `src/agents/types.ts` if needed
-5. Run `bun run build:schema` to update the JSON schema
+5. Run `bun run build:schema` to update JSON schema
 
 ```typescript
 // src/agents/my-agent.ts
@@ -193,7 +193,7 @@ export const myAgent: AgentConfig = {
 
 ### Adding a New Hook
 
-1. Create a new directory in `src/hooks/` (kebab-case)
+1. Create new directory in `src/hooks/` (kebab-case)
 2. Implement `createXXXHook()` function returning event handlers
 3. Export from `src/hooks/index.ts`
 
@@ -212,7 +212,7 @@ export function createMyHook(input: PluginInput) {
 
 ### Adding a New Tool
 
-1. Create a new directory in `src/tools/` with required files:
+1. Create new directory in `src/tools/` with required files:
    - `index.ts` - Main exports
    - `types.ts` - TypeScript interfaces
    - `constants.ts` - Constants and tool descriptions
@@ -228,19 +228,19 @@ export function createMyHook(input: PluginInput) {
 
 ## Pull Request Process
 
-1. **Fork** the repository and create your branch from `dev`
-2. **Make changes** following the conventions above
+1. **Fork** repository and create your branch from `dev`
+2. **Make changes** following conventions above
 3. **Build and test** locally:
    ```bash
    bun run typecheck  # Ensure no type errors
    bun run build      # Ensure build succeeds
    ```
-4. **Test in OpenCode** using the local build method described above
+4. **Test in OpenCode** using local build method described above
 5. **Commit** with clear, descriptive messages:
    - Use present tense ("Add feature" not "Added feature")
    - Reference issues if applicable ("Fix #123")
-6. **Push** to your fork and create a Pull Request
-7. **Describe** your changes clearly in the PR description
+6. **Push** to your fork and create Pull Request
+7. **Describe** your changes clearly in PR description
 
 ### PR Checklist
 
@@ -267,7 +267,7 @@ export function createMyHook(input: PluginInput) {
 - **Project Knowledge**: Check `AGENTS.md` for detailed project documentation
 - **Code Patterns**: Review existing implementations in `src/`
 - **Issues**: Open an issue for bugs or feature requests
-- **Discussions**: Start a discussion for questions or ideas
+- **Discussions**: Start discussion for questions or ideas
 
 ---
 

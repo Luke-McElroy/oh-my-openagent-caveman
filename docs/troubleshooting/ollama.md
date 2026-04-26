@@ -36,9 +36,9 @@ Configure your Ollama provider to use `stream: false`:
 
 ```json
 {
-  "provider": "ollama",
-  "model": "qwen3-coder",
-  "stream": false
+"provider": "ollama",
+"model": "qwen3-coder",
+"stream": false
 }
 ```
 
@@ -75,25 +75,25 @@ Until the SDK is fixed, here's how to implement NDJSON parsing (for SDK maintain
 
 ```typescript
 async function parseOllamaStreamResponse(response: string): Promise<object> {
-  const lines = response.split('\n').filter(line => line.trim());
-  const mergedMessage = { tool_calls: [] };
+const lines = response.split('\n').filter(line => line.trim());
+const mergedMessage = { tool_calls: [] };
 
-  for (const line of lines) {
-    try {
-      const json = JSON.parse(line);
-      if (json.message?.tool_calls) {
-        mergedMessage.tool_calls.push(...json.message.tool_calls);
-      }
-      if (json.message?.content) {
-        mergedMessage.content = json.message.content;
-      }
-    } catch (e) {
-      // Skip malformed lines
-      console.warn('Skipping malformed NDJSON line:', line);
-    }
-  }
+for (const line of lines) {
+try {
+const json = JSON.parse(line);
+if (json.message?.tool_calls) {
+mergedMessage.tool_calls.push(...json.message.tool_calls);
+}
+if (json.message?.content) {
+mergedMessage.content = json.message.content;
+}
+} catch (e) {
+// Skip malformed lines
+console.warn('Skipping malformed NDJSON line:', line);
+}
+}
 
-  return mergedMessage;
+return mergedMessage;
 }
 ```
 
@@ -104,12 +104,12 @@ To verify the fix works:
 ```bash
 # Test with curl (should work with stream: false)
 curl -s http://localhost:11434/api/chat \
-  -d '{
-    "model": "qwen3-coder",
-    "messages": [{"role": "user", "content": "Read file README.md"}],
-    "stream": false,
-    "tools": [{"type": "function", "function": {"name": "read", "description": "Read a file", "parameters": {"type": "object", "properties": {"filePath": {"type": "string"}}, "required": ["filePath"]}}}]
-  }'
+-d '{
+"model": "qwen3-coder",
+"messages": [{"role": "user", "content": "Read file README.md"}],
+"stream": false,
+"tools": [{"type": "function", "function": {"name": "read", "description": "Read a file", "parameters": {"type": "object", "properties": {"filePath": {"type": "string"}}, "required": ["filePath"]}}}]
+}'
 ```
 
 ## Related Issues

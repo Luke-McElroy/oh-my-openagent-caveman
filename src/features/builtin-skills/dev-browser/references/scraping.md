@@ -1,6 +1,6 @@
 # Data Scraping Guide
 
-For large datasets (followers, posts, search results), **intercept and replay network requests** rather than scrolling and parsing the DOM. This is faster, more reliable, and handles pagination automatically.
+For large datasets (followers, posts, search results), **intercept and replay network requests** rather than scrolling and parsing DOM. This is faster, more reliable, and handles pagination automatically.
 
 ## Why Not Scroll?
 
@@ -10,18 +10,18 @@ Scrolling is slow, unreliable, and wastes time. APIs return structured data with
 
 **Don't try to automate everything at once.** Work incrementally:
 
-1. **Capture one request** - verify you're intercepting the right endpoint
-2. **Inspect one response** - understand the schema before writing extraction code
-3. **Extract a few items** - make sure your parsing logic works
-4. **Then scale up** - add pagination loop only after the basics work
+1. **Capture one request** - verify you're intercepting right endpoint
+2. **Inspect one response** - understand schema before writing extraction code
+3. **Extract few items** - make sure your parsing logic works
+4. **Then scale up** - add pagination loop only after basics work
 
-This prevents wasting time debugging a complex script when the issue is a simple path like `data.user.timeline` vs `data.user.result.timeline`.
+This prevents wasting time debugging complex script when issue is simple path like `data.user.timeline` vs `data.user.result.timeline`.
 
 ## Step-by-Step Workflow
 
 ### 1. Capture Request Details
 
-First, intercept a request to understand URL structure and required headers:
+First, intercept request to understand URL structure and required headers:
 
 ```typescript
 import { connect, waitForPageLoad } from "@/client.js";
@@ -54,7 +54,7 @@ await client.disconnect();
 
 ### 2. Capture Response to Understand Schema
 
-Save a raw response to inspect the data structure:
+Save raw response to inspect data structure:
 
 ```typescript
 page.on("response", async (response) => {
@@ -67,15 +67,15 @@ page.on("response", async (response) => {
 });
 ```
 
-Then analyze the structure to find:
+Then analyze structure to find:
 
-- Where the data array lives (e.g., `data.user.result.timeline.instructions[].entries`)
+- Where data array lives (e.g., `data.user.result.timeline.instructions[].entries`)
 - Where pagination cursors are (e.g., `cursor-bottom` entries)
 - What fields you need to extract
 
 ### 3. Replay API with Pagination
 
-Once you understand the schema, replay requests directly:
+Once you understand schema, replay requests directly:
 
 ```typescript
 import { connect } from "@/client.js";
@@ -151,5 +151,5 @@ await client.disconnect();
 
 - **Extension mode**: `page.context().cookies()` doesn't work - capture auth headers from intercepted requests instead
 - **Rate limiting**: Add 500ms+ delays between requests to avoid blocks
-- **Stop conditions**: Check for empty results, missing cursor, or reaching a date/ID threshold
+- **Stop conditions**: Check for empty results, missing cursor, or reaching date/ID threshold
 - **GraphQL APIs**: URL params often include `variables` and `features` JSON objects - capture and reuse them

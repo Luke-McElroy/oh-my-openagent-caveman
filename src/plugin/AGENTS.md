@@ -4,7 +4,7 @@
 
 ## OVERVIEW
 
-Core glue layer. 20 source files assembling the 10 OpenCode hook handlers and composing 50 hooks into the PluginInterface. Every handler file corresponds to one OpenCode hook type.
+Core glue layer. 20 source files assembling 10 OpenCode hook handlers, composing 50 hooks into PluginInterface. Every handler file corresponds to one OpenCode hook type.
 
 ## HANDLER FILES
 
@@ -37,7 +37,7 @@ Core glue layer. 20 source files assembling the 10 OpenCode hook handlers and co
 | File | Purpose |
 |------|---------|
 | `available-categories.ts` | Build `AvailableCategory[]` for agent prompt injection |
-| `session-agent-resolver.ts` | Resolve which agent owns a session |
+| `session-agent-resolver.ts` | Resolve which agent owns session |
 | `session-status-normalizer.ts` | Normalize session status across OpenCode versions |
 | `recent-synthetic-idles.ts` | Dedup rapid idle events |
 | `unstable-agent-babysitter.ts` | Track unstable agent behavior across sessions |
@@ -48,7 +48,7 @@ Core glue layer. 20 source files assembling the 10 OpenCode hook handlers and co
 
 ## KEY PATTERNS
 
-- Each handler exports a function receiving `(hookRecord, ctx, pluginConfig, managers)` → returns OpenCode hook function
+- Each handler exports function receiving `(hookRecord, ctx, pluginConfig, managers)` → returns OpenCode hook function
 - Handlers iterate over hook records, calling each hook with `(input, output)` in sequence
-- `safeHook()` wrapper in composition files catches errors per-hook without breaking the chain
+- `safeHook()` wrapper in composition files catches errors per-hook without breaking chain
 - Tool registry uses `filterDisabledTools()` before returning

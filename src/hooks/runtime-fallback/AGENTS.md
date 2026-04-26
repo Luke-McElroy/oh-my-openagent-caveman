@@ -4,7 +4,7 @@
 
 ## OVERVIEW
 
-32 files. Session Tier hook that **reactively** switches to fallback models when API providers return errors at runtime (429, 503, quota exhausted, cooldown signals). Distinct from `model-fallback` (which applies preemptively at chat.params).
+32 files. Session Tier hook **reactively** switches to fallback models when API providers return errors at runtime (429, 503, quota exhausted, cooldown signals). Distinct from `model-fallback` (applies preemptively at chat.params).
 
 ## RUNTIME-FALLBACK vs MODEL-FALLBACK
 
@@ -92,11 +92,11 @@ Failed models enter 60s cooldown. `findNextAvailableFallback()` skips models in 
 | `auto-retry.ts` | Abort, timeout scheduling, cleanup |
 | `agent-resolver.ts` | Session → agent name normalization |
 | `retry-model-payload.ts` | Build model payload (providerID/modelID/variant/reasoningEffort) |
-| `visible-assistant-response.ts` | Detect if assistant produced real output vs just errors |
+| `visible-assistant-response.ts` | Detect if assistant produced real output vs errors |
 | `last-user-retry-parts.ts` | Extract last user message parts for retry |
 
 ## NOTES
 
-- Cooldown and failure tracking are **per-session** — concurrent sessions don't share state
-- `visible-assistant-response.ts` prevents retry if the assistant already produced a partial valid response
-- Runtime-fallback is registered in the Session Tier via `create-session-hooks.ts`
+- Cooldown and failure tracking **per-session** — concurrent sessions don't share state
+- `visible-assistant-response.ts` prevents retry if assistant already produced partial valid response
+- Runtime-fallback registered in Session Tier via `create-session-hooks.ts`

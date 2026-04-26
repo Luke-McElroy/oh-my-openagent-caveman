@@ -4,7 +4,7 @@
 
 ## OVERVIEW
 
-19 files (~1604 LOC). The `rulesInjectorHook` — Tool Guard Tier hook that auto-injects AGENTS.md (and similar rule files) into context when a file in a directory is read, written, or edited. Proximity-based: closest rule file to the target path wins.
+19 files (~1604 LOC). `rulesInjectorHook` — Tool Guard Tier hook auto-injecting AGENTS.md (and similar rule files) into context when file in directory is read, written, or edited. Proximity-based: closest rule file to target path wins.
 
 ## HOW IT WORKS
 
@@ -28,7 +28,7 @@ tool.execute.after (read/write/edit/multiedit)
 | `injector.ts` | `createRuleInjectionProcessor()` — orchestrates find → cache → inject |
 | `finder.ts` | `findRuleFiles()` + `calculateDistance()` — locate AGENTS.md near target path |
 | `rule-file-finder.ts` | Walk directory tree to find AGENTS.md / .rules files |
-| `rule-file-scanner.ts` | Scan for rule files in a directory |
+| `rule-file-scanner.ts` | Scan for rule files in directory |
 | `matcher.ts` | Match file paths against rule file scope |
 | `rule-distance.ts` | Calculate path distance between file and rule file |
 | `project-root-finder.ts` | Find project root (stops at .git, package.json) |

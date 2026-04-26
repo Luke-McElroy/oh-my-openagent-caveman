@@ -1,6 +1,6 @@
 ---
 name: work-with-pr
-description: "Full PR lifecycle: git worktree → implement → atomic commits → PR creation → verification loop (CI + review-work + Cubic approval) → merge. Keeps iterating until ALL gates pass and PR is merged. Worktree auto-cleanup after merge. Use whenever implementation work needs to land as a PR. Triggers: 'create a PR', 'implement and PR', 'work on this and make a PR', 'implement issue', 'land this as a PR', 'work-with-pr', 'PR workflow', 'implement end to end', even when user just says 'implement X' if the context implies PR delivery."
+description: "Full PR lifecycle: git worktree → implement → atomic commits → PR creation → verification loop (CI + review-work + Cubic approval) → merge. Keeps iterating until ALL gates pass and PR is merged. Worktree auto-cleanup after merge. Use whenever implementation work needs to land as a PR. Triggers: 'create a PR', 'implement and PR', 'work on this and make a PR', 'implement issue', 'land this as a PR', 'work-with-pr', 'PR workflow', 'implement end to end', even when user says 'implement X' if the context implies PR delivery."
 ---
 
 # Work With PR — Full PR Lifecycle
@@ -107,7 +107,7 @@ bun test
 bun run build
 ```
 
-Fix any failures before pushing. Each fix-commit cycle should be atomic.
+Fix any failures before pushing. Each fix-commit cycle atomic.
 
 </implementation>
 
@@ -355,6 +355,6 @@ git rebase "origin/$BASE_BRANCH"
 | Skipping CI gate after code changes | review-work and Cubic may pass on stale code | CRITICAL |
 | Fixing unrelated code during verification loop | Scope creep causes new failures | HIGH |
 | Deleting worktree on failure | User loses ability to inspect/resume | HIGH |
-| Ignoring Cubic false positives without justification | Cubic issues should be evaluated, not blindly dismissed | MEDIUM |
+| Ignoring Cubic false positives without justification | Cubic issues evaluated, not blindly dismissed | MEDIUM |
 | Giant single commits | Harder to isolate failures, violates git-master principles | MEDIUM |
 | Not running local checks before push | Wastes CI time on obvious failures | MEDIUM |

@@ -4,7 +4,7 @@
 
 ## OVERVIEW
 
-49 files. The `task` tool implementation — delegates work to subagents via background or sync sessions. Resolves categories, models, skills, and manages both async and synchronous execution flows. 8+ built-in categories.
+49 files. `task` tool implementation — delegates work to subagents via background or sync sessions. Resolves categories, models, skills, manages both async and synchronous execution flows. 8+ built-in categories.
 
 ## TWO EXECUTION MODES
 

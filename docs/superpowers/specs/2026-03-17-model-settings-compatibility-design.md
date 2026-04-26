@@ -2,7 +2,7 @@
 
 ## Goal
 
-Introduce a central resolver that takes an already-selected model and a set of desired model settings, then returns the best compatible configuration for that exact model.
+Introduce central resolver that takes already-selected model and set of desired model settings, then returns best compatible configuration for that exact model.
 
 This is explicitly separate from model fallback.
 
@@ -20,7 +20,7 @@ That creates inconsistent behavior:
 - some paths silently drop them
 - some paths use model-family-specific assumptions that do not generalize
 
-The result is brittle request behavior even when the chosen model itself is valid.
+Result is brittle request behavior even when chosen model itself is valid.
 
 ## Scope
 
@@ -38,16 +38,16 @@ Out of scope for Phase 1:
 
 ## Desired behavior
 
-Given a fixed model and desired settings:
-1. If a desired value is supported, keep it.
-2. If not supported, downgrade to the nearest lower compatible value.
-3. If no compatible value exists, drop the field.
+Given fixed model and desired settings:
+1. If desired value is supported, keep it.
+2. If not supported, downgrade to nearest lower compatible value.
+3. If no compatible value exists, drop field.
 4. Do not switch models.
 5. Do not automatically upgrade settings in Phase 1.
 
 ## Architecture
 
-Add a central module:
+Add central module:
 - `src/shared/model-settings-compatibility.ts`
 
 Core API:
@@ -80,7 +80,7 @@ type ModelSettingsCompatibilityResult = {
 
 ## Compatibility model
 
-Phase 1 should be **metadata-first where the platform exposes reliable capability data**, and only fall back to family-based rules when that metadata is absent.
+Phase 1 should be **metadata-first where platform exposes reliable capability data**, and only fall back to family-based rules when that metadata is absent.
 
 ### Variant compatibility
 
@@ -102,13 +102,13 @@ Current Phase 1 source of truth:
 - conservative model/provider family heuristics
 
 Reason:
-- the currently available OpenCode SDK/provider metadata exposes model `variants`, but does not expose an equivalent per-model capability list for `reasoningEffort` levels
+- currently available OpenCode SDK/provider metadata exposes model `variants`, but does not expose equivalent per-model capability list for `reasoningEffort` levels
 
 Examples:
 - GPT/OpenAI-style models: `low`, `medium`, `high`, `xhigh` where supported by family heuristics
 - Claude family via current OpenCode path: treat `reasoningEffort` as unsupported in Phase 1 and remove it
 
-The resolver should remain pure model/settings logic only. Transport restrictions remain the responsibility of the request-building path.
+Resolver should remain pure model/settings logic only. Transport restrictions remain responsibility of request-building path.
 
 ## Separation of concerns
 
@@ -127,7 +127,7 @@ That keeps responsibilities clear:
 Phase 1 should first integrate into `chat.params`.
 
 Why:
-- it is already the centralized path for request-time tuning
+- it is already centralized path for request-time tuning
 - it can influence provider-facing options without leaking unsupported fields into prompt payload bodies
 - it avoids trying to patch every prompt constructor at once
 
@@ -136,7 +136,7 @@ Why:
 ### Phase 1
 - add resolver module and tests
 - integrate into `chat.params`
-- migrate `anthropic-effort` to either use the resolver or become a thin Claude-specific supplement around it
+- migrate `anthropic-effort` to either use resolver or become thin Claude-specific supplement around it
 
 ### Phase 2
 - expand to `thinking`, `maxTokens`, `temperature`, `top_p`
@@ -160,5 +160,5 @@ Why:
 
 ## Recommendation
 
-Proceed with the central resolver as a new, isolated implementation in a dedicated branch/worktree.
-This is the clean long-term path and is more reviewable than continuing to add special-case clamps in hooks.
+Proceed with central resolver as new, isolated implementation in dedicated branch/worktree.
+This is clean long-term path and is more reviewable than continuing to add special-case clamps in hooks.

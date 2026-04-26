@@ -4,7 +4,7 @@
 
 ## OVERVIEW
 
-Tool Guard tier hook. Runs after `write`/`edit` tools to detect AI-generated comment patterns in code and block them before they land. Backed by `@code-yeongyu/comment-checker` binary (trusted dependency).
+Tool Guard tier hook. Runs after `write`/`edit` tools to detect AI-generated comment patterns in code, blocks them before they land. Backed by `@code-yeongyu/comment-checker` binary (trusted dependency).
 
 ## WHAT IT BLOCKS
 
@@ -16,7 +16,7 @@ AI slop comment smells:
 - `// TODO:` without context
 - Comments contradicting surrounding code
 
-See `@code-yeongyu/comment-checker` for the authoritative blocklist.
+See `@code-yeongyu/comment-checker` for authoritative blocklist.
 
 ## EXECUTION FLOW
 
@@ -54,7 +54,7 @@ Disable via `"disabled_hooks": ["comment-checker"]`.
 
 ## BYPASS FOR LEGITIMATE COMMENTS
 
-Prefix with `// @allow` or mark file scope with `// comment-checker-disable-file` at top. Use sparingly — defeating the purpose.
+Prefix with `// @allow` or mark file scope with `// comment-checker-disable-file` at top. Use sparingly — defeats purpose.
 
 ## RELATED
 

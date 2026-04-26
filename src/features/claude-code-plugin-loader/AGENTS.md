@@ -25,7 +25,7 @@ loadAllPluginComponents(ctx)
   → return LoadedPluginBundle
 ```
 
-Called from `src/plugin-handlers/plugin-components-loader.ts` during Phase 2 of config handler (10s timeout with error isolation — one broken plugin does not sink the plugin load).
+Called from `src/plugin-handlers/plugin-components-loader.ts` during Phase 2 of config handler (10s timeout with error isolation — one broken plugin does not sink plugin load).
 
 ## KEY FILES
 
