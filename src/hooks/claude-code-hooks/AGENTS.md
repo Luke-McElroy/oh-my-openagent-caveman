@@ -1,41 +1,39 @@
-# src/hooks/claude-code-hooks/ — Claude Code Compatibility
+# src/hooks/claude-code-hooks/ — CC Compatibility
 
 **Generated:** 2026-04-18
 
 ## OVERVIEW
 
-~2110 LOC across 19 files. Claude Code settings.json compatibility layer. Parses CC permission rules, maps CC hooks (PreToolUse, PostToolUse) to OpenCode hooks.
+~2110 LOC, 19 files. CC `settings.json` compat. Parses perms, maps hooks.
 
 ## WHAT IT DOES
 
-1. Parses Claude Code `settings.json` permission format
-2. Maps CC hook types to OpenCode event types
-3. Enforces CC permission rules (allow/deny per tool)
-4. Supports CC `.claude/settings.json` and `.claude/settings.local.json`
+1. Parse CC `settings.json`
+2. Map hooks → OpenCode
+3. Enforce rules
+4. Support `.claude/settings.json`
 
-## CC → OPENCODE HOOK MAPPING
+## CC → OPENCODE
 
-| CC Hook | OpenCode Event |
-|---------|---------------|
+| CC Hook | OpenCode |
+|---------|----------|
 | PreToolUse | tool.execute.before |
 | PostToolUse | tool.execute.after |
-| Notification | event (session.idle) |
-| Stop | event (session.idle) |
+| Notification | event |
+| Stop | event |
 
-## PERMISSION SYSTEM
+## PERMISSION
 
-CC permissions format:
+CC format:
 ```json
-{
-  "permissions": {
-    "allow": ["Edit", "Write"],
-    "deny": ["Bash(rm:*)"]
-  }
-}
+{"permissions": {"allow": ["Edit"], "deny": ["Bash(rm:*)"]}}
 ```
 
-Translated to OpenCode tool restrictions via permission-compat in shared/.
+Translated via permission-compat.
 
 ## FILES
 
-Key files: `settings-loader.ts` (parse CC settings), `hook-mapper.ts` (CC→OC mapping), `permission-handler.ts` (rule enforcement), `types.ts` (CC type definitions).
+- `settings-loader.ts` — parse
+- `hook-mapper.ts` — map
+- `permission-handler.ts` — enforce
+- `types.ts`

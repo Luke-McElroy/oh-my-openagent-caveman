@@ -4,7 +4,7 @@
 
 ## OVERVIEW
 
-30 files (~10k LOC). Manages async task lifecycle: launch → queue → run → poll → complete/error. Concurrency limited per model/provider (default 5). Central to multi-agent orchestration.
+30 files (~10k LOC). Manages async task lifecycle: launch → queue → run → poll → complete/error. Concurrency limited per model/provider (default: 5). Multi-agent orchestration core.
 
 ## TASK LIFECYCLE
 
@@ -40,7 +40,7 @@ Two signals combined:
 1. **Session idle event** — OpenCode reports session became idle
 2. **Stability detection** — message count unchanged for 10s (3+ stable polls at 3s interval)
 
-Both must agree before marking task complete. Prevents premature completion on brief pauses.
+Both must agree for task completion. Prevents premature completion on brief pauses.
 
 ## CONCURRENCY MODEL
 

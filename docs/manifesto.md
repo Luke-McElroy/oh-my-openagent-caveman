@@ -10,7 +10,7 @@ Principles and philosophy behind Oh My OpenAgent.
 
 Think about autonomous driving. When human has to take over wheel, that's not feature. It's failure of system. Car couldn't handle situation on its own.
 
-**Why is coding any different?**
+**Why coding any different?**
 
 When you find yourself:
 - Fixing AI's half-finished code
@@ -20,13 +20,13 @@ When you find yourself:
 
 That's not "human-AI collaboration." That's AI failing to do its job.
 
-**Oh My OpenAgent is built on this premise**: Human intervention during agentic work is fundamentally wrong signal. If system is designed correctly, agent should complete work without requiring you to ysit it.
+**Oh My OpenAgent built on this premise**: Human intervention during agentic work fundamentally wrong signal. If system designed correctly, agent should complete work without requiring you to babysit it.
 
 ---
 
 ## Indistinguishable Code
 
-**Goal: Code written by agent should be indistinguishable from code written by senior engineer.**
+**Goal: Code written by agent indistinguishable from code written by senior engineer.**
 
 Not "AI-generated code that needs cleanup." Not "good starting point." Actual, final, production-ready code.
 
@@ -37,13 +37,13 @@ This means:
 - No AI slop (over-engineering, unnecessary abstractions, scope creep)
 - Comments only when they add value
 
-If you can tell whether commit was made by human or agent, agent has failed.
+If you can tell whether commit made by human or agent, agent has failed.
 
 ---
 
 ## Token Cost vs Productivity
 
-**Higher token usage is acceptable if it significantly increases productivity.**
+**Higher token usage acceptable if it significantly increases productivity.**
 
 Using more tokens to:
 - Have multiple specialized agents research in parallel
@@ -55,11 +55,11 @@ That's worthwhile investment when it means 10x, 20x, or 100x productivity gains.
 
 **However:**
 
-Unnecessary token waste is not pursued. System optimizes for:
+Unnecessary token waste not pursued. System optimizes for:
 - Using cheaper models (Haiku, Flash) for simple tasks
 - Avoiding redundant exploration
 - Caching learnings across sessions
-- Stopping research when sufficient context is gathered
+- Stopping research when sufficient context gathered
 
 Token efficiency matters. But not at cost of work quality or human cognitive load.
 
@@ -67,7 +67,7 @@ Token efficiency matters. But not at cost of work quality or human cognitive loa
 
 ## Minimize Human Cognitive Load
 
-**Human should only need to say what they want. Everything else is agent's job.**
+**Human should only need to say what they want. Everything else agent's job.**
 
 Two approaches achieve this:
 
@@ -97,7 +97,7 @@ Agent:
 
 **You provide intent. Agent handles everything.**
 
-In both cases, human's job is to **express what they want**, not to manage how it gets done.
+In both cases, human's job to **express what they want**, not to manage how it gets done.
 
 ---
 
@@ -118,8 +118,8 @@ Output should be consistent. Not random, not surprising, not "creative" in ways 
 
 Work should survive interruptions:
 - Session crashes? Resume with `/start-work`
-- Need to step away? Progress is tracked
-- Multi-day project? Context is preserved
+- Need to step away? Progress tracked
+- Multi-day project? Context preserved
 
 Agent maintains state. You don't have to.
 
@@ -139,18 +139,18 @@ This means:
 
 ```
 Human Intent → Agent Execution → Verified Result
-↑ ↓
-└──────── Minimum ─────────────┘
-(intervention only on true failure)
+       ↑                              ↓
+       └──────── Minimum ─────────────┘
+          (intervention only on true failure)
 ```
 
-Everything in Oh My OpenAgent is designed to make this loop work:
+Everything in Oh My OpenAgent designed to make this loop work:
 
 | Feature | Purpose |
 |---------|---------|
 | Prometheus | Extract intent through intelligent interview |
 | Metis | Catch ambiguities before they become bugs |
-| Momus | Verify plans are complete before execution |
+| Momus | Verify plans complete before execution |
 | Orchestrator | Coordinate work without human micromanagement |
 | Todo Continuation | Force completion, prevent "I'm done" lies |
 | Category System | Route to optimal model without human decision |
@@ -177,8 +177,8 @@ Everything in Oh My OpenAgent is designed to make this loop work:
 
 World where:
 - Human developers focus on **what** to build, not **how** to get AI to build it
-- Code quality is independent of who (or what) wrote it
-- Complex projects are as easy as simple ones (take longer)
+- Code quality independent of who (or what) wrote it
+- Complex projects as easy as simple ones (take longer)
 - "Prompt engineering" becomes as obsolete as "compiler debugging"
 
 **Agent should be invisible.** Not in sense that it's hidden, but in sense that it works. Like electricity, like running water, like internet.

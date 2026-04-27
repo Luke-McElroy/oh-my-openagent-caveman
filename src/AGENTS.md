@@ -4,7 +4,7 @@
 
 ## OVERVIEW
 
-Entry point `index.ts` orchestrates 5-step initialization: loadConfig → createManagers → createTools → createHooks → createPluginInterface.
+Entry `index.ts` orchestrates 5-step init: loadConfig → createManagers → createTools → createHooks → createPluginInterface.
 
 ## KEY FILES
 

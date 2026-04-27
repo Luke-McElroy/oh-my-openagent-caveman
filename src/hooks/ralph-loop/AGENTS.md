@@ -1,61 +1,61 @@
-# src/hooks/ralph-loop/ — Self-Referential Dev Loop
+# src/hooks/ralph-loop/ — Dev Loop
 
 **Generated:** 2026-04-11
 
 ## OVERVIEW
 
-14 files (~1687 LOC). `ralphLoop` Session Tier hook — powers `/ralph-loop` command. Iterates development loop until agent emits `<promise>DONE</promise>` or max iterations reached.
+14 files (~1687 LOC). `ralphLoop` Session Tier. Powers `/ralph-loop`. Iterates until `<promise>DONE</promise>` or max.
 
-## LOOP LIFECYCLE
+## LIFECYCLE
 
 ```
-/ralph-loop → startLoop(sessionID, prompt, options)
-  → loopState.startLoop() → persists state to .sisyphus/ralph-loop.local.md
-  → session.idle events → createRalphLoopEventHandler()
-    → completionPromiseDetector: scan output for <promise>DONE</promise>
-    → if not done: inject continuation prompt → loop
-    → if done or maxIterations: cancelLoop()
+/ralph-loop → startLoop(sessionID, prompt, opts)
+  → loopState.startLoop() → persist .sisyphus/ralph-loop.local.md
+  → session.idle → createRalphLoopEventHandler()
+    → scan for <promise>DONE</promise>
+    → not done: inject → loop
+    → done/max: cancelLoop()
 ```
 
-## KEY FILES
+## FILES
 
 | File | Purpose |
 |------|---------|
-| `ralph-loop-hook.ts` | `createRalphLoopHook()` — composes controller + recovery + event handler |
-| `ralph-loop-event-handler.ts` | `createRalphLoopEventHandler()` — handles session.idle, drives loop |
-| `loop-state-controller.ts` | State CRUD: startLoop, cancelLoop, getState, persist to disk |
-| `loop-session-recovery.ts` | Recover from crashed/interrupted loop sessions |
-| `completion-promise-detector.ts` | Scan session transcript for `<promise>DONE</promise>` |
-| `continuation-prompt-builder.ts` | Build continuation message for next iteration |
-| `continuation-prompt-injector.ts` | Inject built prompt into active session |
-| `storage.ts` | Read/write `.sisyphus/ralph-loop.local.md` state file |
-| `message-storage-directory.ts` | Temp dir for prompt injection |
-| `with-timeout.ts` | API call wrapper with timeout (default 5000ms) |
-| `types.ts` | `RalphLoopState`, `RalphLoopOptions`, loop iteration types |
+| `ralph-loop-hook.ts` | `createRalphLoopHook()` — composes |
+| `ralph-loop-event-handler.ts` | Drives loop |
+| `loop-state-controller.ts` | CRUD: start, cancel, get, persist |
+| `loop-session-recovery.ts` | Crash recovery |
+| `completion-promise-detector.ts` | Scan `<promise>DONE</promise>` |
+| `continuation-prompt-builder.ts` | Build continuation |
+| `continuation-prompt-injector.ts` | Inject |
+| `storage.ts` | Read/write state |
+| `message-storage-directory.ts` | Temp dir |
+| `with-timeout.ts` | API timeout (5000ms) |
+| `types.ts` | `RalphLoopState` |
 
-## STATE FILE
+## STATE
 
 ```
-.sisyphus/ralph-loop.local.md  (gitignored)
-  → sessionID, prompt, iteration count, maxIterations, completionPromise, ultrawork flag
+.sisyphus/ralph-loop.local.md (gitignored)
+  → sessionID, prompt, iteration, maxIterations, completionPromise, ultrawork
 ```
 
 ## OPTIONS
 
 ```typescript
 startLoop(sessionID, prompt, {
-  maxIterations?: number  // Default from config (default: 100)
-  completionPromise?: string  // Custom "done" signal (default: "<promise>DONE</promise>")
-  ultrawork?: boolean  // Enable ultrawork mode for iterations
+  maxIterations?: number        // Default: 100
+  completionPromise?: string    // Default: "<promise>DONE</promise>"
+  ultrawork?: boolean
 })
 ```
 
-## EXPORTED INTERFACE
+## INTERFACE
 
 ```typescript
 interface RalphLoopHook {
-  event: (input) => Promise<void>  // session.idle handler
-  startLoop: (sessionID, prompt, options?) => boolean
+  event: (input) => Promise<void>
+  startLoop: (sessionID, prompt, opts?) => boolean
   cancelLoop: (sessionID) => boolean
   getState: () => RalphLoopState | null
 }

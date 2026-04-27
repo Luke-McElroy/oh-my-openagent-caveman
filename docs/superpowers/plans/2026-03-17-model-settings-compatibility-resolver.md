@@ -1,12 +1,12 @@
 # Model Settings Compatibility Resolver Implementation Plan
 
-> **For agentic workers:** REQUIRED: Use superpowers:subagent-driven-development (if subagents available) or superpowers:executing-plans to implement this plan. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED: Use superpowers:subagent-driven-development or superpowers:executing-plans. Steps use checkbox (`- [ ]`) syntax.
 
-**Goal:** Centralize compatibility handling for `variant` and `reasoningEffort` so already-selected model receives best valid settings for that exact model.
+**Goal:** Centralize compatibility handling for `variant` and `reasoningEffort` so selected model receives best valid settings.
 
-**Architecture:** Introduce pure shared resolver in `src/shared/` that computes compatible settings and records downgrades/removals. Integrate it first in `chat.params`, then keep Claude-specific effort logic as thin layer rather than special-case policy owner.
+**Architecture:** Pure shared resolver in `src/shared/` computes compatible settings, records downgrades/removals. Integrate first in `chat.params`, keep Claude-specific effort logic as thin layer.
 
-**Tech Stack:** TypeScript, Bun test, existing shared model normalization/utilities, OpenCode plugin `chat.params` path.
+**Tech Stack:** TypeScript, Bun test, existing shared model normalization, OpenCode plugin `chat.params` path.
 
 ---
 <!-- Compressed -->
@@ -18,14 +18,14 @@
 - Create: `src/shared/model-settings-compatibility.test.ts`
 - Modify: `src/shared/index.ts`
 
-- [ ] **Step 1: Write failing tests for exact keep behavior**
-- [ ] **Step 2: Write failing tests for downgrade behavior (`max` -> `high`, `xhigh` -> `high` where needed)**
-- [ ] **Step 3: Write failing tests for unsupported-value removal**
-- [ ] **Step 4: Write failing tests for model-family distinctions (Opus vs Sonnet/Haiku, GPT-family variants)**
-- [ ] **Step 5: Implement pure resolver with explicit capability ladders**
-- [ ] **Step 6: Export resolver from `src/shared/index.ts`**
-- [ ] **Step 7: Run `bun test src/shared/model-settings-compatibility.test.ts`**
-- [ ] **Step 8: Commit**
+- [ ] **Step 1:** Write failing tests for exact keep behavior
+- [ ] **Step 2:** Write failing tests for downgrade behavior (`max` -> `high`, `xhigh` -> `high`)
+- [ ] **Step 3:** Write failing tests for unsupported-value removal
+- [ ] **Step 4:** Write failing tests for model-family distinctions (Opus vs Sonnet/Haiku, GPT-family)
+- [ ] **Step 5:** Implement pure resolver with explicit capability ladders
+- [ ] **Step 6:** Export resolver from `src/shared/index.ts`
+- [ ] **Step 7:** Run `bun test src/shared/model-settings-compatibility.test.ts`
+- [ ] **Step 8:** Commit
 
 ### Task 2: Integrate resolver into chat.params
 
@@ -33,12 +33,12 @@
 - Modify: `src/plugin/chat-params.ts`
 - Modify: `src/plugin/chat-params.test.ts`
 
-- [ ] **Step 1: Write failing tests showing `chat.params` applies resolver output to runtime settings**
-- [ ] **Step 2: Ensure tests cover both `variant` and `reasoningEffort` decisions**
-- [ ] **Step 3: Update `chat-params.ts` to call shared resolver before hook-specific adjustments**
-- [ ] **Step 4: Preserve existing prompt-param-store merging behavior**
-- [ ] **Step 5: Run `bun test src/plugin/chat-params.test.ts`**
-- [ ] **Step 6: Commit**
+- [ ] **Step 1:** Write failing tests showing `chat.params` applies resolver output to runtime settings
+- [ ] **Step 2:** Ensure tests cover both `variant` and `reasoningEffort` decisions
+- [ ] **Step 3:** Update `chat-params.ts` to call shared resolver before hook-specific adjustments
+- [ ] **Step 4:** Preserve existing prompt-param-store merging behavior
+- [ ] **Step 5:** Run `bun test src/plugin/chat-params.test.ts`
+- [ ] **Step 6:** Commit
 
 ### Task 3: Re-scope anthropic-effort around resolver
 
@@ -46,42 +46,40 @@
 - Modify: `src/hooks/anthropic-effort/hook.ts`
 - Modify: `src/hooks/anthropic-effort/index.test.ts`
 
-- [ ] **Step 1: Write failing tests that codify intended remaining Anthropic-specific behavior after centralization**
-- [ ] **Step 2: Reduce `anthropic-effort` to Claude/Anthropic-specific effort injection where still needed**
-- [ ] **Step 3: Remove duplicated compatibility policy from hook if shared resolver now owns it**
-- [ ] **Step 4: Run `bun test src/hooks/anthropic-effort/index.test.ts`**
-- [ ] **Step 5: Commit**
+- [ ] **Step 1:** Write failing tests codifying intended remaining Anthropic-specific behavior
+- [ ] **Step 2:** Reduce `anthropic-effort` to Claude/Anthropic-specific effort injection
+- [ ] **Step 3:** Remove duplicated compatibility policy from hook
+- [ ] **Step 4:** Run `bun test src/hooks/anthropic-effort/index.test.ts`
+- [ ] **Step 5:** Commit
 
-### Task 4: Add integration/regression coverage across real request paths
+### Task 4: Add integration/regression coverage
 
 **Files:**
 - Modify: `src/plugin/chat-params.test.ts`
 - Modify: `src/hooks/anthropic-effort/index.test.ts`
-- Add tests only where needed in nearby suites
+- Add tests nearby where needed
 
-- [ ] **Step 1: Add regression test for non-Opus Claude with `variant=max` resolving to compatible settings without ad hoc path-only logic**
-- [ ] **Step 2: Add regression test for GPT-style `reasoningEffort` compatibility**
-- [ ] **Step 3: Add regression test showing supported values remain unchanged**
-- [ ] **Step 4: Run focused test set**
-- [ ] **Step 5: Commit**
+- [ ] **Step 1:** Add regression test for non-Opus Claude with `variant=max` resolving to compatible settings
+- [ ] **Step 2:** Add regression test for GPT-style `reasoningEffort` compatibility
+- [ ] **Step 3:** Add regression test showing supported values remain unchanged
+- [ ] **Step 4:** Run focused test set
+- [ ] **Step 5:** Commit
 
 ### Task 5: Verify full quality bar
 
-**Files:**
-- No intended code changes
+**Files:** No intended code changes
 
-- [ ] **Step 1: Run `bun run typecheck`**
-- [ ] **Step 2: Run focused suite for touched files**
-- [ ] **Step 3: If clean, run `bun test`**
-- [ ] **Step 4: Review diff for accidental scope creep**
-- [ ] **Step 5: Commit any final cleanup**
+- [ ] **Step 1:** Run `bun run typecheck`
+- [ ] **Step 2:** Run focused suite for touched files
+- [ ] **Step 3:** If clean, run `bun test`
+- [ ] **Step 4:** Review diff for accidental scope creep
+- [ ] **Step 5:** Commit any final cleanup
 
 ### Task 6: Prepare PR metadata
 
-**Files:**
-- No repo file change required unless docs are updated further
+**Files:** No repo file change required
 
-- [ ] **Step 1: Write human summary explaining this is settings compatibility, not model fallback**
-- [ ] **Step 2: Document scope: Phase 1 covers `variant` and `reasoningEffort` only**
-- [ ] **Step 3: Document explicit non-goals: no model switching, no automatic upscaling in Phase 1**
-- [ ] **Step 4: Request review**
+- [ ] **Step 1:** Write summary explaining settings compatibility vs model fallback
+- [ ] **Step 2:** Document scope: Phase 1 covers `variant` and `reasoningEffort` only
+- [ ] **Step 3:** Document non-goals: no model switching, no automatic upscaling
+- [ ] **Step 4:** Request review

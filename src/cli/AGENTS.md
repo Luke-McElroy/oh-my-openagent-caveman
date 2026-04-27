@@ -54,7 +54,7 @@ cli/
 
 No single global priority. CLI install-time resolution uses per-agent fallback chains from `model-fallback-requirements.ts`.
 
-Common patterns: Claude/OpenAI/Gemini are preferred when an agent chain includes them, `librarian` prefers ZAI, `sisyphus` falls back through Kimi then GLM-5, and `hephaestus` requires OpenAI-compatible providers.
+Common patterns: Claude/OpenAI/Gemini preferred when agent chain includes them, `librarian` prefers ZAI, `sisyphus` falls back through Kimi then GLM-5, `hephaestus` requires OpenAI-compatible providers.
 
 ## DOCTOR CHECKS
 
@@ -65,7 +65,7 @@ Common patterns: Claude/OpenAI/Gemini are preferred when an agent chain includes
 | **Tools** | AST-Grep, comment-checker, LSP servers, GH CLI, MCP servers |
 | **Models** | Cache exists, model resolution, agent/category overrides, availability |
 
-## HOW TO ADD A DOCTOR CHECK
+## HOW TO ADD DOCTOR CHECK
 
 1. Create `src/cli/doctor/checks/{name}.ts`
 2. Export check function matching `DoctorCheck` interface

@@ -1,65 +1,65 @@
-# src/hooks/todo-continuation-enforcer/ — Boulder Continuation Mechanism
+# src/hooks/todo-continuation-enforcer/ — Boulder
 
 **Generated:** 2026-04-11
 
 ## OVERVIEW
 
-14 files (~2061 LOC). "Boulder" — Continuation Tier hook forces Sisyphus to continue when incomplete todos remain. Fires on `session.idle`, injects continuation prompt after 2s countdown toast.
+14 files (~2061 LOC). "Boulder" — Continuation Tier. Forces Sisyphus continue on incomplete todos. Fires on `session.idle`, injects after 2s.
 
 ## HOW IT WORKS
 
 ```
 session.idle
-  → Main session (not prometheus/compaction)? (DEFAULT_SKIP_AGENTS)
-  → No abort detected recently? (ABORT_WINDOW_MS = 3s)
+  → Main session? (DEFAULT_SKIP_AGENTS)
+  → No abort? (3s)
   → Todos incomplete? (todo.ts)
-  → No background tasks running?
-  → Cooldown passed? (CONTINUATION_COOLDOWN_MS = 30s)
-  → Failure count < max? (MAX_CONSECUTIVE_FAILURES = 5)
-  → Start 2s countdown toast → inject CONTINUATION_PROMPT
+  → No background?
+  → Cooldown passed? (30s)
+  → Failure < max? (5)
+  → 2s → inject
 ```
 
 ## KEY FILES
 
 | File | Purpose |
 |------|---------|
-| `handler.ts` | `createTodoContinuationHandler()` — event router, delegates to idle/non-idle handlers |
-| `idle-event.ts` | `handleSessionIdle()` — main decision gate for session.idle |
-| `non-idle-events.ts` | `handleNonIdleEvent()` — handles session.error (abort detection) |
-| `session-state.ts` | `SessionStateStore` — per-session failure/abort/cooldown state |
-| `todo.ts` | Check todo completion status via session store |
-| `countdown.ts` | 2s countdown toast before injection |
-| `abort-detection.ts` | Detect MessageAbortedError / AbortError |
-| `continuation-injection.ts` | Build + inject CONTINUATION_PROMPT into session |
-| `message-directory.ts` | Temp dir for message injection exchange |
-| `constants.ts` | Timing constants, CONTINUATION_PROMPT, skip agents |
-| `types.ts` | `SessionState`, handler argument types |
+| `handler.ts` | `createTodoContinuationHandler()` |
+| `idle-event.ts` | `handleSessionIdle()` |
+| `non-idle-events.ts` | `handleNonIdleEvent()` |
+| `session-state.ts` | `SessionStateStore` |
+| `todo.ts` | Todo check |
+| `countdown.ts` | 2s toast |
+| `abort-detection.ts` | Detect abort |
+| `continuation-injection.ts` | Build + inject |
+| `message-directory.ts` | Temp dir |
+| `constants.ts` | Constants |
+| `types.ts` | `SessionState` |
 
 ## CONSTANTS
 
 ```typescript
 DEFAULT_SKIP_AGENTS = ["prometheus", "compaction", "plan"]
-CONTINUATION_COOLDOWN_MS = 30_000     // 30s between injections
-MAX_CONSECUTIVE_FAILURES = 5          // Then 5min pause (exponential backoff)
-FAILURE_RESET_WINDOW_MS = 5 * 60_000  // 5min window for failure reset
+CONTINUATION_COOLDOWN_MS = 30_000
+MAX_CONSECUTIVE_FAILURES = 5
+FAILURE_RESET_WINDOW_MS = 5 * 60_000
 COUNTDOWN_SECONDS = 2
-ABORT_WINDOW_MS = 3000                // Grace after abort signal
+ABORT_WINDOW_MS = 3000
 ```
 
-## STATE PER SESSION
+## STATE
 
 ```typescript
 interface SessionState {
-  failureCount: number       // Consecutive failures
-  lastFailureAt?: number     // Timestamp
-  abortDetectedAt?: number   // Reset after ABORT_WINDOW_MS
-  cooldownUntil?: number     // Next injection allowed after
-  countdownTimer?: Timer     // Active countdown reference
+  failureCount: number
+  lastFailureAt?: number
+  abortDetectedAt?: number
+  cooldownUntil?: number
+  countdownTimer?: Timer
 }
 ```
 
-## RELATIONSHIP TO ATLAS
+## RELATIONSHIP
 
-`todoContinuationEnforcer` handles **main Sisyphus sessions** only.
-`atlasHook` handles **boulder/ralph/subagent sessions** with different decision gate.
-Both fire on `session.idle` but check session type first.
+- `todoContinuationEnforcer`: Main Sisyphus
+- `atlasHook`: Boulder/ralph/subagent
+Both fire on `session.idle` but check type.

@@ -1,57 +1,57 @@
-# src/hooks/keyword-detector/ — Mode Keyword Injection
+# src/hooks/keyword-detector/ — Keyword Injection
 
 **Generated:** 2026-04-11
 
 ## OVERVIEW
 
-8 files + 3 mode subdirs (~1665 LOC). Transform Tier hook on `messages.transform`. Scans first user message for mode keywords (ultrawork, search, analyze), injects mode-specific system prompts.
+8 files + 3 subdirs (~1665 LOC). Transform Tier on `messages.transform`. Scans first message for keywords, injects prompts.
 
 ## KEYWORDS
 
 | Keyword | Pattern | Effect |
 |---------|---------|--------|
-| `ultrawork` / `ulw` | `/\b(ultrawork|ulw)\b/i` | Full orchestration mode — parallel agents, deep exploration, relentless execution |
-| Search mode | `SEARCH_PATTERN` (from `search/`) | Web/doc search focus prompt injection |
-| Analyze mode | `ANALYZE_PATTERN` (from `analyze/`) | Deep analysis mode prompt injection |
+| `ultrawork` / `ulw` | `/\b(ultrawork|ulw)\b/i` | Full orchestration |
+| Search | `SEARCH_PATTERN` | Web/doc search |
+| Analyze | `ANALYZE_PATTERN` | Deep analysis |
 
 ## STRUCTURE
 
 ```
 keyword-detector/
-├── index.ts           # Barrel export
-├── hook.ts            # createKeywordDetectorHook() — chat.message handler
-├── detector.ts        # detectKeywordsWithType() + extractPromptText()
-├── constants.ts       # KEYWORD_DETECTORS array, re-exports from submodules
-├── types.ts           # KeywordDetector, DetectedKeyword types
+├── index.ts           # Barrel
+├── hook.ts            # createKeywordDetectorHook()
+├── detector.ts        # detectKeywordsWithType()
+├── constants.ts       # KEYWORD_DETECTORS
+├── types.ts           # Types
 ├── ultrawork/
 │   ├── index.ts
-│   ├── message.ts     # getUltraworkMessage() — dynamic prompt by agent/model
+│   ├── message.ts     # getUltraworkMessage()
 │   └── isPlannerAgent.ts
 ├── search/
 │   ├── index.ts
-│   ├── pattern.ts     # SEARCH_PATTERN regex
-│   └── message.ts     # SEARCH_MESSAGE
+│   ├── pattern.ts     # SEARCH_PATTERN
+│   └── message.ts
 └── analyze/
     ├── index.ts
-    ├── pattern.ts     # ANALYZE_PATTERN regex
-    └── message.ts     # ANALYZE_MESSAGE
+    ├── pattern.ts     # ANALYZE_PATTERN
+    └── message.ts
 ```
 
-## DETECTION LOGIC
+## LOGIC
 
 ```
-chat.message (user input)
+chat.message
   → extractPromptText(parts)
   → isSystemDirective? → skip
-  → removeSystemReminders(text)  # strip <SYSTEM_REMINDER> blocks
-  → detectKeywordsWithType(cleanText, agentName, modelID)
-  → isPlannerAgent(agentName)? → filter out ultrawork
-  → for each detected keyword: inject mode message into output
+  → removeSystemReminders(text)
+  → detectKeywordsWithType(clean, agent, model)
+  → isPlannerAgent? → filter
+  → inject messages
 ```
 
 ## GUARDS
 
-- **System directive skip**: Messages tagged as system directives not scanned (prevents infinite loops)
-- **Planner agent filter**: Prometheus/plan agents do not receive `ultrawork` injection
-- **Session agent tracking**: Uses `getSessionAgent()` to get actual agent (not input hint)
-- **Model-aware messages**: `getUltraworkMessage(agentName, modelID)` adapts message to active model
+- **System directive skip**: Prevents loops
+- **Planner filter**: Prometheus/plan skip ultrawork
+- **Session tracking**: `getSessionAgent()`
+- **Model-aware**: `getUltraworkMessage(agent, model)`

@@ -41,7 +41,7 @@ bunx oh-my-opencode install
 1. **Subscription Selection**: Choose which providers and subscriptions you actually have
 2. **Plugin Registration**: Registers `oh-my-openagent` in OpenCode settings, or upgrades legacy `oh-my-opencode` entry during compatibility window
 3. **Configuration File Creation**: Writes generated OmO config to `oh-my-opencode.json` in active OpenCode config directory
-4. **Authentication Hints**: Shows `opencode auth login` steps for providers you selected, unless `--skip-auth` is set
+4. **Authentication Hints**: Shows `opencode auth login` steps for providers you selected, unless `--skip-auth` set
 5. **Telemetry Defaults**: Anonymous telemetry remains enabled unless you opt out through environment variables
 
 ### Options
@@ -66,10 +66,10 @@ Anonymous telemetry uses PostHog with hashed installation identifier. Disable it
 
 ## doctor
 
-Diagnoses your environment to ensure Oh My OpenCode is functioning correctly. Current checks are grouped into system, config, tools, and models.
+Diagnoses your environment to ensure Oh My OpenCode functioning correctly. Current checks grouped into system, config, tools, and models.
 
 Doctor command detects common issues including:
-- Legacy plugin entry references in `opencode.json` (warns when `oh-my-opencode` is still used instead of `oh-my-openagent`)
+- Legacy plugin entry references in `opencode.json` (warns when `oh-my-opencode` still used instead of `oh-my-openagent`)
 - Configuration file validity and JSONC parsing errors
 - Model resolution and fallback chain verification
 - Missing or misconfigured MCP servers
@@ -102,25 +102,25 @@ bunx oh-my-opencode doctor
 oh-my-opencode doctor
 
 ┌──────────────────────────────────────────────────┐
-│ Oh-My-OpenAgent Doctor │
+│ Oh-My-OpenAgent Doctor                           │
 └──────────────────────────────────────────────────┘
 
 System
-✓ OpenCode version: 1.0.155 (>= 1.0.150)
-✓ Plugin registered in opencode.json
+  ✓ OpenCode version: 1.0.155 (>= 1.0.150)
+  ✓ Plugin registered in opencode.json
 
 Config
-✓ oh-my-opencode.jsonc is valid
-✓ Model resolution: all agents have valid fallback chains
-⚠ categories.visual-engineering: using default model
+  ✓ oh-my-opencode.jsonc valid
+  ✓ Model resolution: all agents have valid fallback chains
+  ⚠ categories.visual-engineering: using default model
 
 Tools
-✓ AST-Grep available
-✓ LSP servers configured
+  ✓ AST-Grep available
+  ✓ LSP servers configured
 
 Models
-✓ 11 agents, 8 categories, 0 overrides
-⚠ Some configured models rely on compatibility fallback
+  ✓ 11 agents, 8 categories, 0 overrides
+  ⚠ Some configured models rely on compatibility fallback
 
 Summary: 10 passed, 1 warning, 0 failed
 ```
@@ -128,7 +128,7 @@ Summary: 10 passed, 1 warning, 0 failed
 
 ## run
 
-Run opencode with todo/background task completion enforcement. Unlike 'opencode run', this command waits until all todos are completed or cancelled, and all child sessions (background tasks) are idle.
+Run opencode with todo/background task completion enforcement. Unlike 'opencode run', this command waits until all todos completed or cancelled, and all child sessions (background tasks) idle.
 
 ### Usage
 
@@ -224,7 +224,7 @@ bunx oh-my-opencode mcp oauth status [server-name]
 
 ### Token Storage
 
-Tokens are stored in `~/.config/opencode/mcp-oauth.json` with `0600` permissions (owner read/write only). Key format: `{serverHost}/{resource}`.
+Tokens stored in `~/.config/opencode/mcp-oauth.json` with `0600` permissions (owner read/write only). Key format: `{serverHost}/{resource}`.
 
 ---
 
@@ -235,11 +235,11 @@ Runtime loads user config as base config, then merges project config on top:
 1. **Project Level**: `.opencode/oh-my-openagent.jsonc`, `.opencode/oh-my-openagent.json`, `.opencode/oh-my-opencode.jsonc`, or `.opencode/oh-my-opencode.json`
 2. **User Level**: `~/.config/opencode/oh-my-openagent.jsonc`, `~/.config/opencode/oh-my-openagent.json`, `~/.config/opencode/oh-my-opencode.jsonc`, or `~/.config/opencode/oh-my-opencode.json`
 
-**Naming Note**: Published package and binary are still `oh-my-opencode`. Inside `opencode.json`, compatibility layer now prefers plugin entry `oh-my-openagent`. Plugin config loading recognizes both `oh-my-openagent.*` and legacy `oh-my-opencode.*` basenames. If both basenames exist in same directory, legacy `oh-my-opencode.*` file currently wins.
+**Naming Note**: Published package and binary still `oh-my-opencode`. Inside `opencode.json`, compatibility layer now prefers plugin entry `oh-my-openagent`. Plugin config loading recognizes both `oh-my-openagent.*` and legacy `oh-my-opencode.*` basenames. If both basenames exist in same directory, legacy `oh-my-opencode.*` file currently wins.
 
 ### Filename Compatibility
 
-Both `.jsonc` and `.json` extensions are supported. JSONC (JSON with Comments) is preferred as it allows:
+Both `.jsonc` and `.json` extensions supported. JSONC (JSON with Comments) preferred as it allows:
 - Comments (both `//` and `/* */` styles)
 - Trailing commas in arrays and objects
 
@@ -251,18 +251,18 @@ Configuration files support **JSONC (JSON with Comments)** format. You can use c
 
 ```jsonc
 {
-// Agent configuration
-"sisyphus_agent": {
-"disabled": false,
-"planner_enabled": true,
-},
+  // Agent configuration
+  "sisyphus_agent": {
+    "disabled": false,
+    "planner_enabled": true,
+  },
 
-/* Category customization */
-"categories": {
-"visual-engineering": {
-"model": "google/gemini-3.1-pro",
-},
-},
+  /* Category customization */
+  "categories": {
+    "visual-engineering": {
+      "model": "google/gemini-3.1-pro",
+    },
+  },
 }
 ```
 
@@ -306,7 +306,7 @@ Doctor warns if it finds legacy plugin entry `oh-my-opencode` in `opencode.json`
 ```bash
 # Replace legacy plugin entry in user config
 jq '.plugin = (.plugin // [] | map(if . == "oh-my-opencode" then "oh-my-openagent" else . end))' \
-~/.config/opencode/opencode.json > /tmp/opencode.json && mv /tmp/opencode.json ~/.config/opencode/opencode.json
+  ~/.config/opencode/opencode.json > /tmp/opencode.json && mv /tmp/opencode.json ~/.config/opencode/opencode.json
 ```
 ---
 
@@ -334,12 +334,12 @@ Configure automatic refresh behavior in your plugin config:
 
 ```jsonc
 {
-"model_capabilities": {
-"enabled": true,
-"auto_refresh_on_start": true,
-"refresh_timeout_ms": 5000,
-"source_url": "https://models.dev/api.json"
-}
+  "model_capabilities": {
+    "enabled": true,
+    "auto_refresh_on_start": true,
+    "refresh_timeout_ms": 5000,
+    "source_url": "https://models.dev/api.json"
+  }
 }
 ```
 
@@ -365,17 +365,17 @@ bunx oh-my-opencode doctor --json > doctor-report.json
 
 ```
 src/cli/
-├── cli-program.ts # Commander.js-based main entry
-├── install.ts # @clack/prompts-based TUI installer
-├── config-manager/ # JSONC parsing, multi-source config management
-│ └── *.ts
-├── doctor/ # Health check system
-│ ├── index.ts # Doctor command entry
-│ └── checks/ # 17+ individual check modules
-├── run/ # Session runner
-│ └── *.ts
-└── mcp-oauth/ # OAuth management commands
-└── *.ts
+├── cli-program.ts        # Commander.js-based main entry
+├── install.ts            # @clack/prompts-based TUI installer
+├── config-manager/       # JSONC parsing, multi-source config management
+│   └── *.ts
+├── doctor/               # Health check system
+│   ├── index.ts          # Doctor command entry
+│   └── checks/           # 17+ individual check modules
+├── run/                  # Session runner
+│   └── *.ts
+└── mcp-oauth/            # OAuth management commands
+    └── *.ts
 ```
 
 ### Adding New Doctor Checks
@@ -386,17 +386,17 @@ Create `src/cli/doctor/checks/my-check.ts`:
 import type { DoctorCheck } from "../types";
 
 export const myCheck: DoctorCheck = {
-name: "my-check",
-category: "environment",
-check: async () => {
-// Check logic
-const isOk = await someValidation();
+  name: "my-check",
+  category: "environment",
+  check: async () => {
+    // Check logic
+    const isOk = await someValidation();
 
-return {
-status: isOk ? "pass" : "fail",
-message: isOk ? "Everything looks good" : "Something is wrong",
-};
-},
+    return {
+      status: isOk ? "pass" : "fail",
+      message: isOk ? "Everything looks good" : "Something is wrong",
+    };
+  },
 };
 ```
 

@@ -1,4 +1,4 @@
-# src/agents/sisyphus/ -- Orchestrator Variants
+# src/agents/sisyphus/ — Orchestrator Variants
 
 **Generated:** 2026-04-11
 
@@ -25,5 +25,5 @@ Parent `sisyphus.ts` selects variant by model name:
 ## KEY EXPORTS
 
 Each variant exports:
-- `buildTaskManagementSection()` -- todo/task management prompt
-- `buildSisyphusPrompt()` or equivalent -- full prompt builder
+- `buildTaskManagementSection()` — todo/task management prompt
+- `buildSisyphusPrompt()` or equivalent — full prompt builder

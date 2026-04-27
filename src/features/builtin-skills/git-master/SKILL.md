@@ -5,44 +5,43 @@ description: "MUST USE for ANY git operations. Atomic commits, rebase/squash, hi
 
 # Git Master Agent
 
-You are Git expert combining three specializations:
+Git expert with three specializations:
 1. **Commit Architect**: Atomic commits, dependency ordering, style detection
 2. **Rebase Surgeon**: History rewriting, conflict resolution, branch cleanup  
-3. **History Archaeologist**: Finding when/where specific changes were introduced
+3. **History Archaeologist**: Finding when/where specific changes introduced
 
 ---
 
 ## MODE DETECTION (FIRST STEP)
 
-Analyze user's request to determine operation mode:
+Analyze request to determine operation mode:
 
 | User Request Pattern | Mode | Jump To |
 |---------------------|------|---------|
-| "commit", "커밋", changes to commit | `COMMIT` | Phase 0-6 (existing) |
-| "rebase", "리베이스", "squash", "cleanup history" | `REBASE` | Phase R1-R4 |
-| "find when", "who changed", "언제 바뀌었", "git blame", "bisect" | `HISTORY_SEARCH` | Phase H1-H3 |
+| "commit", changes to commit | `COMMIT` | Phase 0-6 |
+| "rebase", "squash", "cleanup history" | `REBASE` | Phase R1-R4 |
+| "find when", "who changed", "git blame", "bisect" | `HISTORY_SEARCH` | Phase H1-H3 |
 | "smart rebase", "rebase onto" | `REBASE` | Phase R1-R4 |
 
 **CRITICAL**: Don't default to COMMIT mode. Parse actual request.
 
 ---
 
-## CORE PRINCIPLE: MULTIPLE COMMITS BY DEFAULT (NON-NEGOTIABLE)
+## CORE PRINCIPLE: MULTIPLE COMMITS BY DEFAULT
 
-<critical_warning>
 **ONE COMMIT = AUTOMATIC FAILURE**
 
-Your DEFAULT behavior is to CREATE MULTIPLE COMMITS.
-Single commit is BUG in your logic, not feature.
+DEFAULT behavior: CREATE MULTIPLE COMMITS.
+Single commit = BUG, not feature.
 
 **HARD RULE:**
 ```
-3+ files changed -> MUST be 2+ commits (NO EXCEPTIONS)
-5+ files changed -> MUST be 3+ commits (NO EXCEPTIONS)
-10+ files changed -> MUST be 5+ commits (NO EXCEPTIONS)
+3+ files changed -> MUST be 2+ commits
+5+ files changed -> MUST be 3+ commits  
+10+ files changed -> MUST be 5+ commits
 ```
 
-**If you're about to make 1 commit from multiple files, YOU ARE WRONG. STOP AND SPLIT.**
+**About to make 1 commit from multiple files? STOP AND SPLIT.**
 
 **SPLIT BY:**
 | Criterion | Action |
@@ -53,9 +52,9 @@ Single commit is BUG in your logic, not feature.
 | Different concerns (UI/logic/config/test) | SPLIT |
 | New file vs modification | SPLIT |
 
-**ONLY COMBINE when ALL of these are true:**
+**ONLY COMBINE when ALL true:**
 - EXACT same atomic unit (e.g., function + its test)
-- Splitting would literally break compilation
+- Splitting would break compilation
 - You can justify WHY in one sentence
 
 **MANDATORY SELF-CHECK before committing:**
@@ -66,14 +65,12 @@ IF N == 1 AND M > 2:
   -> Write down WHY each file must be together.
   -> If you can't justify, SPLIT.
 ```
-</critical_warning>
 
 ---
 
-## PHASE 0: Parallel Context Gathering (MANDATORY FIRST STEP)
+## PHASE 0: Parallel Context Gathering (MANDATORY)
 
-<parallel_analysis>
-**Execute ALL of following commands IN PARALLEL to minimize latency:**
+**Execute ALL commands IN PARALLEL:**
 
 ```bash
 # Group 1: Current state
@@ -92,20 +89,18 @@ git rev-parse --abbrev-ref @{upstream} 2>/dev/null || echo "NO_UPSTREAM"
 git log --oneline $(git merge-base HEAD main 2>/dev/null || git merge-base HEAD master 2>/dev/null)..HEAD 2>/dev/null
 ```
 
-**Capture these data points simultaneously:**
-1. What files changed (staged vs unstaged)
+**Capture simultaneously:**
+1. Files changed (staged vs unstaged)
 2. Recent 30 commit messages for style detection
 3. Branch position relative to main/master
 4. Whether branch has upstream tracking
 5. Commits that would go in PR (local only)
-</parallel_analysis>
 
 ---
 
-## PHASE 1: Style Detection (BLOCKING - MUST OUTPUT BEFORE PROCEEDING)
+## PHASE 1: Style Detection (BLOCKING)
 
-<style_detection>
-**THIS PHASE HAS MANDATORY OUTPUT** - You MUST print analysis result before moving to Phase 2.
+**MANDATORY OUTPUT** - Print analysis before Phase 2.
 
 ### 1.1 Language Detection
 
@@ -142,9 +137,9 @@ ELSE IF short_count >= 10: STYLE = SHORT
 ELSE: STYLE = PLAIN (safe default)
 ```
 
-### 1.3 MANDATORY OUTPUT (BLOCKING)
+### 1.3 MANDATORY OUTPUT
 
-**You MUST output this block before proceeding to Phase 2. NO EXCEPTIONS.**
+**Output this block before Phase 2. NO EXCEPTIONS.**
 
 ```
 STYLE DETECTION RESULT
@@ -168,14 +163,12 @@ Reference examples from repo:
 All commits will follow: [LANGUAGE] + [STYLE]
 ```
 
-**IF YOU SKIP THIS OUTPUT, YOUR COMMITS WILL BE WRONG. STOP AND REDO.**
-</style_detection>
+**SKIP THIS OUTPUT = YOUR COMMITS WILL BE WRONG. STOP AND REDO.**
 
 ---
 
 ## PHASE 2: Branch Context Analysis
 
-<branch_analysis>
 ### 2.1 Determine Branch State
 
 ```
@@ -213,14 +206,12 @@ ELSE IF pushed but not merged:
   -> STRATEGY = CAREFUL_REWRITE  
   -> Fixup OK but warn about force push
 ```
-</branch_analysis>
 
 ---
 
-## PHASE 3: Atomic Unit Planning (BLOCKING - MUST OUTPUT BEFORE PROCEEDING)
+## PHASE 3: Atomic Unit Planning (BLOCKING)
 
-<atomic_planning>
-**THIS PHASE HAS MANDATORY OUTPUT** - You MUST print commit plan before moving to Phase 4.
+**MANDATORY OUTPUT** - Print commit plan before Phase 4.
 
 ### 3.0 Calculate Minimum Commit Count FIRST
 
@@ -307,7 +298,7 @@ Test patterns to match:
 
 ### 3.5 MANDATORY JUSTIFICATION (Before Creating Commit Plan)
 
-**NON-NEGOTIABLE: Before finalizing your commit plan, you MUST:**
+**NON-NEGOTIABLE: Before finalizing commit plan, you MUST:**
 
 ```
 FOR EACH planned commit with 3+ files:
@@ -361,7 +352,7 @@ For each logical feature/change:
 
 ### 3.9 MANDATORY OUTPUT (BLOCKING)
 
-**You MUST output this block before proceeding to Phase 4. NO EXCEPTIONS.**
+**You MUST output this block before Phase 4. NO EXCEPTIONS.**
 
 ```
 COMMIT PLAN
@@ -397,13 +388,11 @@ Execution order: Commit 1 -> Commit 2 -> Commit 3
 - Total commits >= min_commits
 
 **IF ANY CHECK FAILS, DO NOT PROCEED. REPLAN.**
-</atomic_planning>
 
 ---
 
 ## PHASE 4: Commit Strategy Decision
 
-<strategy_decision>
 ### 4.1 For Each Commit Group, Decide:
 
 ```
@@ -453,16 +442,14 @@ EXECUTION_PLAN:
       level: N
   requires_force_push: true | false
 ```
-</strategy_decision>
 
 ---
 
 ## PHASE 5: Commit Execution
 
-<execution>
 ### 5.1 Register TODO Items
 
-Use TodoWrite to register each commit as trackable item:
+Use TodoWrite to register each commit:
 ```
 - [ ] Fixup: <description> -> <target-hash>
 - [ ] New: <description>
@@ -529,14 +516,11 @@ IF style == SHORT:
 3. Is it similar to examples from git log?
 
 If ANY check fails -> REWRITE message.
-```
-</execution>
 
 ---
 
 ## PHASE 6: Verification & Cleanup
 
-<verification>
 ### 6.1 Post-Commit Verification
 
 ```bash
@@ -578,7 +562,6 @@ NEXT STEPS:
   - git push [--force-with-lease]
   - Create PR if ready
 ```
-</verification>
 
 ---
 
@@ -660,7 +643,6 @@ STOP AND VERIFY - Do not proceed until ALL boxes checked:
 
 ## PHASE R1: Rebase Context Analysis
 
-<rebase_context>
 ### R1.1 Parallel Information Gathering
 
 ```bash
@@ -688,36 +670,31 @@ git stash list
 ```
 USER REQUEST -> STRATEGY:
 
-"squash commits" / "cleanup" / "정리"
+"squash commits" / "cleanup"
   -> INTERACTIVE_SQUASH
 
-"rebase on main" / "update branch" / "메인에 리베이스"
+"rebase on main" / "update branch"
   -> REBASE_ONTO_BASE
 
 "autosquash" / "apply fixups"
   -> AUTOSQUASH
 
-"reorder commits" / "커밋 순서"
+"reorder commits"
   -> INTERACTIVE_REORDER
 
-"split commit" / "커밋 분리"
+"split commit"
   -> INTERACTIVE_EDIT
 ```
-</rebase_context>
 
 ---
 
 ## PHASE R2: Rebase Execution
 
-<rebase_execution>
 ### R2.1 Interactive Rebase (Squash/Reorder)
 
 ```bash
 # Find merge-base
 MERGE_BASE=$(git merge-base HEAD main 2>/dev/null || git merge-base HEAD master)
-
-# Start interactive rebase
-# NOTE: Cannot use -i interactively. Use GIT_SEQUENCE_EDITOR for automation.
 
 # For SQUASH (combine all into one):
 git reset --soft $MERGE_BASE
@@ -748,7 +725,6 @@ git fetch origin
 git rebase origin/main
 
 # Complex: Move commits to different base
-# git rebase --onto <newbase> <oldbase> <branch>
 git rebase --onto origin/main $(git merge-base HEAD origin/main) HEAD
 ```
 
@@ -784,13 +760,11 @@ CONFLICT DETECTED -> WORKFLOW:
 | Need original commits | `git reflog` -> `git reset --hard <hash>` | Reflog keeps 90 days |
 | Accidentally force-pushed | `git reflog` -> coordinate with team | May need to notify others |
 | Lost commits after rebase | `git fsck --lost-found` | Nuclear option |
-</rebase_execution>
 
 ---
 
 ## PHASE R3: Post-Rebase Verification
 
-<rebase_verify>
 ```bash
 # Verify clean state
 git status
@@ -816,7 +790,6 @@ IF branch already pushed:
   -> ALWAYS use --force-with-lease (not --force)
   -> Prevents overwriting others' work
 ```
-</rebase_verify>
 
 ---
 
@@ -845,17 +818,16 @@ NEXT STEPS:
 
 ## PHASE H1: Determine Search Type
 
-<history_search_type>
 ### H1.1 Parse User Request
 
 | User Request | Search Type | Tool |
 |--------------|-------------|------|
-| "when was X added" / "X가 언제 추가됐어" | PICKAXE | `git log -S` |
+| "when was X added" | PICKAXE | `git log -S` |
 | "find commits changing X pattern" | REGEX | `git log -G` |
-| "who wrote this line" / "이 줄 누가 썼어" | BLAME | `git blame` |
-| "when did bug start" / "버그 언제 생겼어" | BISECT | `git bisect` |
-| "history of file" / "파일 히스토리" | FILE_LOG | `git log -- path` |
-| "find deleted code" / "삭제된 코드 찾기" | PICKAXE_ALL | `git log -S --all` |
+| "who wrote this line" | BLAME | `git blame` |
+| "when did bug start" | BISECT | `git bisect` |
+| "history of file" | FILE_LOG | `git log -- path` |
+| "find deleted code" | PICKAXE_ALL | `git log -S --all` |
 
 ### H1.2 Extract Search Parameters
 
@@ -866,13 +838,11 @@ From user request, identify:
 - TIME_RANGE: All time or specific period
 - BRANCH_SCOPE: Current branch or --all branches
 ```
-</history_search_type>
 
 ---
 
 ## PHASE H2: Execute Search
 
-<history_search_exec>
 ### H2.1 Pickaxe Search (git log -S)
 
 **Purpose**: Find commits that ADD or REMOVE specific string
@@ -1025,13 +995,11 @@ git log --all --full-history -- "**/deleted_file.py"
 # Who changed file most
 git shortlog -sn -- path/to/file.py
 ```
-</history_search_exec>
 
 ---
 
 ## PHASE H3: Present Results
 
-<history_results>
 ### H3.1 Format Search Results
 
 ```
@@ -1069,7 +1037,6 @@ POTENTIAL ACTIONS:
 - See related commits: git log --ancestry-path abc1234..HEAD
 - Cherry-pick to another branch: git cherry-pick abc1234
 ```
-</history_results>
 
 ---
 

@@ -1,6 +1,6 @@
 # Contributing to Oh My OpenCode
 
-Thanks for taking time to contribute! This document provides guidelines and instructions for contributing to oh-my-opencode.
+Thanks for contributing! Guidelines for oh-my-opencode contributions.
 
 ## Table of Contents
 
@@ -24,51 +24,46 @@ Thanks for taking time to contribute! This document provides guidelines and inst
 
 ## Code of Conduct
 
-Be respectful, inclusive, and constructive. We're all here to make better tools together.
+Be respectful, inclusive, constructive. Building better tools together.
 
 ## Language Policy
 
-**English is primary language for all communications in this repository.**
+**English required for all communications.**
 
-This includes:
-
-- Issues and bug reports
-- Pull requests and code reviews
-- Documentation and comments
-- Discussions and community interactions
+Includes: issues, PRs, docs, comments, discussions.
 
 ### Why English?
 
-- **Global Accessibility**: English allows contributors from all regions to collaborate effectively
-- **Consistency**: Single language keeps discussions organized and searchable
-- **Open Source Best Practice**: Most successful open-source projects use English as lingua franca
+- **Global Access**: Enables worldwide collaboration
+- **Consistency**: Organized, searchable discussions
+- **Best Practice**: Most OSS uses English
 
-### Need Help with English?
+### Need Help?
 
-If English isn't your first language, don't worry! We value your contributions regardless of perfect grammar. You can:
+Not your first language? No problem! Value contributions regardless of grammar:
 
-- Use translation tools to help compose messages
-- Ask for help from other community members
-- Focus on clear, simple communication rather than perfect prose
+- Use translation tools
+- Ask community for help
+- Focus on clear, simple communication
 
 ## Getting Started
 
 ### Prerequisites
 
-- **Bun** (latest version) - Only supported package manager
-- **TypeScript** - Strict mode for type checking and declarations
+- **Bun** (latest) — only package manager
+- **TypeScript** — strict mode
 
 ### Development Setup
 
 ```bash
-# Clone repository
+# Clone
 git clone https://github.com/code-yeongyu/oh-my-openagent.git
 cd oh-my-openagent
 
-# Install dependencies (bun only - never use npm/yarn)
+# Install (bun only — never npm/yarn)
 bun install
 
-# Build project
+# Build
 bun run build
 ```
 
@@ -109,20 +104,20 @@ After making changes, you can test your local build in OpenCode:
 ```
 oh-my-opencode/
 ├── src/
-│   ├── index.ts         # Plugin entry (V1 PluginModule, default export)
+│   ├── index.ts         # Plugin entry (V1 PluginModule)
 │   ├── plugin-config.ts # JSONC multi-level config (Zod v4)
-│   ├── agents/          # 11 agents (Sisyphus, Hephaestus, Oracle, Librarian, Explore, Atlas, Prometheus, Metis, Momus, Multimodal-Looker, Sisyphus-Junior)
-│   ├── hooks/           # 52 lifecycle hooks across 55 dedicated modules
-│   ├── tools/           # 26 tools across 16 directories
-│   ├── mcp/             # 3 built-in remote MCPs (websearch, context7, grep_app)
-│   ├── features/        # 19 feature modules (background-agent, skill-loader, tmux, MCP-OAuth, etc.)
-│   ├── config/          # Zod v4 schema system
-│   ├── shared/          # Cross-cutting utilities
-│   ├── cli/             # CLI: install, run, doctor, mcp-oauth (Commander.js)
-│   ├── plugin/          # 10 OpenCode hook handlers + 52 hook composition
-│   └── plugin-handlers/ # 6-phase config loading pipeline
-├── packages/            # Monorepo: comment-checker, opencode-sdk
-└── dist/                # Build output (ESM + .d.ts)
+│   ├── agents/          # 11 agents
+│   ├── hooks/           # 52 hooks
+│   ├── tools/           # 26 tools, 16 dirs
+│   ├── mcp/             # 3 built-in MCPs
+│   ├── features/        # 19 modules
+│   ├── config/          # Zod v4 schema
+│   ├── shared/          # Utilities
+│   ├── cli/             # CLI
+│   ├── plugin/          # 10 OpenCode hook handlers
+│   └── plugin-handlers/ # 6-phase config pipeline
+├── packages/            # Monorepo
+└── dist/                # Build output
 ```
 
 ## Development Workflow
@@ -130,19 +125,19 @@ oh-my-opencode/
 ### Build Commands
 
 ```bash
-# Type check only
+# Type check
 bun run typecheck
 
-# Full build (ESM + TypeScript declarations + JSON schema)
+# Full build (ESM + declarations + schema)
 bun run build
 
-# Clean build output
+# Clean
 bun run clean
 
-# Rebuild from scratch
+# Rebuild
 bun run clean && bun run build
 
-# Build schema only (after modifying src/config/schema.ts)
+# Schema only (after modifying src/config/schema.ts)
 bun run build:schema
 ```
 
@@ -153,29 +148,29 @@ bun run build:schema
 | Package Manager  | **Bun only** (`bun run`, `bun build`, `bunx`)                             |
 | Types            | Use `bun-types`, not `@types/node`                                        |
 | Directory Naming | kebab-case (`ast-grep/`, `claude-code-hooks/`)                            |
-| File Operations  | Never use bash commands (mkdir/touch/rm) for file creation in code        |
+| File Operations  | Never bash commands (mkdir/touch/rm) for file creation in code        |
 | Tool Structure   | Each tool: `index.ts`, `types.ts`, `constants.ts`, `tools.ts`, `utils.ts` |
-| Hook Pattern     | `createXXXHook(input: PluginInput)` function naming                       |
-| Exports          | Barrel pattern (`export * from "./module"` in index.ts)                   |
+| Hook Pattern     | `createXXXHook(input: PluginInput)` naming                       |
+| Exports          | Barrel (`export * from "./module"` in index.ts)                   |
 
-**Anti-Patterns (Do Not Do)**:
+**Anti-Patterns**:
 
-- Using npm/yarn instead of bun
-- Using `@types/node` instead of `bun-types`
-- Suppressing TypeScript errors with `as any`, `@ts-ignore`, `@ts-expect-error`
-- Generic AI-generated comment bloat
-- Direct `bun publish` (use GitHub Actions only)
-- Local version modifications in `package.json`
+- npm/yarn instead of bun
+- `@types/node` instead of `bun-types`
+- `as any`, `@ts-ignore`, `@ts-expect-error`
+- AI-generated comment bloat
+- Direct `bun publish` (use GitHub Actions)
+- Local version changes in `package.json`
 
 ## Making Changes
 
-### Adding a New Agent
+### Adding an Agent
 
-1. Create new `.ts` file in `src/agents/`
-2. Define agent configuration following existing patterns
+1. Create `.ts` in `src/agents/`
+2. Define agent config following patterns
 3. Add to `builtinAgents` in `src/agents/index.ts`
 4. Update `src/agents/types.ts` if needed
-5. Run `bun run build:schema` to update JSON schema
+5. Run `bun run build:schema`
 
 ```typescript
 // src/agents/my-agent.ts
@@ -184,17 +179,16 @@ import type { AgentConfig } from "./types";
 export const myAgent: AgentConfig = {
   name: "my-agent",
   model: "anthropic/claude-opus-4-7",
-  description: "Description of what this agent does",
-  prompt: `Your agent's system prompt here`,
+  description: "What this agent does",
+  prompt: `System prompt here`,
   temperature: 0.1,
-  // ... other config
 };
 ```
 
-### Adding a New Hook
+### Adding a Hook
 
-1. Create new directory in `src/hooks/` (kebab-case)
-2. Implement `createXXXHook()` function returning event handlers
+1. Create dir in `src/hooks/` (kebab-case)
+2. Implement `createXXXHook()` returning event handlers
 3. Export from `src/hooks/index.ts`
 
 ```typescript
@@ -204,71 +198,71 @@ import type { PluginInput } from "@opencode-ai/plugin";
 export function createMyHook(input: PluginInput) {
   return {
     onSessionStart: async () => {
-      // Hook logic here
+      // Hook logic
     },
   };
 }
 ```
 
-### Adding a New Tool
+### Adding a Tool
 
-1. Create new directory in `src/tools/` with required files:
-   - `index.ts` - Main exports
-   - `types.ts` - TypeScript interfaces
-   - `constants.ts` - Constants and tool descriptions
-   - `tools.ts` - Tool implementations
-   - `utils.ts` - Helper functions
+1. Create dir in `src/tools/` with:
+   - `index.ts` — exports
+   - `types.ts` — interfaces
+   - `constants.ts` — constants, descriptions
+   - `tools.ts` — implementations
+   - `utils.ts` — helpers
 2. Add to `builtinTools` in `src/tools/index.ts`
 
-### Adding a New MCP Server
+### Adding an MCP Server
 
-1. Create configuration in `src/mcp/`
+1. Create config in `src/mcp/`
 2. Add to `src/mcp/index.ts`
-3. Document in README if it requires external setup
+3. Document in README if external setup required
 
 ## Pull Request Process
 
-1. **Fork** repository and create your branch from `dev`
-2. **Make changes** following conventions above
-3. **Build and test** locally:
+1. **Fork** repo, branch from `dev`
+2. **Make changes** per conventions
+3. **Build + test** locally:
    ```bash
-   bun run typecheck  # Ensure no type errors
-   bun run build      # Ensure build succeeds
+   bun run typecheck  # No type errors
+   bun run build      # Build succeeds
    ```
-4. **Test in OpenCode** using local build method described above
-5. **Commit** with clear, descriptive messages:
-   - Use present tense ("Add feature" not "Added feature")
-   - Reference issues if applicable ("Fix #123")
-6. **Push** to your fork and create Pull Request
-7. **Describe** your changes clearly in PR description
+4. **Test in OpenCode** using local build
+5. **Commit** with clear messages:
+   - Present tense ("Add feature" not "Added")
+   - Reference issues ("Fix #123")
+6. **Push** to fork, create PR
+7. **Describe** changes in PR description
 
 ### PR Checklist
 
-- [ ] Code follows project conventions
+- [ ] Code follows conventions
 - [ ] `bun run typecheck` passes
 - [ ] `bun run build` succeeds
 - [ ] Tested locally with OpenCode
-- [ ] Updated documentation if needed (README, AGENTS.md)
+- [ ] Updated docs if needed (README, AGENTS.md)
 - [ ] No version changes in `package.json`
 
 ## Publishing
 
-**Important**: Publishing is handled exclusively through GitHub Actions.
+**Important**: Publishing via GitHub Actions only.
 
-- **Never** run `bun publish` directly (OIDC provenance issues)
+- **Never** run `bun publish` directly (OIDC issues)
 - **Never** modify `package.json` version locally
-- Maintainers use GitHub Actions workflow_dispatch:
+- Maintainers use workflow_dispatch:
   ```bash
   gh workflow run publish -f bump=patch  # or minor/major
   ```
 
 ## Getting Help
 
-- **Project Knowledge**: Check `AGENTS.md` for detailed project documentation
-- **Code Patterns**: Review existing implementations in `src/`
-- **Issues**: Open an issue for bugs or feature requests
-- **Discussions**: Start discussion for questions or ideas
+- **Project Knowledge**: Check `AGENTS.md`
+- **Code Patterns**: Review `src/`
+- **Issues**: Open for bugs/features
+- **Discussions**: Start for questions/ideas
 
 ---
 
-Thank you for contributing to Oh My OpenCode! Your efforts help make AI-assisted coding better for everyone.
+Thanks for contributing to Oh My OpenCode!

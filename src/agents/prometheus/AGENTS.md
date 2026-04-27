@@ -1,10 +1,10 @@
-# src/agents/prometheus/ -- Strategic Planner
+# src/agents/prometheus/ — Strategic Planner
 
 **Generated:** 2026-04-11
 
 ## OVERVIEW
 
-11 files. Prometheus agent -- interview-mode strategic planner. Reads codebase, questions user, builds detailed work plan before any code is written. Markdown-only output (enforced by `prometheus-md-only` hook).
+11 files. Prometheus agent — interview-mode strategic planner. Reads codebase, questions user, builds detailed work plan before any code written. Markdown-only output (enforced by `prometheus-md-only` hook).
 
 ## FILES
 

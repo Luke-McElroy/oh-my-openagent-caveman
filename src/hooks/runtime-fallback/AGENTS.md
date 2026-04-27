@@ -1,102 +1,102 @@
-# src/hooks/runtime-fallback/ — Reactive Provider Error Recovery
+# src/hooks/runtime-fallback/ — Error Recovery
 
 **Generated:** 2026-04-11
 
 ## OVERVIEW
 
-32 files. Session Tier hook **reactively** switches to fallback models when API providers return errors at runtime (429, 503, quota exhausted, cooldown signals). Distinct from `model-fallback` (applies preemptively at chat.params).
+32 files. Session Tier. **Reactively** switches fallback on API errors (429, 503, quota). Distinct from `model-fallback` (preemptive at chat.params).
 
-## RUNTIME-FALLBACK vs MODEL-FALLBACK
+## RUNTIME vs MODEL-FALLBACK
 
-| Aspect | runtime-fallback | model-fallback |
-|--------|-----------------|----------------|
-| **Trigger** | Reactive — after error occurs | Proactive — at request time |
+| Aspect | runtime | model |
+|--------|---------|-------|
+| **Trigger** | Reactive | Proactive |
 | **Event** | session.error, message.updated, session.status | chat.params |
-| **Config source** | `categories[].fallback_models`, `agents[].fallback_models` | `AGENT_MODEL_REQUIREMENTS` hardcoded chains |
-| **State** | Per-session FallbackState + cooldown tracking | Module-global pendingModelFallbacks |
-| **Use case** | Provider errors during execution | Pre-configured agent fallback chains |
+| **Config** | `categories[].fallback_models`, `agents[].fallback_models` | `AGENT_MODEL_REQUIREMENTS` |
+| **State** | Per-session + cooldown | Module-global |
+| **Use case** | Provider errors | Pre-configured |
 
-They operate **independently** — no direct integration.
+Independent.
 
 ## ERROR DETECTION
 
-### HTTP Status Codes (configurable)
-Default retry codes: `429, 500, 502, 503, 504`
+### HTTP Codes
+Default: `429, 500, 502, 503, 504`
 
-### Error Message Patterns (constants.ts)
+### Patterns (constants.ts)
 ```
-/rate.?limit/i, /too.?many.?requests/i, /quota.*reset.*after/i,
+/rate.?limit/i, /too.?many.?requests/i, /quota.*reset/i,
 /exhausted.*capacity/i, /all.*credentials.*for.*model/i,
 /cool(?:ing)?.?down/i, /model.*not.*supported/i,
 /service.?unavailable/i, /overloaded/i, /temporarily.?unavailable/i
 ```
 
-### Error Type Classification (error-classifier.ts)
-- `missing_api_key` — provider rejects auth
-- `model_not_found` — model unavailable
-- `quota_exceeded` — billing/quota hit
-- Auto-retry signal detection via `auto-retry-signal.ts` — extracts "retrying in ~2 weeks" style signals, triggers immediate fallback
+### Classification (error-classifier.ts)
+- `missing_api_key` — auth rejected
+- `model_not_found` — unavailable
+- `quota_exceeded` — billing/quota
+- Auto-retry via `auto-retry-signal.ts`
 
-## FALLBACK STATE MACHINE
+## STATE
 
 ```typescript
 interface FallbackState {
   originalModel: string
   currentModel: string
   fallbackIndex: number
-  failedModels: Map<string, number>  // model → cooldown-until timestamp
+  failedModels: Map<string, number>  // model → cooldown
   attemptCount: number
   pendingFallbackModel?: string
 }
 ```
 
-## FALLBACK CHAIN RESOLUTION (fallback-models.ts)
+## FALLBACK CHAIN (fallback-models.ts)
 
-Priority order:
-1. **Session category** (via SessionCategoryRegistry)
+Priority:
+1. **Session category**
 2. **Agent config** `fallback_models`
 3. **Agent's category** `fallback_models`
-4. **Session ID pattern match** (detect agent from session ID format)
+4. **Session ID pattern**
 
 ## RETRY FLOW
 
 ```
-session.error / message.updated (with error) / session.status (retry signal)
+session.error / message.updated / session.status (retry)
   → isRetryableError(error)?
   → getFallbackModelsForSession(sessionID, agent)
-  → findNextAvailableFallback() — skip cooldown models
-  → prepareFallback() — update state, mark current failed
-  → dispatchFallbackRetry() — toast notification + promptAsync with new model
-  → 30s timeout — abort and try next if exceeded
+  → findNextAvailableFallback() — skip cooldown
+  → prepareFallback() — update state
+  → dispatchFallbackRetry() — toast + promptAsync
+  → 30s timeout — abort, next
 ```
 
-## COOLDOWN MECHANISM
+## COOLDOWN
 
-Failed models enter 60s cooldown. `findNextAvailableFallback()` skips models in cooldown, preventing thrashing on persistently failing models.
+Failed models enter 60s cooldown. `findNextAvailableFallback()` skips.
 
-## KEY FILES
+## FILES
 
 | File | Purpose |
 |------|---------|
-| `hook.ts` | `createRuntimeFallbackHook()` — composes all handlers |
-| `event-handler.ts` | Route session lifecycle (created, error, stop, idle) |
-| `message-update-handler.ts` | Handle error parts in `message.updated` |
-| `session-status-handler.ts` | Handle provider retry signals in session.status |
-| `chat-message-handler.ts` | Apply fallback model override on chat.message |
-| `error-classifier.ts` | `isRetryableError()`, `classifyErrorType()` |
-| `auto-retry-signal.ts` | Extract "retrying in..." signals |
-| `fallback-state.ts` | State machine: createFallbackState, prepareFallback, findNextAvailableFallback, isModelInCooldown |
-| `fallback-models.ts` | Resolve chain from config hierarchy (strings + raw objects) |
-| `fallback-bootstrap-model.ts` | Derive initial model when state missing |
-| `fallback-retry-dispatcher.ts` | Toast + dispatch retry orchestration |
-| `auto-retry.ts` | Abort, timeout scheduling, cleanup |
-| `agent-resolver.ts` | Session → agent name normalization |
-| `retry-model-payload.ts` | Build model payload (providerID/modelID/variant/reasoningEffort) |
-| `visible-assistant-response.ts` | Detect if assistant produced real output vs errors |
-| `last-user-retry-parts.ts` | Extract last user message parts for retry |
+| `hook.ts` | `createRuntimeFallbackHook()` |
+| `event-handler.ts` | Route lifecycle |
+| `message-update-handler.ts` | Handle `message.updated` |
+| `session-status-handler.ts` | Handle `session.status` |
+| `chat-message-handler.ts` | Fallback on chat.message |
+| `error-classifier.ts` | `isRetryableError()` |
+| `auto-retry-signal.ts` | Extract signals |
+| `fallback-state.ts` | State machine |
+| `fallback-models.ts` | Resolve chain |
+| `fallback-bootstrap-model.ts` | Derive model |
+| `fallback-retry-dispatcher.ts` | Toast + dispatch |
+| `auto-retry.ts` | Abort, timeout |
+| `agent-resolver.ts` | Session → agent |
+| `retry-model-payload.ts` | Build payload |
+| `visible-assistant-response.ts` | Detect partial output |
+| `last-user-retry-parts.ts` | Extract last parts |
 
 ## NOTES
 
-- Cooldown and failure tracking **per-session** — concurrent sessions don't share state
-- `visible-assistant-response.ts` prevents retry if assistant already produced partial valid response
-- Runtime-fallback registered in Session Tier via `create-session-hooks.ts`
+- Per-session tracking — no sharing
+- `visible-assistant-response.ts` prevents retry on partial
+- Registered in Session Tier

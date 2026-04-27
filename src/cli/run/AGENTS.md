@@ -32,7 +32,7 @@ runner.ts
 | `event-handlers.ts` | Route events to handlers (message, tool, error, idle) |
 | `event-stream-processor.ts` | Process event stream with filtering and buffering |
 | `poll-for-completion.ts` | Poll session until todos complete + no background tasks |
-| `completion.ts` | Determine if session is truly done |
+| `completion.ts` | Determine if session truly done |
 | `continuation-state.ts` | Persist state for `run` continuation across invocations |
 | `output-renderer.ts` | Format session output for terminal |
 | `json-output.ts` | JSON output mode (`--json` flag) |

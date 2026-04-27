@@ -287,7 +287,7 @@ As agents complete (system notifications), collect via `background_output(task_i
 Track completion in table:
 
 | # | Agent | Type | Status | Verdict |
-|---|-------|------|--------|---------|
+|---|---|-------|--------|---------|
 | 1-10 | Ultrabrain: {group_name} | ultrabrain | pending | — |
 | 11 | Review-Work Coordinator | unspecified-high | pending | — |
 | 12 | Release Synthesis Oracle | oracle | pending | — |

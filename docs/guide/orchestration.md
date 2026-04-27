@@ -9,7 +9,7 @@ Oh My OpenAgent's orchestration system transforms simple AI agent into coordinat
 | Complexity | Approach | When to Use |
 | --------------------- | ------------------------- | ---------------------------------------------------------------------------------------- |
 | **Simple** | Prompt | Simple tasks, quick fixes, single-file changes |
-| **Complex + Lazy** | Type `ulw` or `ultrawork` | Complex tasks where explaining context is tedious. Agent figures it out. |
+| **Complex + Lazy** | Type `ulw` or `ultrawork` | Complex tasks where explaining context tedious. Agent figures it out. |
 | **Complex + Precise** | `@plan` → `/start-work` | Precise, multi-step work requiring true orchestration. Prometheus plans, Atlas executes. |
 
 **Decision Flow:**
@@ -17,12 +17,12 @@ Oh My OpenAgent's orchestration system transforms simple AI agent into coordinat
 ```
 
 Is it quick fix or simple task?
-└─ YES → Prompt normally
-└─ NO → Is explaining full context tedious?
-└─ YES → Type "ulw" and let agent figure it out
-└─ NO → Do you need precise, verifiable execution?
-└─ YES → Use @plan for Prometheus planning, then /start-work
-└─ NO → Use "ulw"
+  └─ YES → Prompt normally
+  └─ NO → Is explaining full context tedious?
+              └─ YES → Type "ulw" and let agent figure it out
+              └─ NO → Do you need precise, verifiable execution?
+                         └─ YES → Use @plan for Prometheus planning, then /start-work
+                         └─ NO → Use "ulw"
 ```
 
 ---
@@ -33,46 +33,46 @@ Orchestration system uses three-layer architecture solving context overload, cog
 
 ```mermaid
 flowchart TB
-subgraph Planning["Planning Layer (Human + Prometheus)"]
-User[(" User")]
-Prometheus[" Prometheus<br/>(Planner)<br/>claude-opus-4-7 / gpt-5.4 / glm-5"]
-Metis[" Metis<br/>(Consultant)<br/>claude-opus-4-7 / gpt-5.4 / glm-5"]
-Momus[" Momus<br/>(Reviewer)<br/>gpt-5.4 / claude-opus-4-7 / gemini-3.1-pro / glm-5"]
-end
+    subgraph Planning["Planning Layer (Human + Prometheus)"]
+        User[(" User")]
+        Prometheus[" Prometheus<br/>(Planner)<br/>claude-opus-4-7 / gpt-5.4 / glm-5"]
+        Metis[" Metis<br/>(Consultant)<br/>claude-opus-4-7 / gpt-5.4 / glm-5"]
+        Momus[" Momus<br/>(Reviewer)<br/>gpt-5.4 / claude-opus-4-7 / gemini-3.1-pro / glm-5"]
+    end
 
-subgraph Execution["Execution Layer (Orchestrator)"]
-Orchestrator[" Atlas<br/>(Conductor)<br/>claude-sonnet-4-6 / kimi-k2.5 / gpt-5.4 / minimax-m2.7"]
-end
+    subgraph Execution["Execution Layer (Orchestrator)"]
+        Orchestrator[" Atlas<br/>(Conductor)<br/>claude-sonnet-4-6 / kimi-k2.5 / gpt-5.4 / minimax-m2.7"]
+    end
 
-subgraph Workers["Worker Layer (Specialized Agents)"]
-Junior[" Sisyphus-Junior<br/>(Task Executor)<br/>claude-sonnet-4-6 / kimi-k2.5 / gpt-5.4 / minimax-m2.7"]
-Oracle[" Oracle<br/>(Architecture)<br/>gpt-5.4 / gemini-3.1-pro / claude-opus-4-7 / glm-5"]
-Explore[" Explore<br/>(Codebase Grep)<br/>gpt-5.4-mini-fast / minimax-m2.7-highspeed / claude-haiku-4-5"]
-Librarian[" Librarian<br/>(Docs/OSS)<br/>gpt-5.4-mini-fast / minimax-m2.7-highspeed / claude-haiku-4-5"]
-Frontend[" visual-engineering<br/>(category + frontend-ui-ux)<br/>gemini-3.1-pro / glm-5 / claude-opus-4-7"]
-end
+    subgraph Workers["Worker Layer (Specialized Agents)"]
+        Junior[" Sisyphus-Junior<br/>(Task Executor)<br/>claude-sonnet-4-6 / kimi-k2.5 / gpt-5.4 / minimax-m2.7"]
+        Oracle[" Oracle<br/>(Architecture)<br/>gpt-5.4 / gemini-3.1-pro / claude-opus-4-7 / glm-5"]
+        Explore[" Explore<br/>(Codebase Grep)<br/>gpt-5.4-mini-fast / minimax-m2.7-highspeed / claude-haiku-4-5"]
+        Librarian[" Librarian<br/>(Docs/OSS)<br/>gpt-5.4-mini-fast / minimax-m2.7-highspeed / claude-haiku-4-5"]
+        Frontend[" visual-engineering<br/>(category + frontend-ui-ux)<br/>gemini-3.1-pro / glm-5 / claude-opus-4-7"]
+    end
 
-User -->|"Describe work"| Prometheus
-Prometheus -->|"Consult"| Metis
-Prometheus -->|"Interview"| User
-Prometheus -->|"Generate plan"| Plan[".sisyphus/plans/*.md"]
-Plan -->|"High accuracy?"| Momus
-Momus -->|"OKAY / REJECT"| Prometheus
+    User -->|"Describe work"| Prometheus
+    Prometheus -->|"Consult"| Metis
+    Prometheus -->|"Interview"| User
+    Prometheus -->|"Generate plan"| Plan[".sisyphus/plans/*.md"]
+    Plan -->|"High accuracy?"| Momus
+    Momus -->|"OKAY / REJECT"| Prometheus
 
-User -->|"/start-work"| Orchestrator
-Plan -->|"Read"| Orchestrator
+    User -->|"/start-work"| Orchestrator
+    Plan -->|"Read"| Orchestrator
 
-Orchestrator -->|"task(category=deep/quick/unspecified-*)"| Junior
-Orchestrator -->|"call_omo_agent(subagent_type=oracle)"| Oracle
-Orchestrator -->|"call_omo_agent(subagent_type=explore)"| Explore
-Orchestrator -->|"call_omo_agent(subagent_type=librarian)"| Librarian
-Orchestrator -->|"task(category=visual-engineering, load_skills=[frontend-ui-ux])"| Frontend
+    Orchestrator -->|"task(category=deep/quick/unspecified-*)"| Junior
+    Orchestrator -->|"call_omo_agent(subagent_type=oracle)"| Oracle
+    Orchestrator -->|"call_omo_agent(subagent_type=explore)"| Explore
+    Orchestrator -->|"call_omo_agent(subagent_type=librarian)"| Librarian
+    Orchestrator -->|"task(category=visual-engineering, load_skills=[frontend-ui-ux])"| Frontend
 
-Junior -->|"Results + Learnings"| Orchestrator
-Oracle -->|"Advice"| Orchestrator
-Explore -->|"Code patterns"| Orchestrator
-Librarian -->|"Documentation"| Orchestrator
-Frontend -->|"UI code"| Orchestrator
+    Junior -->|"Results + Learnings"| Orchestrator
+    Oracle -->|"Advice"| Orchestrator
+    Explore -->|"Code patterns"| Orchestrator
+    Librarian -->|"Documentation"| Orchestrator
+    Frontend -->|"UI code"| Orchestrator
 ```
 
 Model labels above show current fallback stacks from `src/shared/model-requirements.ts`, not marketing names.
@@ -83,40 +83,40 @@ Model labels above show current fallback stacks from `src/shared/model-requireme
 
 ### Prometheus: Your Strategic Consultant
 
-Prometheus is not planner, it's intelligent interviewer helping you think through what you actually need. It is **READ-ONLY** - can only create or modify markdown files within `.sisyphus/` directory.
+Prometheus not planner, it intelligent interviewer helping you think through what you actually need. It **READ-ONLY** - can only create or modify markdown files within `.sisyphus/` directory.
 
 **Interview Process:**
 
 ```mermaid
 stateDiagram-v2
-[*] --> Interview: User describes work
-Interview --> Research: Launch explore/librarian agents
-Research --> Interview: Gather codebase context
-Interview --> ClearanceCheck: After each response
+    [*] --> Interview: User describes work
+    Interview --> Research: Launch explore/librarian agents
+    Research --> Interview: Gather codebase context
+    Interview --> ClearanceCheck: After each response
 
-ClearanceCheck --> Interview: Requirements unclear
-ClearanceCheck --> PlanGeneration: All requirements clear
+    ClearanceCheck --> Interview: Requirements unclear
+    ClearanceCheck --> PlanGeneration: All requirements clear
 
-state ClearanceCheck {
-[*] --> Check
-Check: Core objective defined?
-Check: Scope boundaries established?
-Check: No critical ambiguities?
-Check: Technical approach decided?
-Check: Test strategy confirmed?
-}
+    state ClearanceCheck {
+        [*] --> Check
+        Check: Core objective defined?
+        Check: Scope boundaries established?
+        Check: No critical ambiguities?
+        Check: Technical approach decided?
+        Check: Test strategy confirmed?
+    }
 
-PlanGeneration --> MetisConsult: Mandatory gap analysis
-MetisConsult --> WritePlan: Incorporate findings
-WritePlan --> HighAccuracyChoice: Present to user
+    PlanGeneration --> MetisConsult: Mandatory gap analysis
+    MetisConsult --> WritePlan: Incorporate findings
+    WritePlan --> HighAccuracyChoice: Present to user
 
-HighAccuracyChoice --> MomusLoop: User wants high accuracy
-HighAccuracyChoice --> Done: User accepts plan
+    HighAccuracyChoice --> MomusLoop: User wants high accuracy
+    HighAccuracyChoice --> Done: User accepts plan
 
-MomusLoop --> WritePlan: REJECTED - fix issues
-MomusLoop --> Done: OKAY - plan approved
+    MomusLoop --> WritePlan: REJECTED - fix issues
+    MomusLoop --> Done: OKAY - plan approved
 
-Done --> [*]: Guide to /start-work
+    Done --> [*]: Guide to /start-work
 ```
 
 **Intent-Specific Strategies:**
@@ -150,8 +150,8 @@ For high-accuracy mode, Momus validates plans against four core criteria:
 
 1. **Clarity**: Does each task specify WHERE to find implementation details?
 2. **Verification**: Are acceptance criteria concrete and measurable?
-3. **Context**: Is there sufficient context to proceed without >10% guesswork?
-4. **Big Picture**: Is purpose, background, and workflow clear?
+3. **Context**: Sufficient context to proceed without >10% guesswork?
+4. **Big Picture**: Purpose, background, and workflow clear?
 
 **Momus Loop:**
 
@@ -171,28 +171,28 @@ If REJECTED, Prometheus fixes issues and resubmits. No maximum retry limit.
 
 ### Conductor Mindset
 
-Atlas is like orchestra conductor: it doesn't play instruments, it ensures perfect harmony.
+Atlas like orchestra conductor: it doesn't play instruments, it ensures perfect harmony.
 
 ```mermaid
 flowchart LR
-subgraph Orchestrator["Atlas"]
-Read["1. Read Plan"]
-Analyze["2. Analyze Tasks"]
-Wisdom["3. Accumulate Wisdom"]
-Delegate["4. Delegate Tasks"]
-Verify["5. Verify Results"]
-Report["6. Final Report"]
-end
+    subgraph Orchestrator["Atlas"]
+        Read["1. Read Plan"]
+        Analyze["2. Analyze Tasks"]
+        Wisdom["3. Accumulate Wisdom"]
+        Delegate["4. Delegate Tasks"]
+        Verify["5. Verify Results"]
+        Report["6. Final Report"]
+    end
 
-Read --> Analyze
-Analyze --> Wisdom
-Wisdom --> Delegate
-Delegate --> Verify
-Verify -->|"More tasks"| Delegate
-Verify -->|"All done"| Report
+    Read --> Analyze
+    Analyze --> Wisdom
+    Wisdom --> Delegate
+    Delegate --> Verify
+    Verify -->|"More tasks"| Delegate
+    Verify -->|"All done"| Report
 
-Delegate -->|"background=false"| Workers["Workers"]
-Workers -->|"Results + Learnings"| Verify
+    Delegate -->|"background=false"| Workers["Workers"]
+    Workers -->|"Results + Learnings"| Verify
 ```
 
 **What Atlas CAN do:**
@@ -211,7 +211,7 @@ Workers -->|"Results + Learnings"| Verify
 
 ### Wisdom Accumulation
 
-Power of orchestration is cumulative learning. After each task:
+Power of orchestration cumulative learning. After each task:
 
 1. Extract learnings from subagent's response
 2. Categorize into: Conventions, Successes, Failures, Gotchas, Commands
@@ -223,11 +223,11 @@ This prevents repeating mistakes and ensures consistent patterns.
 
 ```
 .sisyphus/notepads/{plan-name}/
-├── learnings.md # Patterns, conventions, successful approaches
-├── decisions.md # Architectural choices and rationales
-├── issues.md # Problems, blockers, gotchas encountered
-├── verification.md # Test results, validation outcomes
-└── problems.md # Unresolved issues, technical debt
+├── learnings.md      # Patterns, conventions, successful approaches
+├── decisions.md      # Architectural choices and rationales
+├── issues.md         # Problems, blockers, gotchas encountered
+├── verification.md   # Test results, validation outcomes
+└── problems.md       # Unresolved issues, technical debt
 ```
 
 ---
@@ -236,14 +236,14 @@ This prevents repeating mistakes and ensures consistent patterns.
 
 ### Sisyphus-Junior: Task Executor
 
-Junior is workhorse that actually writes code. Key characteristics:
+Junior — workhorse that actually writes code. Key characteristics:
 
 - **Focused**: Cannot delegate (blocked from task tool)
 - **Disciplined**: Obsessive todo tracking
 - **Verified**: Must pass lsp_diagnostics before completion
 - **Constrained**: Cannot modify plan files (READ-ONLY)
 
-**Why fallback chain is sufficient:**
+**Why fallback chain sufficient:**
 
 Junior doesn't need to be smartest - it needs to be reliable. With:
 
@@ -252,7 +252,7 @@ Junior doesn't need to be smartest - it needs to be reliable. With:
 3. Clear MUST DO / MUST NOT DO constraints
 4. Verification requirements
 
-Even mid-tier execution model works when harness is strict. Current fallback order is `claude-sonnet-4-6` → `kimi-k2.5` → `gpt-5.4` → `minimax-m2.7` → `big-pickle`. Intelligence is in **system**, not single worker model.
+Even mid-tier execution model works when harness strict. Current fallback order: `claude-sonnet-4-6` → `kimi-k2.5` → `gpt-5.4` → `minimax-m2.7` → `big-pickle`. Intelligence in **system**, not single worker model.
 
 ### System Reminder Mechanism
 
@@ -266,16 +266,16 @@ You have incomplete todos! Complete ALL before responding:
 - [ ] Add validation
 - [ ] Write tests
 
-DO NOT respond until all todos are marked completed.
+DO NOT respond until all todos marked completed.
 ```
 
-This "boulder pushing" mechanism is why system is named after Sisyphus.
+This "boulder pushing" mechanism why system named after Sisyphus.
 
 ---
 
 ## Category + Skill System
 
-### Why Categories are Revolutionary
+### Why Categories Revolutionary
 
 **Problem with Model Names:**
 
@@ -314,15 +314,15 @@ Skills prepend specialized instructions to subagent prompts:
 ```typescript
 // Category + Skill combination
 task(
-(category = "visual-engineering"),
-(load_skills = ["frontend-ui-ux"]), // Adds UI/UX expertise
-(prompt = "..."),
+  (category = "visual-engineering"),
+  (load_skills = ["frontend-ui-ux"]), // Adds UI/UX expertise
+  (prompt = "..."),
 );
 
 task(
-(category = "deep"),
-(load_skills = ["playwright"]), // Adds browser automation expertise
-(prompt = "..."),
+  (category = "deep"),
+  (load_skills = ["playwright"]), // Adds browser automation expertise
+  (prompt = "..."),
 );
 ```
 
@@ -361,7 +361,7 @@ task(
 | **Want explicit control** | Switch to Prometheus agent | Clear separation of planning vs execution contexts |
 | **Quick planning interrupt** | Use @plan | Fastest path from current context |
 
-Both methods trigger same Prometheus planning flow. @plan command is convenience shortcut.
+Both methods trigger same Prometheus planning flow. @plan command convenience shortcut.
 
 ### /start-work Behavior and Session Continuity
 
@@ -369,22 +369,22 @@ Both methods trigger same Prometheus planning flow. @plan command is convenience
 
 ```
 User: /start-work
-↓
+    ↓
 [start-work hook activates]
-↓
+    ↓
 Check: Does .sisyphus/boulder.json exist?
-↓
-├─ YES (existing work) → RESUME MODE
-│ - Read existing boulder state
-│ - Calculate progress (checked vs unchecked boxes)
-│ - Inject continuation prompt with remaining tasks
-│ - Atlas continues where you left off
-│
-└─ NO (fresh start) → INIT MODE
-- Find most recent plan in .sisyphus/plans/
-- Create new boulder.json tracking this plan
-- Switch session agent to Atlas
-- Begin execution from task 1
+    ↓
+    ├─ YES (existing work) → RESUME MODE
+    │   - Read existing boulder state
+    │   - Calculate progress (checked vs unchecked boxes)
+    │   - Inject continuation prompt with remaining tasks
+    │   - Atlas continues where you left off
+    │
+    └─ NO (fresh start) → INIT MODE
+        - Find most recent plan in .sisyphus/plans/
+        - Create new boulder.json tracking this plan
+        - Switch session agent to Atlas
+        - Begin execution from task 1
 ```
 
 **Session Continuity Explained:**
@@ -400,22 +400,22 @@ Check: Does .sisyphus/boulder.json exist?
 
 ```
 Monday 9:00 AM
-└─ @plan "Build user authentication"
-└─ Prometheus interviews and creates plan
-└─ User: /start-work
-└─ Atlas begins execution, creates boulder.json
-└─ Task 1 complete, Task 2 in progress...
-└─ [Session ends - computer crash, user logout, etc.]
+  └─ @plan "Build user authentication"
+  └─ Prometheus interviews and creates plan
+  └─ User: /start-work
+  └─ Atlas begins execution, creates boulder.json
+  └─ Task 1 complete, Task 2 in progress...
+  └─ [Session ends - computer crash, user logout, etc.]
 
 Monday 2:00 PM (NEW SESSION)
-└─ User opens new session (agent = Sisyphus by default)
-└─ User: /start-work
-└─ [start-work hook reads boulder.json]
-└─ "Resuming 'Build user authentication' - 3 of 8 tasks complete"
-└─ Atlas continues from Task 3 (no context lost)
+  └─ User opens new session (agent = Sisyphus by default)
+  └─ User: /start-work
+  └─ [start-work hook reads boulder.json]
+  └─ "Resuming 'Build user authentication' - 3 of 8 tasks complete"
+  └─ Atlas continues from Task 3 (no context lost)
 ```
 
-Atlas is automatically activated when you run `/start-work`. You don't need to manually switch to Atlas.
+Atlas automatically activated when you run `/start-work`. You don't need to manually switch to Atlas.
 
 ### Hephaestus vs Sisyphus + ultrawork
 
@@ -435,43 +435,43 @@ Atlas is automatically activated when you run `/start-work`. You don't need to m
 Switch to Hephaestus (Tab → Select Hephaestus) when:
 
 1. **Deep architectural reasoning needed**
-- "Design new plugin system"
-- "Refactor this monolith into microservices"
+   - "Design new plugin system"
+   - "Refactor this monolith into microservices"
 
 2. **Complex debugging requiring inference chains**
-- "Why does this race condition only happen on Tuesdays?"
-- "Trace this memory leak through 15 files"
+   - "Why does this race condition only happen on Tuesdays?"
+   - "Trace this memory leak through 15 files"
 
 3. **Cross-domain knowledge synthesis**
-- "Integrate our Rust core with TypeScript frontend"
-- "Migrate from MongoDB to PostgreSQL with zero downtime"
+   - "Integrate our Rust core with TypeScript frontend"
+   - "Migrate from MongoDB to PostgreSQL with zero downtime"
 
 4. **You specifically want GPT-5.4 reasoning**
-- Some problems benefit from GPT-5.4's training characteristics
+   - Some problems benefit from GPT-5.4's training characteristics
 
 **When to Use Sisyphus + `ulw`:**
 
 Use `ulw` keyword in Sisyphus when:
 
 1. **You want agent to figure it out**
-- "ulw fix failing tests"
-- "ulw add input validation to API"
+   - "ulw fix failing tests"
+   - "ulw add input validation to API"
 
 2. **Complex but well-scoped tasks**
-- "ulw implement JWT authentication following our patterns"
-- "ulw create new CLI command for deployments"
+   - "ulw implement JWT authentication following our patterns"
+   - "ulw create new CLI command for deployments"
 
 3. **You're feeling lazy** (officially supported use case)
-- Don't want to write detailed requirements
-- Trust agent to explore and decide
+   - Don't want to write detailed requirements
+   - Trust agent to explore and decide
 
 4. **You want to leverage existing plans**
-- If Prometheus plan exists, `ulw` mode can use it
-- Falls back to autonomous exploration if no plan
+   - If Prometheus plan exists, `ulw` mode can use it
+   - Falls back to autonomous exploration if no plan
 
 **Recommendation:**
 
-- **For most users**: Use `ulw` keyword in Sisyphus. It's default path and works excellently for 90% of complex tasks.
+- **For most users**: Use `ulw` keyword in Sisyphus. Default path, works excellently for 90% of complex tasks.
 - **For power users**: Switch to Hephaestus when you specifically need GPT-5.4's reasoning style or want "AmpCode deep mode" experience of fully autonomous exploration and execution.
 
 ---
@@ -482,17 +482,17 @@ You can control related features in `oh-my-openagent.json`:
 
 ```jsonc
 {
-"sisyphus_agent": {
-"disabled": false, // Enable Atlas orchestration (default: false)
-"planner_enabled": true, // Enable Prometheus (default: true)
-"replace_plan": true, // Replace default plan agent with Prometheus (default: true)
-},
+  "sisyphus_agent": {
+    "disabled": false, // Enable Atlas orchestration (default: false)
+    "planner_enabled": true, // Enable Prometheus (default: true)
+    "replace_plan": true, // Replace default plan agent with Prometheus (default: true)
+  },
 
-// Hook settings (add to disable)
-"disabled_hooks": [
-// "start-work", // Disable execution trigger
-// "prometheus-md-only" // Remove Prometheus write restrictions (not recommended)
-],
+  // Hook settings (add to disable)
+  "disabled_hooks": [
+    // "start-work",             // Disable execution trigger
+    // "prometheus-md-only"      // Remove Prometheus write restrictions (not recommended)
+  ],
 }
 ```
 
@@ -513,11 +513,11 @@ Either:
 
 ### "I'm in Atlas but I want to switch back to normal mode"
 
-Type `exit` or start new session. Atlas is primarily entered via `/start-work` - you don't typically "switch to Atlas" manually.
+Type `exit` or start new session. Atlas primarily entered via `/start-work` - you don't typically "switch to Atlas" manually.
 
 ### "What's difference between @plan and switching to Prometheus?"
 
-**Nothing functional.** Both invoke Prometheus. @plan is convenience command while switching agents is explicit control. Use whichever feels natural.
+**Nothing functional.** Both invoke Prometheus. @plan convenience command while switching agents explicit control. Use whichever feels natural.
 
 ### "Should I use Hephaestus or type ulw?"
 

@@ -68,7 +68,7 @@ doctor command
 | `formatter.ts` | Pretty printing: colored status, hierarchical output |
 | `types.ts` | `DoctorCheck`, `CheckResult`, `DoctorReport` types |
 
-## HOW TO ADD A CHECK
+## HOW TO ADD CHECK
 
 1. Create `src/cli/doctor/checks/{name}.ts` exporting check function matching `DoctorCheck`
 2. Register in `checks/index.ts`

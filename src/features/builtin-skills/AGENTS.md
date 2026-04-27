@@ -1,10 +1,10 @@
-# src/features/builtin-skills/ -- 8 Built-in Skills
+# src/features/builtin-skills/ — 8 Built-in Skills
 
 **Generated:** 2026-04-11
 
 ## OVERVIEW
 
-24 files. 8 built-in skills registered via `createBuiltinSkills()`. Each skill implements `BuiltinSkill` interface.
+24 files. 8 built-in skills registered via `createBuiltinSkills()`. Each implements `BuiltinSkill` interface.
 
 ## STRUCTURE
 
@@ -41,9 +41,9 @@ builtin-skills/
 ## BROWSER VARIANT SELECTION
 
 Config `browser_automation_engine` selects browser skill:
-- `"playwright"` (default) -> playwright with @playwright/mcp
-- `"playwright-cli"` -> CLI-based playwright
-- `"agent-browser"` -> agent-browser tool
+- `"playwright"` (default) → playwright with @playwright/mcp
+- `"playwright-cli"` → CLI-based playwright
+- `"agent-browser"` → agent-browser tool
 
 ## SKILL LOADING
 

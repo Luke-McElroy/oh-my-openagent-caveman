@@ -4,7 +4,7 @@ argument-hint: <patch|minor|major>
 ---
 
 <command-instruction>
-You are release manager for oh-my-opencode. Execute FULL publish workflow from start to finish.
+Release manager for oh-my-opencode. Execute FULL publish workflow from start to finish.
 
 ## CRITICAL: ARGUMENT REQUIREMENT
 
@@ -231,7 +231,7 @@ Final release note structure:
 
 ```
 ┌─────────────────────────────────────┐
-│  Enhanced Summary (from Step 6)     │  ← You wrote this
+│  Enhanced Summary (from Step 6)   │  ← You wrote this
 │  - Theme-based, user-impact focused │
 ├─────────────────────────────────────┤
 │  ---  (separator)                   │

@@ -1,84 +1,73 @@
-# src/plugin-handlers/ — 6-Phase Config Loading Pipeline
+# src/plugin-handlers/ — Config Pipeline
 
 **Generated:** 2026-04-18
 
-## CRITICAL: AGENT ORDERING
+## AGENT ORDERING
 
-Canonical agent order: **sisyphus → hephaestus → prometheus → atlas**.
+Canonical: **sisyphus → hephaestus → prometheus → atlas**.
 
-Enforced via two mechanisms:
-1. `CANONICAL_CORE_AGENT_ORDER` in `agent-priority-order.ts` controls object key insertion order
-2. `agent-key-remapper.ts` injects ZWSP-prefixed runtime names into `name` field for OpenCode's `localeCompare` sort
+Enforced:
+1. `CANONICAL_CORE_AGENT_ORDER` — key insertion
+2. `agent-key-remapper.ts` — ZWSP-prefixed `name` for `localeCompare`
 
-### Why Two Mechanisms
-
-OpenCode's `Agent.list()` sorts agents by `name` field via `localeCompare`. Object key order alone insufficient. `name` field carries ZWSP prefixes (1-4 chars) so core agents sort before alphabetically-named agents.
-
-ZWSP used in `name` field only. MUST NOT appear in:
-- Object keys (used as HTTP header values, causes RFC 7230 violations)
-- Display names returned by `getAgentDisplayName()`
+ZWSP in `name` only. NEVER in:
+- Object keys (HTTP headers, RFC 7230)
+- `getAgentDisplayName()`
 - Config keys
 
-### History
+History: 15+ commits, 8+ PRs, reverts.
 
-Agent ordering caused 15+ commits, 8+ PRs, multiple reverts due to:
-1. Early ZWSP attempts leaked into HTTP headers via object keys
-2. Object.entries() iteration order depending on merge sequence
-3. Multiple code paths assembling agents differently
+Forbidden:
+- ZWSP in keys (only `name` via `getAgentRuntimeName()`)
+- Sort shims
+- Alternative constants
+- Object.entries() dependencies
 
-### Forbidden Patterns
-
-DO NOT introduce:
-- ZWSP in object keys or display names (only allowed in `name` field via `getAgentRuntimeName()`)
-- Runtime sort shims or comparators
-- Alternative ordering constants
-- Object.entries() order dependencies
-
-PRs attempting these patterns will be rejected.
+PRs rejected.
 
 ## OVERVIEW
 
-14 non-test files implementing `ConfigHandler` — `config` hook handler. Executes 6 sequential phases to register agents, tools, MCPs, and commands with OpenCode.
+14 files. `ConfigHandler` — `config` hook. 6 phases register agents, tools, MCPs, commands.
 
 ## 6-PHASE PIPELINE
 
 | Phase | Handler | Purpose |
 |-------|---------|---------|
-| 1 | `applyProviderConfig` | Cache model context limits, detect anthropic-beta headers |
-| 2 | `loadPluginComponents` | Discover Claude Code plugins (10s timeout, error isolation) |
-| 3 | `applyAgentConfig` | Load agents from 5 sources, skill discovery, plan demotion |
-| 4 | `applyToolConfig` | Agent-specific tool permissions |
-| 5 | `applyMcpConfig` | Merge builtin + CC + plugin MCPs |
-| 6 | `applyCommandConfig` | Merge commands/skills from 9 parallel sources |
+| 1 | `applyProviderConfig` | Cache limits, anthropic-beta |
+| 2 | `loadPluginComponents` | CC plugin (10s timeout) |
+| 3 | `applyAgentConfig` | Load agents, skills, plan |
+| 4 | `applyToolConfig` | Tool permissions |
+| 5 | `applyMcpConfig` | Merge builtin + CC + plugin |
+| 6 | `applyCommandConfig` | Merge commands/skills |
 
 ## FILES
 
 | File | Lines | Purpose |
 |------|-------|---------|
-| `config-handler.ts` | ~200 | Main orchestrator, 6-phase sequential |
-| `plugin-components-loader.ts` | ~100 | CC plugin discovery (10s timeout) |
-| `agent-config-handler.ts` | ~300 | Agent loading + skill discovery from 5 sources |
-| `mcp-config-handler.ts` | ~150 | Builtin + CC + plugin MCP merge |
-| `command-config-handler.ts` | ~200 | 9 parallel sources for commands/skills |
-| `tool-config-handler.ts` | ~100 | Agent-specific tool grants/denials |
-| `provider-config-handler.ts` | ~80 | Provider config + model cache |
-| `prometheus-agent-config-builder.ts` | ~100 | Prometheus config with model resolution |
-| `plan-model-inheritance.ts` | 28 | Plan demotion logic |
-| `agent-priority-order.ts` | ~30 | sisyphus, hephaestus, prometheus, atlas first |
-| `agent-key-remapper.ts` | ~30 | Agent key → display name |
-| `category-config-resolver.ts` | ~40 | User vs default category lookup |
-| `index.ts` | ~10 | Barrel exports |
+| `config-handler.ts` | ~200 | Main, 6-phase |
+| `plugin-components-loader.ts` | ~100 | CC discovery |
+| `agent-config-handler.ts` | ~300 | Agents + skills |
+| `mcp-config-handler.ts` | ~150 | MCP merge |
+| `command-config-handler.ts` | ~200 | Commands/skills |
+| `tool-config-handler.ts` | ~100 | Tool perms |
+| `provider-config-handler.ts` | ~80 | Provider + cache |
+| `prometheus-agent-config-builder.ts` | ~100 | Prometheus |
+| `plan-model-inheritance.ts` | 28 | Plan |
+| `agent-priority-order.ts` | ~30 | Canonical order |
+| `agent-key-remapper.ts` | ~30 | Key → name |
+| `category-config-resolver.ts` | ~40 | User vs default |
+| `index.ts` | ~10 | Barrel |
 
-## TOOL PERMISSIONS
+## TOOL PERMS
 
 | Agent | Granted | Denied |
 |-------|---------|--------|
 | Librarian | grep_app_* | — |
 | Atlas, Sisyphus, Prometheus | task, task_*, teammate | — |
 | Hephaestus | task | — |
-| Default (all others) | — | grep_app_*, task_*, teammate, LSP |
+| Default | — | grep_app_*, task_*, teammate, LSP |
 
-## MULTI-LEVEL CONFIG MERGE
+## CONFIG MERGE
 
 ```
 User (~/.config/opencode/oh-my-opencode.jsonc)
@@ -89,4 +78,4 @@ Final Config
 ```
 
 - `agents`, `categories`, `claude_code`: deep merged
-- `disabled_*` arrays: Set union
+- `disabled_*`: Set union

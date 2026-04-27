@@ -1,47 +1,45 @@
-# src/hooks/session-recovery/ — Auto Session Error Recovery
+# src/hooks/session-recovery/ — Session Recovery
 
 **Generated:** 2026-04-11
 
 ## OVERVIEW
 
-16 files + storage/ subdir. Session Tier hook handling `session.error` events. Detects recoverable error types, applies targeted recovery strategies, resumes session transparently.
+16 files + storage/. Session Tier. Handles `session.error`. Detects errors, applies strategies, resumes.
 
-## RECOVERY STRATEGIES
+## STRATEGIES
 
-| Error Type | File | Recovery Action |
-|------------|------|-----------------|
-| `tool_result_missing` | `recover-tool-result-missing.ts` | Reconstruct missing tool results from storage |
-| `thinking_block_order` | `recover-thinking-block-order.ts` | Reorder malformed thinking blocks |
-| `thinking_disabled_violation` | `recover-thinking-disabled-violation.ts` | Strip thinking blocks when disabled |
-| `empty_content_message` | `recover-empty-content-message*.ts` | Handle empty/null content blocks |
+| Error Type | File | Action |
+|------------|------|--------|
+| `tool_result_missing` | `recover-tool-result-missing.ts` | Reconstruct |
+| `thinking_block_order` | `recover-thinking-block-order.ts` | Reorder |
+| `thinking_disabled_violation` | `recover-thinking-disabled-violation.ts` | Strip |
+| `empty_content_message` | `recover-empty-content-message*.ts` | Handle empty |
 
-## KEY FILES
+## FILES
 
 | File | Purpose |
 |------|---------|
-| `hook.ts` | `createSessionRecoveryHook()` — error detection, strategy dispatch, resume |
-| `detect-error-type.ts` | `detectErrorType(error)` → `RecoveryErrorType \| null` |
-| `resume.ts` | `resumeSession()` — rebuild session context, trigger retry |
-| `storage.ts` | Per-session message storage for recovery reconstruction |
-| `recover-tool-result-missing.ts` | Reconstruct tool results from stored metadata |
-| `recover-thinking-block-order.ts` | Fix malformed thinking block sequences |
-| `recover-thinking-disabled-violation.ts` | Remove thinking blocks from model context |
-| `recover-empty-content-message.ts` | Handle empty assistant messages |
-| `recover-empty-content-message-sdk.ts` | SDK variant for empty content recovery |
-| `types.ts` | `StoredMessageMeta`, `StoredPart`, `ResumeConfig`, `MessageData` |
+| `hook.ts` | `createSessionRecoveryHook()` |
+| `detect-error-type.ts` | `detectErrorType()` |
+| `resume.ts` | `resumeSession()` |
+| `storage.ts` | Per-session storage |
+| `recover-tool-result-missing.ts` | Reconstruct |
+| `recover-thinking-block-order.ts` | Fix sequences |
+| `recover-thinking-disabled-violation.ts` | Remove blocks |
+| `recover-empty-content-message.ts` | Handle empty |
+| `recover-empty-content-message-sdk.ts` | SDK variant |
+| `types.ts` | `StoredMessageMeta` |
 
-## STORAGE SUBDIRECTORY
+## STORAGE
 
 ```
 storage/
-  ├── message-store.ts    # In-memory + file message cache
-  ├── part-store.ts       # Individual message parts storage
-  └── index.ts            # Barrel export
+  ├── message-store.ts    # In-mem + file cache
+  ├── part-store.ts       # Parts storage
+  └── index.ts            # Barrel
 ```
 
-Stores message metadata and parts per session for recovery reconstruction.
-
-## HOOK INTERFACE
+## INTERFACE
 
 ```typescript
 interface SessionRecoveryHook {
@@ -54,6 +52,6 @@ interface SessionRecoveryHook {
 
 ## NOTES
 
-- Guards with `processingErrors` Set to prevent duplicate recovery attempts on same error
-- Supports `experimental` config for behavior flags
-- Distinct from `anthropic-context-window-limit-recovery` (handles token limit; this handles structural errors)
+- `processingErrors` Set guards duplicates
+- Supports `experimental` flags
+- Distinct from `anthropic-context-window-limit-recovery`

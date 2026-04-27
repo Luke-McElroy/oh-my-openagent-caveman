@@ -2,48 +2,46 @@
 
 ## Goal
 
-Introduce central resolver that takes already-selected model and set of desired model settings, then returns best compatible configuration for that exact model.
-
-This is explicitly separate from model fallback.
+Introduce central resolver taking already-selected model and desired model settings, returns best compatible configuration. Explicitly separate from model fallback.
 
 ## Problem
 
-Today, logic for `variant` and `reasoningEffort` compatibility is scattered across multiple places:
+Logic for `variant` and `reasoningEffort` compatibility scattered across:
 - `hooks/anthropic-effort`
 - `plugin/chat-params`
 - agent/category/fallback config layers
 - delegate/background prompt plumbing
 
-That creates inconsistent behavior:
+Creates inconsistent behavior:
 - some paths clamp unsupported levels
-- some paths pass them through unchanged
-- some paths silently drop them
-- some paths use model-family-specific assumptions that do not generalize
+- some pass them through unchanged
+- some silently drop them
+- some use model-family-specific assumptions not generalizing
 
-Result is brittle request behavior even when chosen model itself is valid.
+Result: brittle request behavior even with valid model.
 
 ## Scope
 
-Phase 1 covers only:
+Phase 1 covers:
 - `variant`
 - `reasoningEffort`
 
-Out of scope for Phase 1:
+Out of scope:
 - model fallback itself
 - `thinking`
 - `maxTokens`
 - `temperature`
 - `top_p`
-- automatic upward remapping of settings
+- automatic upward remapping
 
 ## Desired behavior
 
 Given fixed model and desired settings:
-1. If desired value is supported, keep it.
+1. If desired value supported, keep it.
 2. If not supported, downgrade to nearest lower compatible value.
 3. If no compatible value exists, drop field.
 4. Do not switch models.
-5. Do not automatically upgrade settings in Phase 1.
+5. Do not automatically upgrade settings.
 
 ## Architecture
 
@@ -54,89 +52,89 @@ Core API:
 
 ```ts
 type DesiredModelSettings = {
- variant?: string
- reasoningEffort?: string
+  variant?: string
+  reasoningEffort?: string
 }
 
 type ModelSettingsCompatibilityInput = {
- providerID: string
- modelID: string
- desired: DesiredModelSettings
+  providerID: string
+  modelID: string
+  desired: DesiredModelSettings
 }
 
 type ModelSettingsCompatibilityChange = {
- field: "variant" | "reasoningEffort"
- from: string
- to?: string
- reason: string
+  field: "variant" | "reasoningEffort"
+  from: string
+  to?: string
+  reason: string
 }
 
 type ModelSettingsCompatibilityResult = {
- variant?: string
- reasoningEffort?: string
- changes: ModelSettingsCompatibilityChange[]
+  variant?: string
+  reasoningEffort?: string
+  changes: ModelSettingsCompatibilityChange[]
 }
 ```
 
 ## Compatibility model
 
-Phase 1 should be **metadata-first where platform exposes reliable capability data**, and only fall back to family-based rules when that metadata is absent.
+Phase 1: **metadata-first where platform exposes reliable capability data**, fallback to family-based rules when metadata absent.
 
 ### Variant compatibility
 
-Preferred source of truth:
+Preferred source:
 - OpenCode/provider model metadata (`variants`)
 
-Fallback when metadata is unavailable:
+Fallback when metadata unavailable:
 - family-based ladders
 
-Examples of fallback ladders:
+Examples:
 - Claude Opus family: `low`, `medium`, `high`, `max`
 - Claude Sonnet/Haiku family: `low`, `medium`, `high`
-- OpenAI GPT family: conservative family fallback only when metadata is missing
+- OpenAI GPT family: conservative family fallback only when metadata missing
 - Unknown family: drop unsupported values conservatively
 
 ### Reasoning effort compatibility
 
-Current Phase 1 source of truth:
+Phase 1 source:
 - conservative model/provider family heuristics
 
 Reason:
-- currently available OpenCode SDK/provider metadata exposes model `variants`, but does not expose equivalent per-model capability list for `reasoningEffort` levels
+- OpenCode SDK/provider metadata exposes model `variants`, not equivalent per-model capability list for `reasoningEffort`
 
 Examples:
 - GPT/OpenAI-style models: `low`, `medium`, `high`, `xhigh` where supported by family heuristics
-- Claude family via current OpenCode path: treat `reasoningEffort` as unsupported in Phase 1 and remove it
+- Claude family via OpenCode path: treat `reasoningEffort` as unsupported in Phase 1, remove it
 
-Resolver should remain pure model/settings logic only. Transport restrictions remain responsibility of request-building path.
+Resolver remains pure model/settings logic. Transport restrictions remain responsibility of request-building path.
 
 ## Separation of concerns
 
-This design intentionally separates:
+Design intentionally separates:
 - model selection (`resolveModel...`, fallback chains)
 - settings compatibility (this resolver)
 - request transport compatibility (`chat.params`, prompt body constraints)
 
-That keeps responsibilities clear:
+Responsibilities:
 - choose model first
 - normalize settings second
 - build request third
 
 ## First integration point
 
-Phase 1 should first integrate into `chat.params`.
+Phase 1 first integrate into `chat.params`.
 
 Why:
-- it is already centralized path for request-time tuning
-- it can influence provider-facing options without leaking unsupported fields into prompt payload bodies
-- it avoids trying to patch every prompt constructor at once
+- already centralized path for request-time tuning
+- can influence provider-facing options without leaking unsupported fields into prompt bodies
+- avoids patching every prompt constructor at once
 
 ## Rollout plan
 
 ### Phase 1
 - add resolver module and tests
 - integrate into `chat.params`
-- migrate `anthropic-effort` to either use resolver or become thin Claude-specific supplement around it
+- migrate `anthropic-effort` to use resolver or become thin Claude-specific supplement
 
 ### Phase 2
 - expand to `thinking`, `maxTokens`, `temperature`, `top_p`
@@ -148,7 +146,7 @@ Why:
 ## Risks
 
 - Overfitting family rules to current model naming conventions
-- Accidentally changing request semantics on paths that currently rely on implicit behavior
+- Accidentally changing request semantics on paths relying on implicit behavior
 - Mixing provider transport limitations with model capability logic
 
 ## Mitigations
@@ -156,9 +154,9 @@ Why:
 - Keep resolver pure and narrowly scoped in Phase 1
 - Add explicit regression tests for keep/downgrade/drop decisions
 - Integrate at one central point first (`chat.params`)
-- Preserve existing behavior where desired values are already valid
+- Preserve existing behavior where desired values already valid
 
 ## Recommendation
 
 Proceed with central resolver as new, isolated implementation in dedicated branch/worktree.
-This is clean long-term path and is more reviewable than continuing to add special-case clamps in hooks.
+Clean long-term path, more reviewable than adding special-case clamps in hooks.

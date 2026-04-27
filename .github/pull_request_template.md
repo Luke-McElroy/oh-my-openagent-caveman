@@ -1,18 +1,18 @@
 ## Summary
 
-<!-- Brief description of PR. 1-3 bullets. -->
+<!-- Brief description. 1-3 bullets. -->
 
-- 
+-
 
 ## Changes
 
-<!-- What changed and how. List specific modifications. -->
+<!-- What changed. List specific modifications. -->
 
-- 
+-
 
 ## Screenshots
 
-<!-- If applicable, add screenshots or GIFs showing before/after. Delete this section if not needed. -->
+<!-- Add screenshots/GIFs showing before/after. Delete if not needed. -->
 
 | Before | After |
 |:---:|:---:|
@@ -20,7 +20,7 @@
 
 ## Testing
 
-<!-- How to verify this PR works. Delete if not applicable. -->
+<!-- How to verify. Delete if not applicable. -->
 
 ```bash
 bun run typecheck

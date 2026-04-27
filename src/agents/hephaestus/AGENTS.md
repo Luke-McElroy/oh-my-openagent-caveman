@@ -1,10 +1,10 @@
-# src/agents/hephaestus/ -- Autonomous Deep Worker
+# src/agents/hephaestus/ — Autonomous Deep Worker
 
 **Generated:** 2026-04-11
 
 ## OVERVIEW
 
-6 files. Hephaestus agent -- autonomous deep worker powered by GPT-5.5. Goal-oriented: give objectives, not step-by-step instructions. "The Legitimate Craftsman."
+6 files. Hephaestus agent — autonomous deep worker powered by GPT-5.5. Goal-oriented: give objectives, not step-by-step instructions. "The Legitimate Craftsman."
 
 ## FILES
 
@@ -20,7 +20,7 @@
 
 - Mode: `primary` (respects UI model selection)
 - Requires OpenAI-compatible provider (no fallback chain)
-- NEVER trusts subagent self-reports -- always verifies
+- NEVER trusts subagent self-reports — always verifies
 - NEVER uses `background_cancel(all=true)`
 - Delegates exploration to background agents, never sequential
 - Uses `run_in_background=true` for explore/librarian

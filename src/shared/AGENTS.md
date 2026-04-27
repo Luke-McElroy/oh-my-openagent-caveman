@@ -1,54 +1,54 @@
-# src/shared/ — 100+ Utility Files
+# src/shared/ — 100+ Utils
 
 **Generated:** 2026-04-18
 
 ## OVERVIEW
 
-Cross-cutting utilities used throughout plugin. Barrel-exported from `index.ts`. Logger writes to `/tmp/oh-my-opencode.log`.
+Cross-cutting. Barrel from `index.ts`. Logger: `/tmp/oh-my-opencode.log`.
 
-## CATEGORY MAP
+## CATEGORIES
 
-| Category | Files | Key Exports |
-|----------|-------|-------------|
-| **Model Resolution** | ~22 | `resolveModel()`, `checkModelAvailability()`, `AGENT_MODEL_REQUIREMENTS` |
-| **Tmux Integration** | 11 | `createTmuxSession()`, `spawnPane()`, `closePane()`, server health |
-| **Configuration & Paths** | 10 | `resolveOpenCodeConfigDir()`, `getDataPath()`, `parseJSONC()` |
-| **Session Management** | 8 | `SessionCursor`, `trackInjectedPath()`, `SessionToolsStore` |
-| **Git Worktree** | 7 | `parseGitStatusPorcelain()`, `collectGitDiffStats()`, `formatFileChanges()` |
-| **Command Execution** | 7 | `executeCommand()`, `executeHookCommand()`, embedded command registry |
-| **Migration** | 6 | `migrateConfigFile()`, AGENT_NAME_MAP, HOOK_NAME_MAP, MODEL_VERSION_MAP |
-| **String & Tool Utils** | 6 | `toSnakeCase()`, `normalizeToolName()`, `parseFrontmatter()` |
-| **Agent Configuration** | 5 | `getAgentVariant()`, `AGENT_DISPLAY_NAMES`, `AGENT_TOOL_RESTRICTIONS` |
-| **OpenCode Integration** | 5 | `injectServerAuth()`, `detectExternalPlugins()`, client accessors |
-| **Type Helpers** | 4 | `deepMerge()`, `DynamicTruncator`, `matchPattern()`, `isRecord()` |
-| **Misc** | 8 | `log()`, `readFile()`, `extractZip()`, `downloadBinary()`, `findAvailablePort()` |
+| Category | Files | Exports |
+|----------|-------|---------|
+| **Model** | ~22 | `resolveModel()`, `AGENT_MODEL_REQUIREMENTS` |
+| **Tmux** | 11 | `createTmuxSession()`, `spawnPane()` |
+| **Config** | 10 | `resolveOpenCodeConfigDir()`, `parseJSONC()` |
+| **Session** | 8 | `SessionCursor`, `SessionToolsStore` |
+| **Git** | 7 | `parseGitStatusPorcelain()` |
+| **Command** | 7 | `executeCommand()` |
+| **Migration** | 6 | `migrateConfigFile()`, NAME_MAPs |
+| **String** | 6 | `toSnakeCase()`, `parseFrontmatter()` |
+| **Agent** | 5 | `getAgentVariant()`, `AGENT_DISPLAY_NAMES` |
+| **OpenCode** | 5 | `injectServerAuth()` |
+| **Types** | 4 | `deepMerge()`, `DynamicTruncator` |
+| **Misc** | 8 | `log()`, `readFile()` |
 
-## MODEL RESOLUTION PIPELINE
+## MODEL PIPELINE
 
 ```
 resolveModel(input)
-  1. Override: UI-selected model (primary agents only)
-  2. Category default: From category config
-  3. Provider fallback: AGENT_MODEL_REQUIREMENTS chains
-  4. System default: Ultimate fallback
+  1. Override: UI-selected (primary)
+  2. Category default
+  3. Provider fallback
+  4. System default
 ```
 
-Key files: `model-resolver.ts` (entry), `model-resolution-pipeline.ts` (orchestration), `model-requirements.ts` (fallback chains), `model-availability.ts` (fuzzy matching).
+Key: `model-resolver.ts`, `model-resolution-pipeline.ts`, `model-requirements.ts`.
 
-## MIGRATION SYSTEM
+## MIGRATION
 
-Automatically transforms legacy config on load:
-- `agent-names.ts`: Old agent names → new (e.g., `junior` → `sisyphus-junior`)
-- `hook-names.ts`: Old hook names → new
-- `model-versions.ts`: Old model IDs → current
-- `agent-category.ts`: Legacy agent configs → category system
+Transforms legacy:
+- `agent-names.ts`: Old → new
+- `hook-names.ts`: Old → new
+- `model-versions.ts`: Old → current
+- `agent-category.ts`: Legacy → category
 
 ## MOST IMPORTED
 
-| Utility | Import Count | Purpose |
-|---------|-------------|---------|
-| `logger.ts` | 62 | `/tmp/oh-my-opencode.log` |
-| `data-path.ts` | 11 | XDG storage resolution |
-| `model-requirements.ts` | 11 | Agent fallback chains |
-| `system-directive.ts` | 11 | System message filtering |
-| `frontmatter.ts` | 10 | YAML metadata extraction |
+| Utility | Count | Purpose |
+|---------|-------|---------|
+| `logger.ts` | 62 | Log file |
+| `data-path.ts` | 11 | XDG |
+| `model-requirements.ts` | 11 | Fallbacks |
+| `system-directive.ts` | 11 | Filter |
+| `frontmatter.ts` | 10 | YAML |

@@ -44,7 +44,7 @@ agent-browser snapshot -s "#main" # Scope to CSS selector
 agent-browser snapshot -i -c -d 5 # Combine options
 ```
 
-`-C` flag is useful for modern web apps that use custom clickable elements (divs, spans) instead of standard buttons/links.
+`-C` flag useful for modern web apps using custom clickable elements (divs, spans) instead of standard buttons/links.
 
 ### Interactions (use @refs from snapshot)
 ```bash

@@ -4,7 +4,7 @@
 
 ## OVERVIEW
 
-Agent factories following `createXXXAgent(model) → AgentConfig` pattern. Each has static `mode` property. Built via `buildAgent()` compositing factory + categories + skills.
+Agent factories follow `createXXXAgent(model) → AgentConfig` pattern. Each has static `mode` property. Built via `buildAgent()` compositing factory + categories + skills.
 
 ## AGENT INVENTORY
 

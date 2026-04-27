@@ -47,6 +47,6 @@ Functions called sequentially by `src/cli/install.ts` / `src/cli/tui-installer.t
 
 ## NOTES
 
-- All functions are pure / stateless (except disk I/O) — no shared module state
+- All functions pure / stateless (except disk I/O) — no shared module state
 - `jsonc-provider-editor.ts` uses comment-preserving JSONC library — NEVER use `JSON.parse` on JSONC files
 - `opencode-binary.ts` searches PATH + common install locations (`.local/bin`, `~/.bun/bin`, etc.)

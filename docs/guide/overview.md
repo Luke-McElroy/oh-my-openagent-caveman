@@ -1,6 +1,6 @@
 # What Is Oh My OpenAgent?
 
-Oh My OpenAgent is multi-model agent orchestration harness for OpenCode. It transforms single AI agent into coordinated development team that ships code.
+Oh My OpenAgent — multi-model agent orchestration harness for OpenCode. Transforms single AI agent into coordinated development team that ships code.
 
 Not locked to Claude. Not locked to OpenAI. Not locked to anyone.
 
@@ -39,7 +39,7 @@ Want more control? Press **Tab** to enter [Prometheus mode](./orchestration.md) 
 
 We used to call this "Claude Code on steroids." That was wrong.
 
-This isn't about making Claude Code better. It's about breaking free from idea that one model, one provider, one way of working is enough. Anthropic wants you locked in. OpenAI wants you locked in. Everyone wants you locked in.
+This isn't about making Claude Code better. It's about breaking free from idea that one model, one provider, one way of working enough. Anthropic wants you locked in. OpenAI wants you locked in. Everyone wants you locked in.
 
 Oh My OpenAgent doesn't play that game. It orchestrates across models, picking right brain for right job. Claude for orchestration. GPT for deep reasoning. Gemini for frontend. GPT-5.4 Mini for quick tasks. All working together, automatically.
 
@@ -53,17 +53,17 @@ Instead of one agent doing everything, Oh My OpenAgent uses **specialized agents
 
 ```
 User Request
-↓
+    ↓
 [Intent Gate] — Classifies what you actually want
-↓
+    ↓
 [Sisyphus] — Main orchestrator, plans and delegates
-↓
-├─→ [Prometheus] — Strategic planning (interview mode)
-├─→ [Atlas] — Todo orchestration and execution
-├─→ [Oracle] — Architecture consultation
-├─→ [Librarian] — Documentation/code search
-├─→ [Explore] — Fast codebase grep
-└─→ [Category-based agents] — Specialized by task type
+    ↓
+    ├─→ [Prometheus] — Strategic planning (interview mode)
+    ├─→ [Atlas] — Todo orchestration and execution
+    ├─→ [Oracle] — Architecture consultation
+    ├─→ [Librarian] — Documentation/code search
+    ├─→ [Explore] — Fast codebase grep
+    └─→ [Category-based agents] — Specialized by task type
 ```
 
 When Sisyphus delegates to subagent, it doesn't pick model name. It picks **category** — `visual-engineering`, `ultrabrain`, `deep`, `artistry`, `quick`, `unspecified-low`, `unspecified-high`, `writing`. Category automatically maps to right model. You touch nothing.
@@ -78,34 +78,34 @@ For deep dive into how agents collaborate, see [Orchestration System Guide](./or
 
 Named after Greek myth. He rolls boulder every day. Never stops. Never gives up.
 
-Sisyphus is your main orchestrator. He plans, delegates to specialists, and drives tasks to completion with aggressive parallel execution. He doesn't stop halfway. He doesn't get distracted. He finishes.
+Sisyphus — your main orchestrator. He plans, delegates to specialists, and drives tasks to completion with aggressive parallel execution. He doesn't stop halfway. He doesn't get distracted. He finishes.
 
 **Recommended models:**
 
-- **Claude Opus 4.7** — Best overall experience. Sisyphus was built with Claude-optimized prompts.
+- **Claude Opus 4.7** — Best overall experience. Sisyphus built with Claude-optimized prompts.
 - **Kimi K2.5** — Great Claude-like alternative. Many users run this combo exclusively.
 - **GLM 5** — Solid option, especially via Z.ai.
 
-Sisyphus works best on Claude Opus 4.7, Kimi K2.5, and GLM 5. GPT-5.4 now has dedicated prompt path, but older GPT models are still poor fit and should route to Hephaestus instead.
+Sisyphus works best on Claude Opus 4.7, Kimi K2.5, and GLM 5. GPT-5.4 now has dedicated prompt path, but older GPT models still poor fit and should route to Hephaestus instead.
 
 ### Hephaestus: Legitimate Craftsman
 
 Named with intentional irony. Anthropic blocked OpenCode from using their API because of this project. So team built autonomous GPT-native agent instead.
 
-Hephaestus runs on GPT-5.4. Give him goal, not recipe. He explores codebase, researches patterns, and executes end-to-end without hand-holding. He is legitimate craftsman because he was born from necessity, not privilege.
+Hephaestus runs on GPT-5.4. Give him goal, not recipe. He explores codebase, researches patterns, and executes end-to-end without hand-holding. He legitimate craftsman because he was born from necessity, not privilege.
 
 Use Hephaestus when you need deep architectural reasoning, complex debugging across many files, or cross-domain knowledge synthesis. Switch to him explicitly when work demands GPT-5.4's particular strengths.
 
 **Why this beats vanilla Codex CLI:**
 
-- **Multi-model orchestration.** Pure Codex is single-model. OmO routes different tasks to different models automatically. GPT for deep reasoning. Gemini for frontend. GPT-5.4 Mini for speed. Right brain for right job.
+- **Multi-model orchestration.** Pure Codex single-model. OmO routes different tasks to different models automatically. GPT for deep reasoning. Gemini for frontend. GPT-5.4 Mini for speed. Right brain for right job.
 - **Background agents.** Fire 5+ agents in parallel. Something Codex cannot do. While one agent writes code, another researches patterns, another checks documentation. Like real dev team.
-- **Category system.** Tasks are routed by intent, not model name. `visual-engineering` gets Gemini. `ultrabrain` gets GPT-5.4 xhigh. `deep` gets GPT-5.4. `artistry` gets Gemini. `quick` gets GPT-5.4 Mini. `unspecified-low` gets fast cheap models. `unspecified-high` gets Claude Opus. `writing` gets prose-optimized models. No manual juggling.
-- **Accumulated wisdom.** Subagents learn from previous results. Conventions discovered in task 1 are passed to task 5. Mistakes made early aren't repeated. System gets smarter as it works.
+- **Category system.** Tasks routed by intent, not model name. `visual-engineering` gets Gemini. `ultrabrain` gets GPT-5.4 xhigh. `deep` gets GPT-5.4. `artistry` gets Gemini. `quick` gets GPT-5.4 Mini. `unspecified-low` gets fast cheap models. `unspecified-high` gets Claude Opus. `writing` gets prose-optimized models. No manual juggling.
+- **Accumulated wisdom.** Subagents learn from previous results. Conventions discovered in task 1 passed to task 5. Mistakes made early aren't repeated. System gets smarter as it works.
 
 ### Prometheus: Strategic Planner
 
-Prometheus interviews you like real engineer. Asks clarifying questions. Identifies scope and ambiguities. Builds detailed plan before single line of code is touched.
+Prometheus interviews you like real engineer. Asks clarifying questions. Identifies scope and ambiguities. Builds detailed plan before single line of code touched.
 
 Press **Tab** to enter Prometheus mode, or type `@plan "your task"` from Sisyphus.
 
@@ -121,7 +121,7 @@ Read-only high-IQ consultant for architecture decisions and complex debugging. C
 
 ### Supporting Cast
 
-- **Metis** — Gap analyzer. Catches what Prometheus missed before plans are finalized.
+- **Metis** — Gap analyzer. Catches what Prometheus missed before plans finalized.
 - **Momus** — Ruthless reviewer. Validates plans against clarity, verification, and context criteria.
 - **Explore** — Fast codebase grep. Uses speed-focused models for pattern discovery.
 - **Librarian** — Documentation and OSS code search. Stays current on library APIs and best practices.
@@ -137,15 +137,15 @@ Type `ultrawork` or `ulw`. That's it.
 
 Agent figures everything out. Explores your codebase. Researches patterns. Implements feature. Verifies with diagnostics. Keeps working until done.
 
-This is "do it" mode. Full automatic. You don't have to think deep because agent thinks deep for you.
+This "do it" mode. Full automatic. You don't have to think deep because agent thinks deep for you.
 
 ### Prometheus Mode: For Precise
 
 Press **Tab** to enter Prometheus mode.
 
-Prometheus interviews you like real engineer. Asks clarifying questions. Identifies scope and ambiguities. Builds detailed plan before single line of code is touched.
+Prometheus interviews you like real engineer. Asks clarifying questions. Identifies scope and ambiguities. Builds detailed plan before single line of code touched.
 
-Then run `/start-work` and Atlas takes over. Tasks are distributed to specialized subagents. Each completion is verified independently. Learnings accumulate across tasks. Progress tracks across sessions.
+Then run `/start-work` and Atlas takes over. Tasks distributed to specialized subagents. Each completion verified independently. Learnings accumulate across tasks. Progress tracks across sessions.
 
 Use Prometheus for multi-day projects, critical production changes, complex refactoring, or when you want documented decision trail.
 
@@ -157,9 +157,9 @@ Different agents work best with different models. Oh My OpenAgent automatically 
 
 ### Default Configuration
 
-Models are auto-configured at install time. Interactive installer asks which providers you have, then generates optimal model assignments for each agent and category.
+Models auto-configured at install time. Interactive installer asks which providers you have, then generates optimal model assignments for each agent and category.
 
-At runtime, fallback chains ensure work continues even if your preferred provider is down. Each agent has provider priority chain. System tries providers in order until it finds available model.
+At runtime, fallback chains ensure work continues even if your preferred provider down. Each agent has provider priority chain. System tries providers in order until it finds available model.
 
 ### Custom Model Configuration
 
@@ -167,51 +167,51 @@ You can override specific agents or categories in your config:
 
 ```jsonc
 {
-"$schema": "https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/dev/assets/oh-my-openagent.schema.json",
+  "$schema": "https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/dev/assets/oh-my-openagent.schema.json",
 
-"agents": {
-// Main orchestrator: Claude Opus or Kimi K2.5 work best
-"sisyphus": {
-"model": "kimi-for-coding/k2p5",
-"ultrawork": { "model": "anthropic/claude-opus-4-7", "variant": "max" },
-},
+  "agents": {
+    // Main orchestrator: Claude Opus or Kimi K2.5 work best
+    "sisyphus": {
+      "model": "kimi-for-coding/k2p5",
+      "ultrawork": { "model": "anthropic/claude-opus-4-7", "variant": "max" },
+    },
 
-// Research agents: cheaper models are fine
-"librarian": { "model": "google/gemini-3-flash" },
-"explore": { "model": "github-copilot/grok-code-fast-1" },
+    // Research agents: cheaper models fine
+    "librarian": { "model": "google/gemini-3-flash" },
+    "explore": { "model": "github-copilot/grok-code-fast-1" },
 
-// Architecture consultation: GPT or Claude Opus
-"oracle": { "model": "openai/gpt-5.4", "variant": "high" },
-},
+    // Architecture consultation: GPT or Claude Opus
+    "oracle": { "model": "openai/gpt-5.4", "variant": "high" },
+  },
 
-"categories": {
-// Frontend/UI work: Gemini dominates visual tasks
-"visual-engineering": {
-"model": "google/gemini-3.1-pro",
-"variant": "high",
-},
+  "categories": {
+    // Frontend/UI work: Gemini dominates visual tasks
+    "visual-engineering": {
+      "model": "google/gemini-3.1-pro",
+      "variant": "high",
+    },
 
-// Hard logic and architecture: GPT-5.4 xhigh
-"ultrabrain": { "model": "openai/gpt-5.4", "variant": "xhigh" },
+    // Hard logic and architecture: GPT-5.4 xhigh
+    "ultrabrain": { "model": "openai/gpt-5.4", "variant": "xhigh" },
 
-// Autonomous research and execution
-"deep": { "model": "openai/gpt-5.4", "variant": "high" },
+    // Autonomous research and execution
+    "deep": { "model": "openai/gpt-5.4", "variant": "high" },
 
-// Creative and design work
-"artistry": { "model": "google/gemini-3.1-pro", "variant": "high" },
+    // Creative and design work
+    "artistry": { "model": "google/gemini-3.1-pro", "variant": "high" },
 
-// Quick tasks: fast and cheap
-"quick": { "model": "openai/gpt-5.4-mini" },
+    // Quick tasks: fast and cheap
+    "quick": { "model": "openai/gpt-5.4-mini" },
 
-// Low-effort fallback: cheapest available
-"unspecified-low": { "model": "openai/gpt-5.4-mini" },
+    // Low-effort fallback: cheapest available
+    "unspecified-low": { "model": "openai/gpt-5.4-mini" },
 
-// High-effort fallback: best available
-"unspecified-high": { "model": "anthropic/claude-opus-4-7", "variant": "max" },
+    // High-effort fallback: best available
+    "unspecified-high": { "model": "anthropic/claude-opus-4-7", "variant": "max" },
 
-// Prose and documentation
-"writing": { "model": "anthropic/claude-opus-4-7", "variant": "high" },
-},
+    // Prose and documentation
+    "writing": { "model": "anthropic/claude-opus-4-7", "variant": "high" },
+  },
 }
 ```
 
@@ -240,7 +240,7 @@ See [Agent-Model Matching Guide](./agent-model-matching.md) for complete details
 
 ## Why It's Better Than Pure Claude Code
 
-Claude Code is good. But it's single agent running single model doing everything alone.
+Claude Code good. But it's single agent running single model doing everything alone.
 
 Oh My OpenAgent turns that into coordinated team:
 

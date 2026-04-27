@@ -1,108 +1,108 @@
-# src/tools/ - 26 Tools Across 16 Directories
+# src/tools/ — 26 Tools
 
 **Generated:** 2026-04-18
 
 ## OVERVIEW
 
-26 tools registered via `createToolRegistry()`. Two patterns: factory functions (`createXXXTool`) 19 tools, direct `ToolDefinition` 7 (LSP + interactive_bash).
+26 tools via `createToolRegistry()`. Factory: 19. Direct: 7.
 
-## TOOL CATALOG
+## CATALOG
 
-### Task Management (4)
+### Task (4)
 
-| Tool | Factory | Parameters |
-|------|---------|------------|
-| `task_create` | `createTaskCreateTool` | subject, description, blockedBy, blocks, metadata, parentID |
-| `task_list` | `createTaskList` | (none) |
-| `task_get` | `createTaskGetTool` | id |
-| `task_update` | `createTaskUpdateTool` | id, subject, description, status, addBlocks, addBlockedBy, owner, metadata |
+| Tool | Factory |
+|------|---------|
+| `task_create` | `createTaskCreateTool` |
+| `task_list` | `createTaskList` |
+| `task_get` | `createTaskGetTool` |
+| `task_update` | `createTaskUpdateTool` |
 
 ### Delegation (1)
 
-| Tool | Factory | Parameters |
-|------|---------|------------|
-| `task` | `createDelegateTask` | description, prompt, category, subagent_type, run_in_background, session_id, load_skills, command |
+| Tool | Factory |
+|------|---------|
+| `task` | `createDelegateTask` |
 
-**8 Built-in Categories**: visual-engineering, ultrabrain, deep, artistry, quick, unspecified-low, unspecified-high, writing
+**Categories**: visual-engineering, ultrabrain, deep, artistry, quick, unspecified-low, unspecified-high, writing
 
-### Agent Invocation (1)
+### Agent (1)
 
-| Tool | Factory | Parameters |
-|------|---------|------------|
-| `call_omo_agent` | `createCallOmoAgent` | description, prompt, subagent_type, run_in_background, session_id |
+| Tool | Factory |
+|------|---------|
+| `call_omo_agent` | `createCallOmoAgent` |
 
-### Background Tasks (2)
+### Background (2)
 
-| Tool | Factory | Parameters |
-|------|---------|------------|
-| `background_output` | `createBackgroundOutput` | task_id, block, timeout, full_session, include_thinking, message_limit, since_message_id, thinking_max_chars |
-| `background_cancel` | `createBackgroundCancel` | taskId, all |
+| Tool | Factory |
+|------|---------|
+| `background_output` | `createBackgroundOutput` |
+| `background_cancel` | `createBackgroundCancel` |
 
-### LSP Refactoring (6) - Direct ToolDefinition
+### LSP (6)
 
-| Tool | Parameters |
-|------|------------|
-| `lsp_goto_definition` | filePath, line, character |
-| `lsp_find_references` | filePath, line, character, includeDeclaration |
-| `lsp_symbols` | filePath, scope (document/workspace), query, limit |
-| `lsp_diagnostics` | filePath, severity |
-| `lsp_prepare_rename` | filePath, line, character |
-| `lsp_rename` | filePath, line, character, newName |
+| Tool |
+|------|
+| `lsp_goto_definition` |
+| `lsp_find_references` |
+| `lsp_symbols` |
+| `lsp_diagnostics` |
+| `lsp_prepare_rename` |
+| `lsp_rename` |
 
-### Code Search (4)
+### Search (4)
 
-| Tool | Factory | Parameters |
-|------|---------|------------|
-| `ast_grep_search` | `createAstGrepTools` | pattern, lang, paths, globs, context |
-| `ast_grep_replace` | `createAstGrepTools` | pattern, rewrite, lang, paths, globs, dryRun |
-| `grep` | `createGrepTools` | pattern, path, include (60s timeout, 10MB limit) |
-| `glob` | `createGlobTools` | pattern, path (60s timeout, 100 file limit) |
+| Tool | Factory |
+|------|---------|
+| `ast_grep_search` | `createAstGrepTools` |
+| `ast_grep_replace` | `createAstGrepTools` |
+| `grep` | `createGrepTools` |
+| `glob` | `createGlobTools` |
 
-### Session History (4)
+### Session (4)
 
-| Tool | Factory | Parameters |
-|------|---------|------------|
-| `session_list` | `createSessionManagerTools` | (none) |
-| `session_read` | `createSessionManagerTools` | session_id, include_todos, limit |
-| `session_search` | `createSessionManagerTools` | query, session_id, case_sensitive, limit |
-| `session_info` | `createSessionManagerTools` | session_id |
+| Tool | Factory |
+|------|---------|
+| `session_list` | `createSessionManagerTools` |
+| `session_read` | `createSessionManagerTools` |
+| `session_search` | `createSessionManagerTools` |
+| `session_info` | `createSessionManagerTools` |
 
-### Skill/Command (2)
+### Skill (2)
 
-| Tool | Factory | Parameters |
-|------|---------|------------|
-| `skill` | `createSkillTool` | name, user_message |
-| `skill_mcp` | `createSkillMcpTool` | mcp_name, tool_name/resource_name/prompt_name, arguments, grep |
+| Tool | Factory |
+|------|---------|
+| `skill` | `createSkillTool` |
+| `skill_mcp` | `createSkillMcpTool` |
 
 ### System (2)
 
-| Tool | Factory | Parameters |
-|------|---------|------------|
-| `interactive_bash` | Direct | tmux_command |
-| `look_at` | `createLookAt` | file_path, image_data, goal |
+| Tool | Factory |
+|------|---------|
+| `interactive_bash` | Direct |
+| `look_at` | `createLookAt` |
 
-### Editing (1) - Conditional
+### Edit (1)
 
-| Tool | Factory | Parameters |
-|------|---------|------------|
-| `hashline_edit` | `createHashlineEditTool` | file, edits[] |
+| Tool | Factory |
+|------|---------|
+| `hashline_edit` | `createHashlineEditTool` |
 
-## DELEGATION CATEGORIES
+## CATEGORIES
 
-| Category | Model | Domain |
-|----------|-------|--------|
-| visual-engineering | gemini-3.1-pro high | Frontend, UI/UX |
-| ultrabrain | gpt-5.5 xhigh | Hard logic |
-| deep | gpt-5.5 medium | Autonomous problem-solving |
-| artistry | gemini-3.1-pro high | Creative approaches |
-| quick | gpt-5.4-mini | Trivial tasks |
-| unspecified-low | claude-sonnet-4-6 | Moderate effort |
-| unspecified-high | claude-opus-4-7 max | High effort |
-| writing | gemini-3-flash | Documentation |
+| Category | Model |
+|----------|-------|
+| visual-engineering | gemini-3.1-pro |
+| ultrabrain | gpt-5.5 |
+| deep | gpt-5.5 |
+| artistry | gemini-3.1-pro |
+| quick | gpt-5.4-mini |
+| unspecified-low | claude-sonnet-4-6 |
+| unspecified-high | claude-opus-4-7 |
+| writing | gemini-3-flash |
 
-## HOW TO ADD A TOOL
+## ADD
 
-1. Create `src/tools/{name}/index.ts` exporting factory
-2. Create `src/tools/{name}/types.ts` parameter schemas
-3. Create `src/tools/{name}/tools.ts` implementation
-4. Register in `src/plugin/tool-registry.ts`
+1. `src/tools/{name}/index.ts`
+2. `src/tools/{name}/types.ts`
+3. `src/tools/{name}/tools.ts`
+4. Register: `src/plugin/tool-registry.ts`

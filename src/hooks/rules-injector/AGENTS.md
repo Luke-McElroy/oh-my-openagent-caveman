@@ -1,53 +1,53 @@
-# src/hooks/rules-injector/ — Conditional Rules Injection
+# src/hooks/rules-injector/ — Rules Injection
 
 **Generated:** 2026-04-11
 
 ## OVERVIEW
 
-19 files (~1604 LOC). `rulesInjectorHook` — Tool Guard Tier hook auto-injecting AGENTS.md (and similar rule files) into context when file in directory is read, written, or edited. Proximity-based: closest rule file to target path wins.
+19 files (~1604 LOC). `rulesInjectorHook` — Tool Guard Tier. Auto-injects AGENTS.md on file operations. Proximity-based: closest wins.
 
 ## HOW IT WORKS
 
 ```
 tool.execute.after (read/write/edit/multiedit)
-  → Extract file path from tool output
-  → Find rule files near that path (finder.ts)
-  → Already injected this session? (cache.ts)
-  → Inject rule content into tool output (injector.ts)
+  → Extract path
+  → Find rules near path (finder.ts)
+  → Already injected? (cache.ts)
+  → Inject (injector.ts)
 ```
 
 ## TRACKED TOOLS
 
-`["read", "write", "edit", "multiedit"]` — triggers only on file manipulation tools.
+`["read", "write", "edit", "multiedit"]` — triggers on file ops.
 
-## KEY FILES
+## FILES
 
 | File | Purpose |
 |------|---------|
-| `hook.ts` | `createRulesInjectorHook()` — wires cache + injector, handles tool events |
-| `injector.ts` | `createRuleInjectionProcessor()` — orchestrates find → cache → inject |
-| `finder.ts` | `findRuleFiles()` + `calculateDistance()` — locate AGENTS.md near target path |
-| `rule-file-finder.ts` | Walk directory tree to find AGENTS.md / .rules files |
-| `rule-file-scanner.ts` | Scan for rule files in directory |
-| `matcher.ts` | Match file paths against rule file scope |
-| `rule-distance.ts` | Calculate path distance between file and rule file |
-| `project-root-finder.ts` | Find project root (stops at .git, package.json) |
-| `output-path.ts` | Extract file paths from tool output text |
-| `cache.ts` | `createSessionCacheStore()` — per-session injection dedup |
-| `storage.ts` | Persist injected paths across tool calls |
-| `parser.ts` | Parse rule file content |
-| `constants.ts` | Rule file names: `AGENTS.md`, `.rules`, `CLAUDE.md` |
-| `types.ts` | `RuleFile`, `InjectionResult`, `RuleFileScope` |
+| `hook.ts` | `createRulesInjectorHook()` |
+| `injector.ts` | `createRuleInjectionProcessor()` |
+| `finder.ts` | `findRuleFiles()` + `calculateDistance()` |
+| `rule-file-finder.ts` | Walk for AGENTS.md/.rules |
+| `rule-file-scanner.ts` | Scan rules |
+| `matcher.ts` | Match paths |
+| `rule-distance.ts` | Distance calc |
+| `project-root-finder.ts` | Find root |
+| `output-path.ts` | Extract paths |
+| `cache.ts` | `createSessionCacheStore()` |
+| `storage.ts` | Persist |
+| `parser.ts` | Parse content |
+| `constants.ts` | Names: `AGENTS.md`, `.rules` |
+| `types.ts` | `RuleFile` |
 
-## RULE FILE DISCOVERY
+## DISCOVERY
 
-Priority (closest → farthest from target file):
-1. Same directory as target file
-2. Parent directories up to project root
-3. Project root itself
+Priority (closest → farthest):
+1. Same directory
+2. Parents to root
+3. Root
 
-Same-distance tie: all injected. Per-session dedup prevents re-injection.
+Same-distance: all injected. Per-session dedup prevents re-injection.
 
 ## TRUNCATION
 
-Uses `DynamicTruncator` — adapts injection size based on model context window (1M context models get full content, smaller models get truncated summaries).
+`DynamicTruncator` — adapts size by context (1M: full, smaller: truncated).

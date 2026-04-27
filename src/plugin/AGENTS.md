@@ -1,28 +1,28 @@
-# src/plugin/ — 10 OpenCode Hook Handlers + Hook Composition
+# src/plugin/ — 10 OpenCode Handlers
 
 **Generated:** 2026-04-18
 
 ## OVERVIEW
 
-Core glue layer. 20 source files assembling 10 OpenCode hook handlers, composing 50 hooks into PluginInterface. Every handler file corresponds to one OpenCode hook type.
+Core glue. 20 files. 10 handlers, 50 hooks → PluginInterface.
 
-## HANDLER FILES
+## HANDLERS
 
-| File | OpenCode Hook | Purpose |
-|------|---------------|---------|
-| `config.ts` | `config` | 6-phase config loading pipeline |
-| `tool-registry.ts` | `tool` | 26 tools assembled from factories |
-| `chat-message.ts` | `chat.message` | First-message variant, session setup, keyword detection |
-| `chat-params.ts` | `chat.params` | Anthropic effort level, think mode |
-| `chat-headers.ts` | `chat.headers` | Copilot x-initiator header injection |
-| `event.ts` | `event` | Session lifecycle (created, deleted, idle, error) |
-| `tool-execute-before.ts` | `tool.execute.before` | Pre-tool guards (file guard, label truncator, rules injector) |
-| `tool-execute-after.ts` | `tool.execute.after` | Post-tool hooks (output truncation, comment checker, metadata) |
-| `messages-transform.ts` | `experimental.chat.messages.transform` | Context injection, thinking block validation |
-| `session-compacting.ts` | `experimental.session.compacting` | Context + todo preservation during compaction |
-| `skill-context.ts` | — | Skill/browser/category context for tool creation |
+| File | Hook | Purpose |
+|------|------|---------|
+| `config.ts` | `config` | 6-phase pipeline |
+| `tool-registry.ts` | `tool` | 26 tools |
+| `chat-message.ts` | `chat.message` | First-message, session |
+| `chat-params.ts` | `chat.params` | Effort, think mode |
+| `chat-headers.ts` | `chat.headers` | x-initiator |
+| `event.ts` | `event` | Lifecycle |
+| `tool-execute-before.ts` | `tool.execute.before` | Pre-tool guards |
+| `tool-execute-after.ts` | `tool.execute.after` | Post-tool |
+| `messages-transform.ts` | `experimental.chat.messages.transform` | Context inject |
+| `session-compacting.ts` | `experimental.session.compacting` | Compaction |
+| `skill-context.ts` | — | Context |
 
-## HOOK COMPOSITION (hooks/ subdir)
+## HOOK COMPOSITION
 
 | File | Tier | Count |
 |------|------|-------|
@@ -30,25 +30,25 @@ Core glue layer. 20 source files assembling 10 OpenCode hook handlers, composing
 | `create-tool-guard-hooks.ts` | Tool Guard | 14 |
 | `create-transform-hooks.ts` | Transform | 5 |
 | `create-skill-hooks.ts` | Skill | 2 |
-| `create-core-hooks.ts` | Aggregator | Session + Guard + Transform = 42 |
+| `create-core-hooks.ts` | Aggregator | 42 |
 
-## SUPPORT FILES
+## SUPPORT
 
 | File | Purpose |
 |------|---------|
-| `available-categories.ts` | Build `AvailableCategory[]` for agent prompt injection |
-| `session-agent-resolver.ts` | Resolve which agent owns session |
-| `session-status-normalizer.ts` | Normalize session status across OpenCode versions |
-| `recent-synthetic-idles.ts` | Dedup rapid idle events |
-| `unstable-agent-babysitter.ts` | Track unstable agent behavior across sessions |
-| `types.ts` | `PluginContext`, `PluginInterface`, `ToolsRecord`, `TmuxConfig` |
-| `ultrawork-model-override.ts` | Ultrawork mode model override logic |
-| `ultrawork-db-model-override.ts` | DB-level model override for ultrawork |
-| `config-handler.ts` | Runtime config loading and caching |
+| `available-categories.ts` | `AvailableCategory[]` |
+| `session-agent-resolver.ts` | Resolve agent |
+| `session-status-normalizer.ts` | Normalize status |
+| `recent-synthetic-idles.ts` | Dedup idle |
+| `unstable-agent-babysitter.ts` | Track unstable |
+| `types.ts` | `PluginContext` |
+| `ultrawork-model-override.ts` | Ultrawork |
+| `ultrawork-db-model-override.ts` | DB-level |
+| `config-handler.ts` | Runtime config |
 
-## KEY PATTERNS
+## PATTERNS
 
-- Each handler exports function receiving `(hookRecord, ctx, pluginConfig, managers)` → returns OpenCode hook function
-- Handlers iterate over hook records, calling each hook with `(input, output)` in sequence
-- `safeHook()` wrapper in composition files catches errors per-hook without breaking chain
-- Tool registry uses `filterDisabledTools()` before returning
+- Handlers receive `(hookRecord, ctx, config, managers)` → return hook
+- Iterate hook records, call with `(input, output)`
+- `safeHook()` wrapper catches errors
+- `filterDisabledTools()` before return

@@ -45,6 +45,7 @@ cd skills/dev-browser && npm i && npm run start-extension &
 ```
 
 Wait for `Waiting for extension to connect...` followed by `Extension connected` in console. To know that client has connected and browser is ready to be controlled.
+
 **Workflow:**
 
 1. Scripts call `client.page("name")` like normal mode to create new pages / connect to existing ones.

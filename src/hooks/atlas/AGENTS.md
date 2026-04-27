@@ -1,64 +1,63 @@
-# src/hooks/atlas/ — Master Boulder Orchestrator
+# src/hooks/atlas/ — Boulder Orchestrator
 
 **Generated:** 2026-04-18
 
 ## OVERVIEW
 
-17 files (~1976 LOC). `atlasHook` — Continuation Tier hook monitoring session.idle events, forces continuation when boulder sessions (ralph-loop, task-spawned agents) have incomplete work. Enforces write/edit policies for subagent sessions.
+17 files (~1976 LOC). `atlasHook` — Continuation Tier. Monitors `session.idle`, forces continuation for boulder sessions. Enforces write/edit policies.
 
 ## WHAT ATLAS DOES
 
-Atlas is "keeper of sessions" — tracks every session, decides:
-1. Force continuation? (boulder session with incomplete todos)
-2. Block write/edit? (policy enforcement for certain session types)
-3. Inject verification reminder? (after tool execution)
+"Keeper of sessions" — tracks sessions:
+1. Force continuation? (boulder + incomplete todos)
+2. Block write/edit? (policy)
+3. Inject verification? (post-tool)
 
-## DECISION GATE (session.idle)
+## DECISION GATE
 
 ```
-session.idle event
-  → Boulder/ralph/atlas session? (session-last-agent.ts)
-  → Abort signal? (is-abort-error.ts)
-  → Failure count < max? (state.promptFailureCount)
-  → No running background tasks?
-  → Agent matches expected? (recent-model-resolver.ts)
+session.idle
+  → Boulder/ralph/atlas? (session-last-agent.ts)
+  → Abort? (is-abort-error.ts)
+  → Failure < max? (state.promptFailureCount)
+  → No background tasks?
+  → Agent match? (recent-model-resolver.ts)
   → Plan complete? (todo status)
-  → Cooldown passed? (5s between injections)
-  → Inject continuation prompt (boulder-continuation-injector.ts)
+  → Cooldown passed? (5s)
+  → Inject continuation (boulder-continuation-injector.ts)
 ```
 
 ## KEY FILES
 
 | File | Purpose |
 |------|---------|
-| `atlas-hook.ts` | `createAtlasHook()` — composes event + tool handlers, maintains session state |
-| `event-handler.ts` | `createAtlasEventHandler()` — decision gate for session.idle events |
-| `boulder-continuation-injector.ts` | Build + inject continuation prompt into session |
-| `system-reminder-templates.ts` | Templates for continuation reminder messages |
-| `tool-execute-before.ts` | Block write/edit based on session policy |
-| `tool-execute-after.ts` | Inject verification reminders post-tool |
-| `write-edit-tool-policy.ts` | Policy: which sessions can write/edit? |
-| `verification-reminders.ts` | Reminder content for verifying work |
-| `session-last-agent.ts` | Determine which agent owns the session |
-| `recent-model-resolver.ts` | Resolve model used in recent messages |
-| `subagent-session-id.ts` | Detect if session is subagent session |
-| `sisyphus-path.ts` | Resolve `.sisyphus/` directory path |
-| `is-abort-error.ts` | Detect abort signals in session output |
-| `types.ts` | `SessionState`, `AtlasHookOptions`, `AtlasContext` |
+| `atlas-hook.ts` | `createAtlasHook()` — composes handlers |
+| `event-handler.ts` | `createAtlasEventHandler()` — decision |
+| `boulder-continuation-injector.ts` | Build + inject |
+| `system-reminder-templates.ts` | Templates |
+| `tool-execute-before.ts` | Block write/edit |
+| `tool-execute-after.ts` | Post-tool verify |
+| `write-edit-tool-policy.ts` | Write/edit policy |
+| `verification-reminders.ts` | Verification |
+| `session-last-agent.ts` | Session owner |
+| `recent-model-resolver.ts` | Recent model |
+| `subagent-session-id.ts` | Subagent detect |
+| `sisyphus-path.ts` | `.sisyphus/` path |
+| `is-abort-error.ts` | Abort detect |
+| `types.ts` | `SessionState` |
 
 ## STATE PER SESSION
 
 ```typescript
 interface SessionState {
-  promptFailureCount: number  // Increments on failed continuations
-  // Resets on successful continuation
+  promptFailureCount: number  // Increments on fail
 }
 ```
 
-Max consecutive failures before 5min pause: 5 (exponential backoff in todo-continuation-enforcer).
+Max 5 failures before 5min pause (backoff in todo-continuation-enforcer).
 
-## RELATIONSHIP TO OTHER HOOKS
+## RELATIONSHIP
 
-- **atlasHook** (Continuation Tier): Master orchestrator, handles boulder sessions
-- **todoContinuationEnforcer** (Continuation Tier): "Boulder" mechanism for main Sisyphus sessions
-- Both inject into session.idle but check session type first
+- **atlasHook**: Master, boulder sessions
+- **todoContinuationEnforcer**: Main Sisyphus
+Both fire on `session.idle` but check session type.
