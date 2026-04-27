@@ -68,7 +68,7 @@ Also apply false-positive-guards above. Produce confirmed list:
 
 ```
 | # | File | Symbol | Type | Action |
-|---|------|--------|------|--------|
+|---|---|------|--------|------|--------|
 | 1 | src/foo.ts:42 | unusedFunc | function | REMOVE |
 | 2 | src/bar.ts:10 | OldType | type | REMOVE |
 | 3 | src/baz.ts:7 | ctx | parameter | PREFIX _ |
@@ -182,12 +182,12 @@ Produce summary:
 
 ### Removed
 | # | Symbol | File | Type | Commit | Agent |
-|---|--------|------|------|--------|-------|
+|---|---|--------|------|------|--------|-------|
 | 1 | unusedFunc | src/foo.ts | function | abc1234 | Batch A |
 
 ### Skipped (agent reported failure)
 | # | Symbol | File | Reason |
-|---|--------|------|--------|
+|---|---|--------|------|--------|
 
 ### Verification
 - Typecheck: PASS/FAIL

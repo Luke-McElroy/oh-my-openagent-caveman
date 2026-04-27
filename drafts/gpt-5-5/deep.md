@@ -1,16 +1,16 @@
 <!--
-  This file is CATEGORY CONTEXT APPEND, not standalone prompt.
-  Injected at runtime on top of Sisyphus-Junior base prompt
-  (see sisyphus-junior.md) via harness `buildSystemContent` pipeline:
+ This file is CATEGORY CONTEXT APPEND, not standalone prompt.
+ Injected at runtime on top of Sisyphus-Junior base prompt
+ (see sisyphus-junior.md) via harness `buildSystemContent` pipeline:
 
-      [Sisyphus-Junior base]
-        + [skill content]
-        + <Category_Context>...</Category_Context>  <-- THIS FILE
-        + [user task]
+ [Sisyphus-Junior base]
+ + [skill content]
+ + <Category_Context>...</Category_Context> <-- THIS FILE
+ + [user task]
 
-  Keep it short and mode-specific. Do not restate anything already in
-  Sisyphus-Junior base; only delta that makes "deep" different from
-  "quick", "ultrabrain", "writing", and other categories.
+ Keep it short and mode-specific. Do not restate anything already in
+ Sisyphus-Junior base; only delta that makes "deep" different from
+ "quick", "ultrabrain", "writing", and other categories.
 -->
 
 <Category_Context name="deep">

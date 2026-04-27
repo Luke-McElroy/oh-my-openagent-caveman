@@ -9,6 +9,7 @@
 **Tech Stack:** TypeScript, Bun test, existing shared model normalization/utilities, OpenCode plugin `chat.params` path.
 
 ---
+<!-- Compressed -->
 
 ### Task 1: Create pure compatibility resolver
 

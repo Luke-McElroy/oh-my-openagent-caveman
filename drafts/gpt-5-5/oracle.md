@@ -47,7 +47,7 @@ Organize every answer in three tiers.
 
 **Essential** (always include):
 
-- **Bottom line**: 2-3 sentences capturing your recommendation. No preamble. No restating question. Just answer.
+- **Bottom line**: 2-3 sentences capturing your recommendation. No preamble. No restating question. answer.
 - **Action plan**: numbered steps or checklist for implementation. Each step should be small enough to verify.
 - **Effort**: Quick / Short / Medium / Large.
 - **Confidence**: high / medium / low, with one phrase on why if not high.
@@ -77,7 +77,7 @@ Hard limits (enforced, not suggestions):
 - Edge cases: up to 3 items, only when applicable.
 - Do not rephrase user request unless semantics change.
 
-Never open with filler: "Great question!", "That's great idea!", "You're right to call that out", "Done —", "Got it", "Sure thing", "Happy to help". Start with bottom line.
+Never open with filler: "Great question!", "That's great idea!", "You're right to call that out", "Done —", "Got it", " thing", " help". Start with bottom line.
 
 ## Uncertainty and ambiguity
 

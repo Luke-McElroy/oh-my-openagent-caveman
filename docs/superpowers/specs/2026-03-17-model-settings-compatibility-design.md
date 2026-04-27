@@ -54,27 +54,27 @@ Core API:
 
 ```ts
 type DesiredModelSettings = {
-  variant?: string
-  reasoningEffort?: string
+ variant?: string
+ reasoningEffort?: string
 }
 
 type ModelSettingsCompatibilityInput = {
-  providerID: string
-  modelID: string
-  desired: DesiredModelSettings
+ providerID: string
+ modelID: string
+ desired: DesiredModelSettings
 }
 
 type ModelSettingsCompatibilityChange = {
-  field: "variant" | "reasoningEffort"
-  from: string
-  to?: string
-  reason: string
+ field: "variant" | "reasoningEffort"
+ from: string
+ to?: string
+ reason: string
 }
 
 type ModelSettingsCompatibilityResult = {
-  variant?: string
-  reasoningEffort?: string
-  changes: ModelSettingsCompatibilityChange[]
+ variant?: string
+ reasoningEffort?: string
+ changes: ModelSettingsCompatibilityChange[]
 }
 ```
 

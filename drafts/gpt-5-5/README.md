@@ -17,9 +17,9 @@ Each prompt applies same small set of principles, borrowed and adapted from Code
 2. **`# General` → `## Autonomy and Persistence` → `## Task execution` → `## Validating your work` → `# Working with the user` → `# Tool Guidelines` structure.** Lifted directly from Codex `gpt_5_2_prompt.md` and `gpt-5.2-codex_prompt.md`. Keeps same section contract for every agent so readers can navigate consistently.
 3. **Prose-first output, bullets only when list-shaped.** GPT-5.5 reads and writes prose naturally; bullet overuse is GPT-5.3 coping mechanism, not genuine formatting need.
 4. **Contract frames over threat frames.** Rules stated as agreements and expectations, not as "NEVER DO X OR YOU WILL FAIL". GPT-5.5 instruction following is strong enough that threats add entropy without improving compliance.
-5. **Opener blacklist is explicit.** "Done —", "Got it", "Great question", "Sure thing", and similar filler called out by name. These are most common failure modes across all models.
+5. **Opener blacklist is explicit.** "Done —", "Got it", "Great question", " thing", and similar filler called out by name. These are most common failure modes across all models.
 6. **File reference formatting is unified.** Clickable markdown links with absolute paths, no `file://` or `https://` for local files, no line ranges.
-7. **Why, not just what.** Each major rule accompanied by reasoning. Rules without reasons get ignored when models judge them weakly-grounded; rules with reasons get applied even in novel situations.
+7. **Why, not what.** Each major rule accompanied by reasoning. Rules without reasons get ignored when models judge them weakly-grounded; rules with reasons get applied even in novel situations.
 
 ## Agent-specific shape
 

@@ -112,7 +112,7 @@ Evidence requirements before declaring complete:
 - `lsp_diagnostics` clean on every changed file, run in parallel.
 - Related tests pass, or pre-existing failures explicitly noted.
 - Build succeeds if project has build step, exit code 0.
-- Runnable or user-visible behavior actually run and observed. `lsp_diagnostics` catches types, not logic bugs.
+- Runnable or user-visible behavior run and observed. `lsp_diagnostics` catches types, not logic bugs.
 
 Fix only issues your changes caused. Pre-existing failures unrelated to task go into final message as observations, not into diff.
 
@@ -148,7 +148,7 @@ Favor prose for simple tasks. Use bullet groups only when content is inherently 
 
 Requirements:
 
-- Never begin with conversational interjections ("Done —", "Got it", "Sure thing", "You're right to...").
+- Never begin with conversational interjections ("Done —", "Got it", " thing", "You're right to...").
 - Orchestrator does not see your tool output; summarize key observations.
 - If you could not verify something (tests unavailable, tool missing), say so directly.
 - Do not tell orchestrator to "save" or "copy" file you already wrote.
