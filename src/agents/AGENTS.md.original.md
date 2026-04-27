@@ -37,42 +37,42 @@ Agent factories following `createXXXAgent(model) → AgentConfig` pattern. Each 
 
 ```
 agents/
-├── sisyphus.ts  # 559 LOC, main orchestrator
-├── hephaestus.ts   # 507 LOC, autonomous worker
-├── oracle.ts   # Read-only consultant
-├── librarian.ts  # External search
-├── explore.ts   # Codebase grep
-├── multimodal-looker.ts  # Vision/PDF
-├── metis.ts    # Pre-planning
-├── momus.ts    # Plan review
-├── atlas/agent.ts   # Todo orchestrator
-├── types.ts    # AgentFactory, AgentMode
-├── agent-builder.ts  # buildAgent() composition
-├── utils.ts    # Agent utilities
-├── builtin-agents.ts # createBuiltinAgents() registry
-├── dynamic-agent-prompt-builder.ts  # Dynamic prompt builder system
-├── dynamic-agent-core-sections.ts  # Core prompt sections
+├── sisyphus.ts            # 559 LOC, main orchestrator
+├── hephaestus.ts          # 507 LOC, autonomous worker
+├── oracle.ts              # Read-only consultant
+├── librarian.ts           # External search
+├── explore.ts             # Codebase grep
+├── multimodal-looker.ts   # Vision/PDF
+├── metis.ts               # Pre-planning
+├── momus.ts               # Plan review
+├── atlas/agent.ts         # Todo orchestrator
+├── types.ts               # AgentFactory, AgentMode
+├── agent-builder.ts       # buildAgent() composition
+├── utils.ts               # Agent utilities
+├── builtin-agents.ts      # createBuiltinAgents() registry
+├── dynamic-agent-prompt-builder.ts    # Dynamic prompt builder system
+├── dynamic-agent-core-sections.ts   # Core prompt sections
 ├── dynamic-agent-policy-sections.ts # Policy prompt sections
 ├── dynamic-agent-tool-categorization.ts # Tool categorization
 ├── dynamic-agent-category-skills-guide.ts # Category skills guide
-├── custom-agent-summaries.ts  # Custom agent summaries
-├── env-context.ts    # Environment context
-└── builtin-agents/  # maybeCreateXXXConfig conditional factories
-  ├── sisyphus-agent.ts
-  ├── hephaestus-agent.ts
-  ├── atlas-agent.ts
-  ├── general-agents.ts # collectPendingBuiltinAgents
-  └── available-skills.ts
+├── custom-agent-summaries.ts        # Custom agent summaries
+├── env-context.ts                   # Environment context
+└── builtin-agents/        # maybeCreateXXXConfig conditional factories
+    ├── sisyphus-agent.ts
+    ├── hephaestus-agent.ts
+    ├── atlas-agent.ts
+    ├── general-agents.ts  # collectPendingBuiltinAgents
+    └── available-skills.ts
 ```
 
 ## FACTORY PATTERN
 
 ```typescript
 const createXXXAgent: AgentFactory = (model: string) => ({
- instructions: "...",
- model,
- temperature: 0.1,
- // ...config
+  instructions: "...",
+  model,
+  temperature: 0.1,
+  // ...config
 })
 createXXXAgent.mode = "subagent" // or "primary" or "all"
 ```

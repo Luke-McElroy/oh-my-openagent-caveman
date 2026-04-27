@@ -4,7 +4,7 @@
 
 ## OVERVIEW
 
-24 files. 8 built-in skills registered via `createBuiltinSkills()`. Each skill implements `BuiltinSkill` interface.
+24 files. 8 built-in skills registered via `createBuiltinSkills()`. Each skill implements `BuiltinSkill` interface with name, description, content, and optional MCP config.
 
 ## STRUCTURE
 
@@ -17,7 +17,7 @@ builtin-skills/
 ├── frontend-ui-ux/       # SKILL.md
 ├── agent-browser/        # SKILL.md
 ├── dev-browser/          # SKILL.md
-└── skills/               # Skill implementations
+└── skills/               # Skill implementations as .ts files
     ├── git-master-sections/  # Git master prompt sections
     ├── playwright.ts         # Playwright + agent-browser + playwright-cli + dev-browser
     ├── frontend-ui-ux.ts     # Frontend UI/UX skill
@@ -40,11 +40,11 @@ builtin-skills/
 
 ## BROWSER VARIANT SELECTION
 
-Config `browser_automation_engine` selects browser skill:
+Config `browser_automation_engine` selects which browser skill loads:
 - `"playwright"` (default) -> playwright with @playwright/mcp
 - `"playwright-cli"` -> CLI-based playwright
 - `"agent-browser"` -> agent-browser tool
 
 ## SKILL LOADING
 
-Skills loaded by `opencode-skill-loader` with priority: project > opencode > user > builtin. User-installed skills override built-ins.
+Skills loaded by `opencode-skill-loader` with priority: project > opencode > user > builtin. User-installed skills with same name override built-ins.

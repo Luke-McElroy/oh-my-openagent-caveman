@@ -21,33 +21,33 @@ Commander.js CLI with 6 commands. Entry: `index.ts` → `runCli()` in `cli-progr
 
 ```
 cli/
-├── index.ts     # Entry point → runCli()
-├── cli-program.ts    # Commander.js program (5 commands)
-├── install.ts    # Routes to TUI or CLI installer
-├── cli-installer.ts   # Non-interactive (console output)
-├── tui-installer.ts   # Interactive (@clack/prompts)
-├── model-fallback.ts  # Model config gen by provider availability
-├── provider-availability.ts # Provider detection
+├── index.ts                     # Entry point → runCli()
+├── cli-program.ts               # Commander.js program (5 commands)
+├── install.ts                   # Routes to TUI or CLI installer
+├── cli-installer.ts             # Non-interactive (console output)
+├── tui-installer.ts             # Interactive (@clack/prompts)
+├── model-fallback.ts            # Model config gen by provider availability
+├── provider-availability.ts     # Provider detection
 ├── fallback-chain-resolution.ts # Fallback chain logic
-├── config-manager/   # 20 config utilities
-│  ├── plugin registration, provider config
-│  ├── JSONC operations, auth plugins
-│  └── npm dist-tags, binary detection
+├── config-manager/              # 20 config utilities
+│   ├── plugin registration, provider config
+│   ├── JSONC operations, auth plugins
+│   └── npm dist-tags, binary detection
 ├── doctor/
-│  ├── runner.ts    # Parallel check execution
-│  ├── formatter.ts   # Output formatting
-│  └── checks/   # 15 check files in 4 categories
-│  ├── system.ts  # Binary, plugin, version
-│  ├── config.ts  # JSONC validity, Zod schema
-│  ├── tools.ts   # AST-Grep, LSP, GH CLI, MCP
-│  └── model-resolution.ts # Cache, resolution, overrides (6 sub-files)
-├── run/     # Session launcher
-│  ├── runner.ts    # Main orchestration
-│  ├── agent-resolver.ts  # Flag → env → config → Sisyphus
-│  ├── session-resolver.ts # Create/resume sessions
-│  ├── event-handlers.ts  # Event processing
-│  └── poll-for-completion.ts  # Wait for todos/background tasks
-└── mcp-oauth/    # OAuth token management
+│   ├── runner.ts                # Parallel check execution
+│   ├── formatter.ts             # Output formatting
+│   └── checks/                  # 15 check files in 4 categories
+│       ├── system.ts            # Binary, plugin, version
+│       ├── config.ts            # JSONC validity, Zod schema
+│       ├── tools.ts             # AST-Grep, LSP, GH CLI, MCP
+│       └── model-resolution.ts  # Cache, resolution, overrides (6 sub-files)
+├── run/                         # Session launcher
+│   ├── runner.ts                # Main orchestration
+│   ├── agent-resolver.ts        # Flag → env → config → Sisyphus
+│   ├── session-resolver.ts      # Create/resume sessions
+│   ├── event-handlers.ts        # Event processing
+│   └── poll-for-completion.ts   # Wait for todos/background tasks
+└── mcp-oauth/                   # OAuth token management
 ```
 
 ## MODEL FALLBACK SYSTEM

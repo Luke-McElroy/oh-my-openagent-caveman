@@ -1,12 +1,12 @@
 ## Summary
 
-<!-- Brief description of PR. 1-3 bullets. -->
+<!-- Brief description of what this PR does. 1-3 bullet points. -->
 
 - 
 
 ## Changes
 
-<!-- What changed and how. List specific modifications. -->
+<!-- What was changed and how. List specific modifications. -->
 
 - 
 
@@ -20,7 +20,7 @@
 
 ## Testing
 
-<!-- How to verify this PR works. Delete if not applicable. -->
+<!-- How to verify this PR works correctly. Delete if not applicable. -->
 
 ```bash
 bun run typecheck

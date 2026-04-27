@@ -1,17 +1,17 @@
 ---
 name: work-with-pr
-description: "Full PR lifecycle: git worktree → implement → atomic commits → PR creation → verification loop (CI + review-work + Cubic approval) → merge. Keeps iterating until ALL gates pass and PR is merged. Worktree auto-cleanup after merge. Use whenever implementation work needs to land as PR. Triggers: 'create a PR', 'implement and PR', 'work on this and make a PR', 'implement issue', 'land this as a PR', 'work-with-pr', 'PR workflow', 'implement end to end', even when user says 'implement X' if context implies PR delivery."
+description: "Full PR lifecycle: git worktree → implement → atomic commits → PR creation → verification loop (CI + review-work + Cubic approval) → merge. Keeps iterating until ALL gates pass and PR is merged. Worktree auto-cleanup after merge. Use whenever implementation work needs to land as a PR. Triggers: 'create a PR', 'implement and PR', 'work on this and make a PR', 'implement issue', 'land this as a PR', 'work-with-pr', 'PR workflow', 'implement end to end', even when user says 'implement X' if the context implies PR delivery."
 ---
 
 # Work With PR — Full PR Lifecycle
 
-You are executing complete PR lifecycle: from isolated worktree setup through implementation, PR creation, and unbounded verification loop until PR is merged. Loop has three gates — CI, review-work, and Cubic — and you keep fixing and pushing until all three pass simultaneously.
+You are executing a complete PR lifecycle: from isolated worktree setup through implementation, PR creation, and an unbounded verification loop until the PR is merged. The loop has three gates — CI, review-work, and Cubic — and you keep fixing and pushing until all three pass simultaneously.
 
 <architecture>
 
 ```
 Phase 0: Setup         → Branch + worktree in sibling directory
-Phase 1: Implement     → Do work, atomic commits
+Phase 1: Implement     → Do the work, atomic commits
 Phase 2: PR Creation   → Push, create PR targeting dev
 Phase 3: Verify Loop   → Unbounded iteration until ALL gates pass:
   ├─ Gate A: CI         → gh pr checks (bun test, typecheck, build)
@@ -26,7 +26,7 @@ Phase 4: Merge         → Squash merge, worktree cleanup
 
 ## Phase 0: Setup
 
-Create isolated worktree so user's main working directory stays clean. This matters because user may have uncommitted work, and checking out branch would destroy it.
+Create an isolated worktree so the user's main working directory stays clean. This matters because the user may have uncommitted work, and checking out a branch would destroy it.
 
 <setup>
 
@@ -40,7 +40,7 @@ BASE_BRANCH="dev"  # CI blocks PRs to master
 
 ### 2. Create branch
 
-If user provides branch name, use it. Otherwise, derive from task:
+If user provides a branch name, use it. Otherwise, derive from the task:
 
 ```bash
 # Auto-generate: feature/short-description or fix/short-description
@@ -51,7 +51,7 @@ git branch "$BRANCH_NAME" "origin/$BASE_BRANCH"
 
 ### 3. Create worktree
 
-Place worktrees as siblings to repo — not inside it. This avoids git nested repo issues and keeps working tree clean.
+Place worktrees as siblings to the repo — not inside it. This avoids git nested repo issues and keeps the working tree clean.
 
 ```bash
 WORKTREE_PATH="../${REPO_NAME}-wt/${BRANCH_NAME}"
@@ -61,7 +61,7 @@ git worktree add "$WORKTREE_PATH" "$BRANCH_NAME"
 
 ### 4. Set working context
 
-All subsequent work happens inside worktree. Install dependencies if needed:
+All subsequent work happens inside the worktree. Install dependencies if needed:
 
 ```bash
 cd "$WORKTREE_PATH"
@@ -75,15 +75,15 @@ cd "$WORKTREE_PATH"
 
 ## Phase 1: Implement
 
-Do actual implementation work inside worktree. Agent using this skill does work directly — no subagent delegation for implementation itself.
+Do the actual implementation work inside the worktree. The agent using this skill does the work directly — no subagent delegation for the implementation itself.
 
-**Scope discipline**: For bug fixes, stay minimal. Fix bug, add test for it, done. Do not refactor surrounding code, add config options, or "improve" things that aren't broken. Verification loop will catch regressions — trust process.
+**Scope discipline**: For bug fixes, stay minimal. Fix the bug, add a test for it, done. Do not refactor surrounding code, add config options, or "improve" things that aren't broken. The verification loop will catch regressions — trust the process.
 
 <implementation>
 
 ### Commit strategy
 
-Use git-master skill's atomic commit principles. Reason for atomic commits: if CI fails on one change, you can isolate and fix it without unwinding everything.
+Use the git-master skill's atomic commit principles. The reason for atomic commits: if CI fails on one change, you can isolate and fix it without unwinding everything.
 
 ```
 3+ files changed  → 2+ commits minimum
@@ -94,12 +94,12 @@ Use git-master skill's atomic commit principles. Reason for atomic commits: if C
 Each commit should pair implementation with its tests. Load `git-master` skill when committing:
 
 ```
-task(category="quick", load_skills=["git-master"], prompt="Commit changes atomically following git-master conventions. Repository is at {WORKTREE_PATH}.")
+task(category="quick", load_skills=["git-master"], prompt="Commit the changes atomically following git-master conventions. Repository is at {WORKTREE_PATH}.")
 ```
 
 ### Pre-push local validation
 
-Before pushing, run same checks CI will run. Catching failures locally saves full CI round-trip (~3-5 min):
+Before pushing, run the same checks CI will run. Catching failures locally saves a full CI round-trip (~3-5 min):
 
 ```bash
 bun run typecheck
@@ -123,7 +123,7 @@ Fix any failures before pushing. Each fix-commit cycle atomic.
 git push -u origin "$BRANCH_NAME"
 ```
 
-Create PR using project's template structure:
+Create the PR using the project's template structure:
 
 ```bash
 gh pr create \
@@ -148,7 +148,7 @@ EOF
 )"
 ```
 
-Capture PR number:
+Capture the PR number:
 
 ```bash
 PR_NUMBER=$(gh pr view --json number -q .number)
@@ -160,7 +160,7 @@ PR_NUMBER=$(gh pr view --json number -q .number)
 
 ## Phase 3: Verification Loop
 
-This is core of skill. Three gates must ALL pass for PR to be ready. Loop has no iteration cap — keep going until done. Gate ordering is intentional: CI is cheapest/fastest, review-work is most thorough, Cubic is external and asynchronous.
+This is the core of the skill. Three gates must ALL pass for the PR to be ready. The loop has no iteration cap — keep going until done. Gate ordering is intentional: CI is cheapest/fastest, review-work is most thorough, Cubic is external and asynchronous.
 
 <verify_loop>
 
@@ -177,29 +177,29 @@ while true:
 
 ### Gate A: CI Checks
 
-CI is fastest feedback loop. Wait for it to complete, then parse results.
+CI is the fastest feedback loop. Wait for it to complete, then parse results.
 
 ```bash
-# Wait for checks to start (GitHub needs moment after push)
+# Wait for checks to start (GitHub needs a moment after push)
 # Then watch for completion
 gh pr checks "$PR_NUMBER" --watch --fail-fast
 ```
 
-**On failure**: Get failed run logs to understand what broke:
+**On failure**: Get the failed run logs to understand what broke:
 
 ```bash
-# Find failed run
+# Find the failed run
 RUN_ID=$(gh run list --branch "$BRANCH_NAME" --status failure --json databaseId --jq '.[0].databaseId')
 
 # Get failed job logs
 gh run view "$RUN_ID" --log-failed
 ```
 
-Read logs, fix issue, commit atomically, push, and re-enter loop.
+Read the logs, fix the issue, commit atomically, push, and re-enter the loop.
 
 ### Gate B: review-work
 
-Review-work skill launches 5 parallel sub-agents (goal verification, QA, code quality, security, context mining). All 5 must pass.
+The review-work skill launches 5 parallel sub-agents (goal verification, QA, code quality, security, context mining). All 5 must pass.
 
 Invoke review-work after CI passes — there's no point reviewing code that doesn't build:
 
@@ -209,22 +209,22 @@ task(
   load_skills=["review-work"],
   run_in_background=false,
   description="Post-implementation review of PR changes",
-  prompt="Review implementation work on branch {BRANCH_NAME}. Worktree is at {WORKTREE_PATH}. Goal: {ORIGINAL_GOAL}. Constraints: {CONSTRAINTS}. Run command: bun run dev (or as appropriate)."
+  prompt="Review the implementation work on branch {BRANCH_NAME}. The worktree is at {WORKTREE_PATH}. Goal: {ORIGINAL_GOAL}. Constraints: {CONSTRAINTS}. Run command: bun run dev (or as appropriate)."
 )
 ```
 
-**On failure**: review-work reports blocking issues with specific files and line numbers. Fix each blocking issue, commit, push, and re-enter loop from Gate A (since code changed, CI must re-run).
+**On failure**: review-work reports blocking issues with specific files and line numbers. Fix each blocking issue, commit, push, and re-enter the loop from Gate A (since code changed, CI must re-run).
 
 ### Gate C: Cubic Approval
 
-Cubic (`cubic-dev-ai[bot]`) is automated review bot that comments on PRs. It does NOT use GitHub's APPROVED review state — instead it posts comments with issue counts and confidence scores.
+Cubic (`cubic-dev-ai[bot]`) is an automated review bot that comments on PRs. It does NOT use GitHub's APPROVED review state — instead it posts comments with issue counts and confidence scores.
 
-**Approval signal**: Latest Cubic comment contains `**No issues found**` and confidence `**5/5**`.
+**Approval signal**: The latest Cubic comment contains `**No issues found**` and confidence `**5/5**`.
 
-**Issue signal**: Comment lists issues with file-level detail.
+**Issue signal**: The comment lists issues with file-level detail.
 
 ```bash
-# Get latest Cubic review
+# Get the latest Cubic review
 CUBIC_REVIEW=$(gh api "repos/${REPO}/pulls/${PR_NUMBER}/reviews" \
   --jq '[.[] | select(.user.login == "cubic-dev-ai[bot]")] | last | .body')
 
@@ -237,9 +237,9 @@ else
 fi
 ```
 
-**On issues**: Cubic's review body contains structured issue descriptions. Parse them, determine which are valid (some may be false positives), fix valid ones, commit, push, re-enter from Gate A.
+**On issues**: Cubic's review body contains structured issue descriptions. Parse them, determine which are valid (some may be false positives), fix the valid ones, commit, push, re-enter from Gate A.
 
-Cubic reviews are triggered automatically on PR updates. After pushing fix, wait for new review to appear before checking again. Use `gh api` polling with conditional loop:
+Cubic reviews are triggered automatically on PR updates. After pushing a fix, wait for the new review to appear before checking again. Use `gh api` polling with a conditional loop:
 
 ```bash
 # Wait for new Cubic review after push
@@ -250,20 +250,20 @@ while true; do
   if [[ "$LATEST_REVIEW_TIME" > "$PUSH_TIME" ]]; then
     break
   fi
-  # Use gh api call itself as delay mechanism — each call takes ~1-2s
+  # Use gh api call itself as the delay mechanism — each call takes ~1-2s
   # For longer waits, use: timeout 30 gh pr checks "$PR_NUMBER" --watch 2>/dev/null || true
 done
 ```
 
 ### Iteration discipline
 
-Each iteration through loop:
-1. Fix ONLY issues identified by failing gate
+Each iteration through the loop:
+1. Fix ONLY the issues identified by the failing gate
 2. Commit atomically (one logical fix per commit)
 3. Push
 4. Re-enter from Gate A (code changed → full re-verification)
 
-Avoid temptation to "improve" unrelated code during fix iterations. Scope creep in fix loop makes debugging harder and can introduce new failures.
+Avoid the temptation to "improve" unrelated code during fix iterations. Scope creep in the fix loop makes debugging harder and can introduce new failures.
 
 </verify_loop>
 
@@ -275,7 +275,7 @@ Once all three gates pass:
 
 <merge_cleanup>
 
-### Merge PR
+### Merge the PR
 
 ```bash
 # Squash merge to keep history clean
@@ -284,7 +284,7 @@ gh pr merge "$PR_NUMBER" --squash --delete-branch
 
 ### Sync .sisyphus state back to main repo
 
-Before removing worktree, copy `.sisyphus/` state back. When `.sisyphus/` is gitignored, files written there during worktree execution are not committed or merged — they would be lost on worktree removal.
+Before removing the worktree, copy `.sisyphus/` state back. When `.sisyphus/` is gitignored, files written there during worktree execution are not committed or merged — they would be lost on worktree removal.
 
 ```bash
 # Sync .sisyphus state from worktree to main repo (preserves task state, plans, notepads)
@@ -294,9 +294,9 @@ if [ -d "$WORKTREE_PATH/.sisyphus" ]; then
 fi
 ```
 
-### Clean up worktree
+### Clean up the worktree
 
-Worktree served its purpose — remove it to avoid disk bloat:
+The worktree served its purpose — remove it to avoid disk bloat:
 
 ```bash
 cd "$ORIGINAL_DIR"  # Return to original working directory
@@ -327,11 +327,11 @@ Summarize what happened:
 
 <failure_recovery>
 
-If you hit unrecoverable error (e.g., merge conflict with base branch, infrastructure failure):
+If you hit an unrecoverable error (e.g., merge conflict with base branch, infrastructure failure):
 
-1. **Do NOT delete worktree** — user may want to inspect or continue manually
+1. **Do NOT delete the worktree** — the user may want to inspect or continue manually
 2. Report what happened, what was attempted, and where things stand
-3. Include worktree path so user can resume
+3. Include the worktree path so the user can resume
 
 For merge conflicts:
 
@@ -339,7 +339,7 @@ For merge conflicts:
 cd "$WORKTREE_PATH"
 git fetch origin "$BASE_BRANCH"
 git rebase "origin/$BASE_BRANCH"
-# Resolve conflicts, then continue loop
+# Resolve conflicts, then continue the loop
 ```
 
 </failure_recovery>

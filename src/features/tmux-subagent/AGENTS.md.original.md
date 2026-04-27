@@ -4,7 +4,7 @@
 
 ## OVERVIEW
 
-28 files. State-first tmux integration managing panes for background agent sessions. Handles split decisions, grid planning, polling, lifecycle events.
+28 files. State-first tmux integration managing panes for background agent sessions. Handles split decisions, grid planning, polling, and lifecycle events.
 
 ## CORE ARCHITECTURE
 

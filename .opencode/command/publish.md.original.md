@@ -22,7 +22,7 @@ You are release manager for oh-my-opencode. Execute FULL publish workflow from s
 
 ## STEP 0: REGISTER TODO LIST (MANDATORY FIRST ACTION)
 
-**Before doing ANYTHING else**, create todo list using TodoWrite:
+**Before doing ANYTHING else**, create detailed todo list using TodoWrite:
 
 ```
 [
@@ -31,10 +31,10 @@ You are release manager for oh-my-opencode. Execute FULL publish workflow from s
   { "id": "sync-remote", "content": "Sync with remote (pull --rebase && push if unpushed commits)", "status": "pending", "priority": "high" },
   { "id": "run-workflow", "content": "Trigger GitHub Actions publish workflow", "status": "pending", "priority": "high" },
   { "id": "wait-workflow", "content": "Wait for workflow completion (poll every 30s)", "status": "pending", "priority": "high" },
-  { "id": "verify-and-preview", "content": "Verify release created + preview auto-generated changelog", "status": "pending", "priority": "high" },
+  { "id": "verify-and-preview", "content": "Verify release created + preview auto-generated changelog & contributor thanks", "status": "pending", "priority": "high" },
   { "id": "draft-summary", "content": "Draft enhanced release summary (mandatory for minor/major, optional for patch — ask user)", "status": "pending", "priority": "high" },
   { "id": "apply-summary", "content": "Prepend enhanced summary to release (if user opted in)", "status": "pending", "priority": "high" },
-  { "id": "verify-npm", "content": "Verify npm package published", "status": "pending", "priority": "high" },
+  { "id": "verify-npm", "content": "Verify npm package published successfully", "status": "pending", "priority": "high" },
   { "id": "wait-platform-workflow", "content": "Wait for publish-platform workflow completion", "status": "pending", "priority": "high" },
   { "id": "verify-platform-binaries", "content": "Verify all 7 platform binary packages published", "status": "pending", "priority": "high" },
   { "id": "final-confirmation", "content": "Final confirmation to user with links", "status": "pending", "priority": "low" }
@@ -58,19 +58,19 @@ Wait for user confirmation before proceeding.
 
 Run: `git status --porcelain`
 
-- If uncommitted changes exist, warn user and ask if they want to commit first
+- If there are uncommitted changes, warn user and ask if they want to commit first
 - If clean, proceed
 
 ---
 
 ## STEP 2.5: SYNC WITH REMOTE (MANDATORY)
 
-Check for unpushed commits:
+Check if there are unpushed commits:
 ```bash
 git log origin/master..HEAD --oneline
 ```
 
-**If unpushed commits exist, you MUST sync before triggering workflow:**
+**If there are unpushed commits, you MUST sync before triggering workflow:**
 ```bash
 git pull --rebase && git push
 ```
@@ -153,9 +153,9 @@ Wait for user to acknowledge before proceeding.
 
 | Release Type | Action |
 |-------------|--------|
-| **patch** | ASK user: "Would you like me to draft enhanced summary highlighting key bug fixes / changes? Or is auto-generated changelog sufficient?" If user declines → skip to Step 8. If user accepts → draft bug-fix / change summary below. |
-| **minor** | MANDATORY. Draft feature summary. Do NOT proceed without one. |
-| **major** | MANDATORY. Draft full release narrative with migration notes. Do NOT proceed without one. |
+| **patch** | ASK user: "Would you like me to draft enhanced summary highlighting key bug fixes / changes? Or is auto-generated changelog sufficient?" If user declines → skip to Step 8. If user accepts → draft concise bug-fix / change summary below. |
+| **minor** | MANDATORY. Draft concise feature summary. Do NOT proceed without one. |
+| **major** | MANDATORY. Draft full release narrative with migration notes if applicable. Do NOT proceed without one. |
 
 </decision-gate>
 

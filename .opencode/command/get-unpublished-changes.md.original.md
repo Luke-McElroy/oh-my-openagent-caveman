@@ -1,5 +1,5 @@
 ---
-description: Compare HEAD with latest published npm version and list unpublished changes
+description: Compare HEAD with latest published npm version and list all unpublished changes
 ---
 
 <command-instruction>
@@ -13,7 +13,7 @@ For each commit, you MUST:
 3. Explain WHY it matters (if not obvious)
 
 ## Steps:
-1. Run `git diff v{published-version}..HEAD` to see changes
+1. Run `git diff v{published-version}..HEAD` to see actual changes
 2. Group by type (feat/fix/refactor/docs) with REAL descriptions
 3. Note breaking changes if any
 4. Recommend version bump (major/minor/patch)
@@ -54,22 +54,22 @@ For each commit, you MUST:
 ### feat
 | Scope | What Changed |
 |-------|--------------|
-| X | Description of changes |
+| X | Description of actual changes |
 
 ### fix
 | Scope | What Changed |
 |-------|--------------|
-| X | Description of changes |
+| X | Description of actual changes |
 
 ### refactor
 | Scope | What Changed |
 |-------|--------------|
-| X | Description of changes |
+| X | Description of actual changes |
 
 ### docs
 | Scope | What Changed |
 |-------|--------------|
-| X | Description of changes |
+| X | Description of actual changes |
 
 ### Breaking Changes
 None or list
@@ -87,7 +87,7 @@ None or list
 
 **Trigger keywords**: "safe to deploy", "can I deploy", "is it safe", "review", "check", "oracle"
 
-When user includes any of above keywords:
+When user includes any of above keywords in their request:
 
 ### 1. Pre-validation
 ```bash
@@ -107,23 +107,23 @@ Collect following information and pass to Oracle:
 {Changes table analyzed above}
 
 ### Key diffs (organized by feature)
-{Core code changes for each feat/fix/refactor - key parts only, not full diff}
+{Core code changes for each feat/fix/refactor - only key parts, not full diff}
 
 ### Validation Results
 - Typecheck: ✅/❌
 - Tests: {pass}/{total} (✅/❌)
 
 ### Review Items
-1. **Regression Risk**: Changes that could affect existing functionality?
-2. **Side Effects**: Areas where unexpected side effects could occur?
-3. **Breaking Changes**: Changes that affect external users?
-4. **Edge Cases**: Missed edge cases?
+1. **Regression Risk**: Are there changes that could affect existing functionality?
+2. **Side Effects**: Are there areas where unexpected side effects could occur?
+3. **Breaking Changes**: Are there changes that affect external users?
+4. **Edge Cases**: Are there missed edge cases?
 5. **Deployment Recommendation**: SAFE / CAUTION / UNSAFE
 
 ### Request
-Please analyze above changes and provide deployment safety judgment.
+Please analyze above changes deeply and provide your judgment on deployment safety.
 If there are risks, explain with specific scenarios.
-Suggest keywords to monitor after deployment.
+Suggest keywords to monitor after deployment if any.
 ```
 
 ### 3. Output Format After Oracle Response
@@ -144,5 +144,5 @@ Suggest keywords to monitor after deployment.
 - ...
 
 ### Conclusion
-{Oracle's judgment}
+{Oracle's final judgment}
 </oracle-safety-review>

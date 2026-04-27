@@ -1,6 +1,6 @@
 ---
 name: github-triage
-description: "Read-only GitHub triage for issues AND PRs. 1 item = 1 background task (category: quick). Analyzes all open items and writes evidence-backed reports to /tmp/{datetime}/. Every claim requires GitHub permalink as proof. NEVER takes any action on GitHub - no comments, no merges, no closes, no labels. Reports only. Triggers: 'triage', 'triage issues', 'triage PRs', 'github triage'."
+description: "Read-only GitHub triage for issues AND PRs. 1 item = 1 background task (category: quick). Analyzes all open items and writes evidence-backed reports to /tmp/{datetime}/. Every claim requires a GitHub permalink as proof. NEVER takes any action on GitHub - no comments, no merges, no closes, no labels. Reports only. Triggers: 'triage', 'triage issues', 'triage PRs', 'github triage'."
 ---
 
 # GitHub Triage - Read-Only Analyzer
@@ -297,7 +297,7 @@ REPORT FORMAT (write this as file content):
 
 ## Bug Summary
 **Expected:** [what user expects]
-**Actual:** [what happens]
+**Actual:** [what actually happens]
 **Reproduction:** [steps if provided]
 
 ## Verdict: [CONFIRMED_BUG | NOT_A_BUG | ALREADY_FIXED | UNCLEAR]

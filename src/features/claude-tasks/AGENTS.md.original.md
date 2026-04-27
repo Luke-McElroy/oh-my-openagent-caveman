@@ -4,7 +4,7 @@
 
 ## OVERVIEW
 
-4 non-test files (~622 LOC). File-based task persistence with atomic writes, locking, OpenCode todo API sync.
+4 non-test files (~622 LOC). File-based task persistence with atomic writes, locking, and OpenCode todo API sync.
 
 ## TASK SCHEMA
 
@@ -36,7 +36,7 @@ interface Task {
 
 ## STORAGE
 
-- Location: `.sisyphus/tasks/`
+- Location: `.sisyphus/tasks/` directory
 - Format: JSON files, one per task
 - Atomic writes: temp file → rename
 - Locking: file-based lock for concurrent access

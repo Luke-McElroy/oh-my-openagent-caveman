@@ -4,7 +4,7 @@
 
 ## OVERVIEW
 
-52 hooks across dedicated modules + standalone files. Three-tier composition: Core(43) + Continuation(7) + Skill(2). All hooks follow `createXXXHook(deps) → HookFunction` factory pattern.
+52 hooks across dedicated modules and standalone files. Three-tier composition: Core(43) + Continuation(7) + Skill(2). All hooks follow `createXXXHook(deps) → HookFunction` factory pattern.
 
 ## HOOK TIERS
 
@@ -74,7 +74,7 @@ hooks/
 | agentUsageReminder | chat.message | Remind about available agents |
 | nonInteractiveEnv | chat.message | Adjust behavior for `run` command |
 | interactiveBashSession | tool.execute | Tmux session for interactive tools |
-| ralphLoop | event | Self-referential dev loop |
+| ralphLoop | event | Self-referential dev loop (boulder continuation) |
 | editErrorRecovery | tool.execute.after | Retry failed file edits |
 | delegateTaskRetry | tool.execute.after | Retry failed task delegations |
 | startWork | chat.message | `/start-work` command handler |
@@ -83,10 +83,10 @@ hooks/
 | questionLabelTruncator | tool.execute.before | Truncate long question labels |
 | taskResumeInfo | chat.message | Inject task context on resume |
 | anthropicEffort | chat.params | Adjust reasoning effort level |
-| modelFallback | chat.params | Provider-level model fallback |
-| noSisyphusGpt | chat.message | Block Sisyphus from GPT models (toast warning) |
-| noHephaestusNonGpt | chat.message | Block Hephaestus from non-GPT models |
-| runtimeFallback | event | Auto-switch models on API errors |
+| modelFallback | chat.params | Provider-level model fallback on errors |
+| noSisyphusGpt | chat.message | Block Sisyphus from using GPT models (toast warning) |
+| noHephaestusNonGpt | chat.message | Block Hephaestus from using non-GPT models |
+| runtimeFallback | event | Auto-switch models on API provider errors |
 | legacyPluginToast | chat.message | Show toast when legacy plugin name detected |
 
 ### Tier 2: Tool Guard Hooks (14) — `create-tool-guard-hooks.ts`
@@ -98,7 +98,7 @@ hooks/
 | directoryAgentsInjector | tool.execute.before | Inject dir AGENTS.md into context |
 | directoryReadmeInjector | tool.execute.before | Inject dir README.md into context |
 | emptyTaskResponseDetector | tool.execute.after | Detect empty task responses |
-| rulesInjector | tool.execute.before | Conditional rules injection |
+| rulesInjector | tool.execute.before | Conditional rules injection (AGENTS.md, config) |
 | tasksTodowriteDisabler | tool.execute.before | Disable TodoWrite when task system active |
 | writeExistingFileGuard | tool.execute.before | Require Read before Write on existing files |
 | bashFileReadGuard | tool.execute.before | Guard bash commands that read files |
@@ -114,7 +114,7 @@ hooks/
 |------|-------|---------|
 | claudeCodeHooks | messages.transform | Claude Code settings.json compatibility |
 | keywordDetector | messages.transform | Detect ultrawork/search/analyze modes |
-| contextInjectorMessagesTransform | messages.transform | Inject AGENTS.md/README.md |
+| contextInjectorMessagesTransform | messages.transform | Inject AGENTS.md/README.md into context |
 | thinkingBlockValidator | messages.transform | Validate thinking block structure |
 | toolPairValidator | messages.transform | Validate tool call/result pairs |
 

@@ -4,7 +4,7 @@
 
 ## OVERVIEW
 
-Standalone feature modules wired into plugin/ layer. Each self-contained with types, implementation, tests.
+Standalone feature modules wired into plugin/ layer. Each self-contained with own types, implementation, and tests.
 
 ## MODULE MAP
 
@@ -13,16 +13,16 @@ Standalone feature modules wired into plugin/ layer. Each self-contained with ty
 | **opencode-skill-loader** | 33 | HIGH | YAML frontmatter skill loading from 4 scopes |
 | **background-agent** | 47 | HIGH | Task lifecycle, concurrency (5/model), polling, spawner pattern, circuit breaker |
 | **tmux-subagent** | 34 | HIGH | Tmux pane management, grid planning, session orchestration |
-| **mcp-oauth** | 18 | HIGH | OAuth 2.0 + PKCE + DCR for MCP servers |
+| **mcp-oauth** | 18 | HIGH | OAuth 2.0 + PKCE + DCR (RFC 7591) for MCP servers |
 | **builtin-skills** | 17 | LOW | 8 skills: git-master, playwright, playwright-cli, agent-browser, dev-browser, frontend-ui-ux, review-work, ai-slop-remover |
-| **skill-mcp-manager** | 18 | HIGH | Tier-3 MCP client lifecycle per session |
-| **claude-code-plugin-loader** | 15 | MEDIUM | Plugin discovery from .opencode/plugins/ |
-| **builtin-commands** | 11 | LOW | Command templates: refactor, init-deep, handoff |
-| **claude-tasks** | 7 | MEDIUM | Task schema + file storage + todo sync |
+| **skill-mcp-manager** | 18 | HIGH | Tier-3 MCP client lifecycle per session (stdio + HTTP + OAuth step-up) |
+| **claude-code-plugin-loader** | 15 | MEDIUM | Unified plugin discovery from .opencode/plugins/ |
+| **builtin-commands** | 11 | LOW | Command templates: refactor, init-deep, handoff, etc. |
+| **claude-tasks** | 7 | MEDIUM | Task schema + file storage + OpenCode todo sync |
 | **claude-code-mcp-loader** | 6 | MEDIUM | .mcp.json loading with ${VAR} env expansion |
-| **context-injector** | 6 | MEDIUM | AGENTS.md/README.md injection |
-| **run-continuation-state** | 5 | LOW | Persistent state for `run` command |
-| **hook-message-injector** | 5 | MEDIUM | System message injection |
+| **context-injector** | 6 | MEDIUM | AGENTS.md/README.md injection into context |
+| **run-continuation-state** | 5 | LOW | Persistent state for `run` command continuation across sessions |
+| **hook-message-injector** | 5 | MEDIUM | System message injection for hooks |
 | **boulder-state** | 5 | LOW | Persistent state for multi-step operations |
 | **task-toast-manager** | 4 | MEDIUM | Task progress notifications |
 | **tool-metadata-store** | 3 | LOW | Tool execution metadata cache |
@@ -37,9 +37,9 @@ Standalone feature modules wired into plugin/ layer. Each self-contained with ty
 Core orchestration engine. `BackgroundManager` manages task lifecycle:
 - States: pending → running → completed/error/cancelled/interrupt
 - Concurrency: per-model/provider limits via `ConcurrencyManager` (FIFO queue)
-- Polling: 3s interval, completion via idle events + stability detection (10s)
-- Circuit breaker: automatic failure detection + recovery
-- spawner/: 8 files composing via `SpawnerContext` interface
+- Polling: 3s interval, completion via idle events + stability detection (10s unchanged)
+- Circuit breaker: automatic failure detection and recovery
+- spawner/: 8 focused files composing via `SpawnerContext` interface
 
 ### opencode-skill-loader (33 files, ~3.2k LOC)
 

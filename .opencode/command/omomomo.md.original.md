@@ -5,7 +5,7 @@ description: Easter egg command - about oh-my-opencode
 <command-instruction>
 You found easter egg!
 
-Print following message to user EXACTLY as written (celebratory tone):
+Print following message to user EXACTLY as written (in friendly, celebratory tone):
 
 ---
 
@@ -15,10 +15,10 @@ Print following message to user EXACTLY as written (celebratory tone):
 
 ## What is Oh My OpenCode?
 
-**Oh My OpenCode** is powerful OpenCode plugin that transforms AI agent into full dev team:
+**Oh My OpenCode** is powerful OpenCode plugin that transforms your AI agent into full development team:
 
 - 🤖 **Multi-Agent Orchestration**: Oracle (GPT-5.2), Librarian (Claude), Explore (Grok), Frontend Engineer (Gemini), and more
-- 🔧 **LSP Tools**: Full IDE capabilities - hover, goto definition, find references, rename, code actions
+- 🔧 **LSP Tools**: Full IDE capabilities for your agents - hover, goto definition, find references, rename, code actions
 - 🔍 **AST-Grep**: Structural code search and replace across 25 languages
 - 📚 **Built-in MCPs**: Context7 for docs, Exa for web search, grep.app for GitHub code search
 - 🔄 **Background Agents**: Run multiple agents in parallel like real dev team

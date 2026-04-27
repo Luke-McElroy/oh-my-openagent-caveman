@@ -18,8 +18,8 @@ LaunchInput → pending → [ConcurrencyManager queue] → running → polling �
 |------|---------|
 | `manager.ts` | `BackgroundManager` — main class: launch, cancel, getTask, listTasks |
 | `spawner.ts` | Task spawning: create session → inject prompt → start polling |
-| `concurrency.ts` | `ConcurrencyManager` — FIFO queue per key, slot acquisition/release |
-| `task-poller.ts` | 3s interval polling, completion via idle events + stability detection (10s) |
+| `concurrency.ts` | `ConcurrencyManager` — FIFO queue per concurrency key, slot acquisition/release |
+| `task-poller.ts` | 3s interval polling, completion via idle events + stability detection (10s unchanged) |
 | `result-handler.ts` | Process completed tasks: extract result, notify parent, cleanup |
 | `state.ts` | In-memory task store (Map-based) |
 | `types.ts` | `BackgroundTask`, `LaunchInput`, `ResumeInput`, `BackgroundTaskStatus` |
@@ -28,7 +28,7 @@ LaunchInput → pending → [ConcurrencyManager queue] → running → polling �
 
 | File | Purpose |
 |------|---------|
-| `spawner-context.ts` | `SpawnerContext` interface |
+| `spawner-context.ts` | `SpawnerContext` interface composing all spawner deps |
 | `background-session-creator.ts` | Create OpenCode session for background task |
 | `concurrency-key-from-launch-input.ts` | Derive concurrency key from model/provider |
 | `parent-directory-resolver.ts` | Resolve working directory for child session |
@@ -46,7 +46,7 @@ Both must agree before marking task complete. Prevents premature completion on b
 
 - Key format: `{providerID}/{modelID}` (e.g., `anthropic/claude-opus-4-7`)
 - Default limit: 5 concurrent per key (configurable via `background_task` config)
-- FIFO queue: tasks wait when slots full
+- FIFO queue: tasks wait in order when slots full
 - Slot released on: completion, error, cancellation
 
 ## NOTIFICATION FLOW

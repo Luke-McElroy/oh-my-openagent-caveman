@@ -4,7 +4,7 @@
 
 ## OVERVIEW
 
-26 tools registered via `createToolRegistry()`. Two patterns: factory functions (`createXXXTool`) 19 tools, direct `ToolDefinition` 7 (LSP + interactive_bash).
+26 tools registered via `createToolRegistry()`. Two patterns: factory functions (`createXXXTool`) for 19 tools, direct `ToolDefinition` for 7 (LSP + interactive_bash).
 
 ## TOOL CATALOG
 
@@ -103,6 +103,6 @@
 ## HOW TO ADD A TOOL
 
 1. Create `src/tools/{name}/index.ts` exporting factory
-2. Create `src/tools/{name}/types.ts` parameter schemas
-3. Create `src/tools/{name}/tools.ts` implementation
+2. Create `src/tools/{name}/types.ts` for parameter schemas
+3. Create `src/tools/{name}/tools.ts` for implementation
 4. Register in `src/plugin/tool-registry.ts`

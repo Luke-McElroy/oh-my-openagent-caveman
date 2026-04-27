@@ -9,10 +9,10 @@
 ## COMMAND FLAGS
 
 ```bash
-bunx oh-my-opencode doctor              # Full diagnostics (all 4 categories)
-bunx oh-my-opencode doctor --status     # Compact dashboard (status only)
-bunx oh-my-opencode doctor --verbose    # Deep details (model resolution traces)
-bunx oh-my-opencode doctor --json       # Machine-readable output
+bunx oh-my-opencode doctor   # Full diagnostics (all 4 categories)
+bunx oh-my-opencode doctor --status # Compact dashboard (status only)
+bunx oh-my-opencode doctor --verbose  # Deep details (model resolution traces)
+bunx oh-my-opencode doctor --json  # Machine-readable output
 ```
 
 ## CHECK CATEGORIES
@@ -28,35 +28,35 @@ bunx oh-my-opencode doctor --json       # Machine-readable output
 
 ```
 checks/
-├── index.ts                               # Registration
-├── system.ts                              # Main System aggregator
-├── system-binary.ts                       # OpenCode binary discovery (PATH + desktop app)
-├── system-plugin.ts                       # opencode.json plugin entry detection
-├── system-loaded-version.ts               # Cache vs npm latest
-├── config.ts                              # Main Config aggregator
-├── tools.ts                               # Main Tools aggregator
-├── dependencies.ts                        # AST-Grep CLI/NAPI + comment-checker presence
-├── tools-gh.ts                            # gh cli install + auth status
-├── tools-lsp.ts                           # LSP server enumeration
-├── tools-mcp.ts                           # Built-in + user MCP reachability
-├── model-resolution.ts                    # Main Models aggregator
-├── model-resolution-cache.ts              # models.json presence + freshness
-├── model-resolution-config.ts             # oh-my-opencode.jsonc parse
-├── model-resolution-effective-model.ts    # Per-agent fallback chain trace
-├── model-resolution-variant.ts            # Model variant (max, high, medium) handling
-├── model-resolution-details.ts            # Verbose output formatter
-└── model-resolution-types.ts              # Shared types
+├── index.ts      # Registration
+├── system.ts     # Main System aggregator
+├── system-binary.ts    # OpenCode binary discovery (PATH + desktop app)
+├── system-plugin.ts    # opencode.json plugin entry detection
+├── system-loaded-version.ts    # Cache vs npm latest
+├── config.ts     # Main Config aggregator
+├── tools.ts      # Main Tools aggregator
+├── dependencies.ts    # AST-Grep CLI/NAPI + comment-checker presence
+├── tools-gh.ts      # gh cli install + auth status
+├── tools-lsp.ts      # LSP server enumeration
+├── tools-mcp.ts      # Built-in + user MCP reachability
+├── model-resolution.ts    # Main Models aggregator
+├── model-resolution-cache.ts   # models.json presence + freshness
+├── model-resolution-config.ts   # oh-my-opencode.jsonc parse
+├── model-resolution-effective-model.ts  # Per-agent fallback chain trace
+├── model-resolution-variant.ts  # Model variant (max, high, medium) handling
+├── model-resolution-details.ts  # Verbose output formatter
+└── model-resolution-types.ts   # Shared types
 ```
 
 ## EXECUTION FLOW
 
 ```
 doctor command
-  → runner.ts: parallel check execution with 30s per-check timeout
-  → checks/index.ts registers all 4 category checks
-  → each check returns: { status: "ok" | "warn" | "error", detail: string }
-  → formatter.ts: render to stdout (text/status/json)
-  → exit code: 0 (all ok) | 1 (errors) | 2 (warnings only)
+ → runner.ts: parallel check execution with 30s per-check timeout
+ → checks/index.ts registers all 4 category checks
+ → each check returns: { status: "ok" | "warn" | "error", detail: string }
+ → formatter.ts: render to stdout (text/status/json)
+ → exit code: 0 (all ok) | 1 (errors) | 2 (warnings only)
 ```
 
 ## KEY FILES

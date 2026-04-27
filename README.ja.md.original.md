@@ -126,7 +126,7 @@ curl -s https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/refs/head
 ドキュメントを読む時代は終わった。このテキストをエージェントに貼り付けるだけ：
 
 ```
-Read this and tell me why it's not another boilerplate: https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/refs/heads/dev/README.md
+Read this and tell me why it's not just another boilerplate: https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/refs/heads/dev/README.md
 ```
 
 ## ハイライト
@@ -145,23 +145,23 @@ Read this and tell me why it's not another boilerplate: https://raw.githubuserco
 - [GLM Coding プラン ($10)](https://z.ai/subscribe)
 - 従量課金（pay-per-token）の対象であれば、kimiやgeminiモデルを使っても費用はほとんどかからない。
 
-|  | 機能         | 何をするのか                                    |
+|       | 機能                                                     | 何をするのか                                                                                                                                                                                                                   |
 | :---: | :------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|  🤖  | **規律あるエージェント (Discipline Agents)**   | Sisyphusが Hephaestus、Oracle、Librarian、Exploreをオーケストレーションする。完全なAI開発チームが並列で動く。                  |
-|  ⚡  | **`ultrawork` / `ulw`**       | 一言でOK。すべてのエージェントがアクティブになり、終わるまで止まらない。                         |
-|  🚪  | **[IntentGate](https://factory.ai/news/terminal-bench)** | ユーザーの真の意図を分析してから分類・行動する。もう文字通りに誤解して的外れなことをすることはない。                    |
-|  🔗  | **ハッシュベースの編集ツール**      | `LINE#ID` のコンテンツハッシュですべての変更を検証する。stale-lineエラー0%。[oh-my-pi](https://github.com/can1357/oh-my-pi)にインスパイアされている。[ハーネス問題 →](https://blog.can.ac/2026/02/12/the-harness-problem/) |
-|  🛠️  | **LSP + AST-Grep**        | ワークスペース単位のリネーム、ビルド前の診断、ASTを考慮した書き換え。エージェントにIDEレベルの精度を提供する。                    |
-|  🧠  | **バックグラウンドエージェント**     | 5人以上の専門家を並列で投入する。コンテキストは軽く保ち、結果は準備ができ次第受け取る。                       |
-|  📚  | **組み込みMCP**       | Exa（Web検索）、Context7（公式ドキュメント）、Grep.app（GitHub検索）。常にオン。                        |
-|  🔁  | **Ralph Loop / `/ulw-loop`**     | 自己参照ループ。100%完了するまで絶対に止まらない。                              |
-|  ✅  | **Todoの強制執行**        | エージェントがサボる？システムが首根っこを掴んで戻す。あなたのタスクは必ず終わる。                       |
-|  💬  | **コメントチェッカー**      | コメントからAI臭い無駄話を排除する。シニアエンジニアが書いたようなコードになる。                       |
-|  🖥️  | **Tmux統合**         | 完全なインタラクティブターミナル。REPL、デバッガー、TUIアプリがすべてリアルタイムで動く。                       |
-|  🔌  | **Claude Code互換性**      | 既存のフック、コマンド、スキル、MCP、プラグイン？すべてここでそのまま動く。                        |
-|  🎯  | **スキル内蔵MCP**        | スキルが独自のMCPサーバーを持ち歩く。コンテキストが肥大化しない。                          |
-|  📋  | **Prometheusプランナー**       | インタビューモードで、コードを1行触る前に戦略的な計画から立てる。                          |
-|  🔍  | **`/init-deep`**       | プロジェクト全体にわたって階層的な `AGENTS.md` ファイルを自動生成する。トークン効率とエージェントのパフォーマンスの両方を向上させる。               |
+|   🤖   | **規律あるエージェント (Discipline Agents)**             | Sisyphusが Hephaestus、Oracle、Librarian、Exploreをオーケストレーションする。完全なAI開発チームが並列で動く。                                                                                                            |
+|   ⚡   | **`ultrawork` / `ulw`**                                  | 一言でOK。すべてのエージェントがアクティブになり、終わるまで止まらない。                                                                                                                                                     |
+|   🚪   | **[IntentGate](https://factory.ai/news/terminal-bench)** | ユーザーの真の意図を分析してから分類・行動する。もう文字通りに誤解して的外れなことをすることはない。                                                                                                                   |
+|   🔗   | **ハッシュベースの編集ツール**                           | `LINE#ID` のコンテンツハッシュですべての変更を検証する。stale-lineエラー0%。[oh-my-pi](https://github.com/can1357/oh-my-pi)にインスパイアされている。[ハーネス問題 →](https://blog.can.ac/2026/02/12/the-harness-problem/) |
+|   🛠️   | **LSP + AST-Grep**                                       | ワークスペース単位のリネーム、ビルド前の診断、ASTを考慮した書き換え。エージェントにIDEレベルの精度を提供する。                                                                                                               |
+|   🧠   | **バックグラウンドエージェント**                         | 5人以上の専門家を並列で投入する。コンテキストは軽く保ち、結果は準備ができ次第受け取る。                                                                                                                                  |
+|   📚   | **組み込みMCP**                                          | Exa（Web検索）、Context7（公式ドキュメント）、Grep.app（GitHub検索）。常にオン。                                                                                                                                           |
+|   🔁   | **Ralph Loop / `/ulw-loop`**                             | 自己参照ループ。100%完了するまで絶対に止まらない。                                                                                                                                                                           |
+|   ✅   | **Todoの強制執行**                                       | エージェントがサボる？システムが首根っこを掴んで戻す。あなたのタスクは必ず終わる。                                                                                                                                     |
+|   💬   | **コメントチェッカー**                                   | コメントからAI臭い無駄話を排除する。シニアエンジニアが書いたようなコードになる。                                                                                                                                         |
+|   🖥️   | **Tmux統合**                                             | 完全なインタラクティブターミナル。REPL、デバッガー、TUIアプリがすべてリアルタイムで動く。                                                                                                                                  |
+|   🔌   | **Claude Code互換性**                                    | 既存のフック、コマンド、スキル、MCP、プラグイン？すべてここでそのまま動く。                                                                                                                                                |
+|   🎯   | **スキル内蔵MCP**                                        | スキルが独自のMCPサーバーを持ち歩く。コンテキストが肥大化しない。                                                                                                                                                        |
+|   📋   | **Prometheusプランナー**                                 | インタビューモードで、コードを1行触る前に戦略的な計画から立てる。                                                                                                                                                            |
+|   🔍   | **`/init-deep`**                                         | プロジェクト全体にわたって階層的な `AGENTS.md` ファイルを自動生成する。トークン効率とエージェントのパフォーマンスの両方を向上させる。                                                                                      |
 
 ### 規律あるエージェント (Discipline Agents)
 
@@ -186,12 +186,12 @@ Read this and tell me why it's not another boilerplate: https://raw.githubuserco
 
 Sisyphusがサブエージェントにタスクを委任する際、モデルを直接選ぶことはない。**カテゴリー**を選ぶ。カテゴリーは自動的に適切なモデルにマッピングされる：
 
-| カテゴリー  | 用途       |
+| カテゴリー           | 用途                                 |
 | :------------------- | :----------------------------------- |
-| `visual-engineering` | フロントエンド、UI/UX、デザイン |
-| `deep`    | 自律的なリサーチと実行    |
-| `quick`   | 単一ファイルの変更、タイポの修正 |
-| `ultrabrain`   | ハードロジック、アーキテクチャの決定 |
+| `visual-engineering` | フロントエンド、UI/UX、デザイン      |
+| `deep`               | 自律的なリサーチと実行               |
+| `quick`              | 単一ファイルの変更、タイポの修正     |
+| `ultrabrain`         | ハードロジック、アーキテクチャの決定 |
 
 エージェントがどのような種類の作業かを伝え、ハーネスが適切なモデルを選択する。何も触る必要はない。
 
@@ -228,7 +228,7 @@ MCPサーバーがコンテキスト予算を食いつぶしている。修正�
 
 ```
 11#VK| function hello() {
-22#XJ|  return "world";
+22#XJ|   return "world";
 33#MB| }
 ```
 
@@ -242,11 +242,11 @@ Grok Code Fast 1 で、成功率が **6.7% → 68.3%** に上昇した。編集�
 
 ```
 project/
-├── AGENTS.md   ← プロジェクト全体のコンテキスト
+├── AGENTS.md              ← プロジェクト全体のコンテキスト
 ├── src/
-│  ├── AGENTS.md   ← src 専用のコンテキスト
-│  └── components/
-│  └── AGENTS.md ← コンポーネント専用のコンテキスト
+│   ├── AGENTS.md          ← src 専用のコンテキスト
+│   └── components/
+│       └── AGENTS.md      ← コンポーネント専用のコンテキスト
 ```
 
 エージェントが関連するコンテキストだけを自動で読み込む。手動での管理はゼロ。
@@ -283,31 +283,31 @@ oh-my-opencodeを削除するには：
 
 1. **OpenCodeの設定からプラグインを削除する**
 
-  `~/.config/opencode/opencode.json`（または `opencode.jsonc`）を編集し、`plugin` 配列から `"oh-my-opencode"` を削除する：
+   `~/.config/opencode/opencode.json`（または `opencode.jsonc`）を編集し、`plugin` 配列から `"oh-my-opencode"` を削除する：
 
-  ```bash
-  # jq を使用する場合
-  jq '.plugin = [.plugin[] | select(. != "oh-my-opencode")]' \
-  ~/.config/opencode/opencode.json > /tmp/oc.json && \
-  mv /tmp/oc.json ~/.config/opencode/opencode.json
-  ```
+   ```bash
+   # jq を使用する場合
+   jq '.plugin = [.plugin[] | select(. != "oh-my-opencode")]' \
+       ~/.config/opencode/opencode.json > /tmp/oc.json && \
+       mv /tmp/oc.json ~/.config/opencode/opencode.json
+   ```
 
 2. **設定ファイルを削除する（オプション）**
 
-  ```bash
-  # ユーザー設定を削除
-  rm -f ~/.config/opencode/oh-my-opencode.json ~/.config/opencode/oh-my-opencode.jsonc
+   ```bash
+   # ユーザー設定を削除
+   rm -f ~/.config/opencode/oh-my-opencode.json ~/.config/opencode/oh-my-opencode.jsonc
 
-  # プロジェクト設定を削除（存在する場合）
-  rm -f .opencode/oh-my-opencode.json .opencode/oh-my-opencode.jsonc
-  ```
+   # プロジェクト設定を削除（存在する場合）
+   rm -f .opencode/oh-my-opencode.json .opencode/oh-my-opencode.jsonc
+   ```
 
 3. **削除の確認**
 
-  ```bash
-  opencode --version
-  # プラグインがロードされなくなっているはず
-  ```
+   ```bash
+   opencode --version
+   # プラグインがロードされなくなっているはず
+   ```
 
 ## 著者の言葉
 
@@ -348,10 +348,10 @@ OpenCodeが Debian/Arch だとすれば、OmO は Ubuntu/[Omarchy](https://omarc
 ## 導入実績
 
 - [Indent](https://indentcorp.com)
- - インフルエンサーマーケティングソリューション Spray、クロスボーダーコマースプラットフォーム vovushop、AIコマースレビューマーケティングソリューション vreview 制作
+  - インフルエンサーマーケティングソリューション Spray、クロスボーダーコマースプラットフォーム vovushop、AIコマースレビューマーケティングソリューション vreview 制作
 - [Google](https://google.com)
 - [Microsoft](https://microsoft.com)
 - [ELESTYLE](https://elestyle.jp)
- - マルチモバイル決済ゲートウェイ elepay、キャッシュレスソリューション向けモバイルアプリケーションSaaS OneQR 制作
+  - マルチモバイル決済ゲートウェイ elepay、キャッシュレスソリューション向けモバイルアプリケーションSaaS OneQR 制作
 
 *素晴らしいヒーロー画像を提供してくれた [@junhoyeo](https://github.com/junhoyeo) 氏に特別な感謝を。*

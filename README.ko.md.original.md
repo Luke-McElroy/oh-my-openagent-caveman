@@ -119,7 +119,7 @@ curl -s https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/refs/head
 문서 읽는 시대는 지났다. 그냥 이 텍스트를 에이전트한테 붙여넣으라:
 
 ```
-Read this and tell me why it's not another boilerplate: https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/refs/heads/dev/README.md
+Read this and tell me why it's not just another boilerplate: https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/refs/heads/dev/README.md
 ```
 
 ## 핵심 기능
@@ -138,23 +138,23 @@ Read this and tell me why it's not another boilerplate: https://raw.githubuserco
 - [GLM Coding 요금제 ($10)](https://z.ai/subscribe)
 - 종량제(pay-per-token) 대상자라면 kimi와 gemini 모델을 써도 비용이 별로 안 나온다.
 
-|  | 기능         | 역할                                     |
+|       | 기능                                                     | 역할                                                                                                                                                                                                                     |
 | :---: | :------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|  🤖  | **기강 잡힌 에이전트 (Discipline Agents)**    | Sisyphus가 Hephaestus, Oracle, Librarian, Explore를 오케스트레이션한다. 완전한 AI 개발팀이 병렬로 돌아간다.                   |
-|  ⚡  | **`ultrawork` / `ulw`**       | 단어 하나면 된다. 모든 에이전트가 활성화되고 다 끝날 때까지 멈추지 않는다.                        |
-|  🚪  | **[IntentGate](https://factory.ai/news/terminal-bench)** | 사용자의 진짜 의도를 분석한 뒤 분류하거나 행동한다. 더 이상 문자 그대로 오해해서 헛짓거리는 일이 없다.                  |
-|  🔗  | **해시 기반 편집 툴**      | `LINE#ID` 콘텐츠 해시로 모든 변경 사항을 검증한다. stale-line 에러 0%. [oh-my-pi](https://github.com/can1357/oh-my-pi)에서 영감을 받았다. [하네스 프로블러 →](https://blog.can.ac/2026/02/12/the-harness-problem/) |
-|  🛠️  | **LSP + AST-Grep**        | 워크스페이스 단위 이름 변경, 빌드 전 진단, AST 기반 재작성. 에이전트에게 IDE급 정밀도를 제공한다.                     |
-|  🧠  | **백그라운드 에이전트**       | 5명 이상의 전문가를 병렬로 투입한다. 컨텍스트는 가볍게 유지하고 결과는 준비될 때 받는다.                     |
-|  📚  | **기본 내장 MCP**        | Exa(웹 검색), Context7(공식 문서), Grep.app(GitHub 검색). 항상 켜져 있다.                        |
-|  🔁  | **Ralph Loop / `/ulw-loop`**     | 자기 참조 루프. 100% 완료될 때까지 절대 멈추지 않는다.                           |
-|  ✅  | **Todo 강제 집행**        | 에이전트가 딴짓한다고? 시스템이 멱살 잡고 끌고 온다. 당신의 작업은 무조건 끝난다.                       |
-|  💬  | **주석 검사기**       | 주석에 AI 냄새나는 헛소리를 빼버린다. 시니어 개발자가 짠 것 같은 코드가 된다.                        |
-|  🖥️  | **Tmux 연동**        | 완전한 인터랙티브 터미널. REPL, 디버거, TUI 앱들 모두 실시간으로 돌아간다.                         |
-|  🔌  | **Claude Code 호환성**      | 기존 훅, 명령어, 스킬, MCP, 플러그인? 전부 여기서 그대로 돌아간다.                         |
-|  🎯  | **스킬 내장 MCP**        | 스킬이 자기만의 MCP 서버를 들고 다닌다. 컨텍스트가 부풀어 오르지 않는다.                         |
-|  📋  | **Prometheus 플래너**      | 인터뷰 모드로 코드 한 줄 만지기 전에 전략적인 계획부터 세운다.                           |
-|  🔍  | **`/init-deep`**       | 프로젝트 전체에 걸쳐 계층적인 `AGENTS.md` 파일을 자동 생성한다. 토큰 효율과 에이전트 성능 둘 다 잡는다.                   |
+|   🤖   | **기강 잡힌 에이전트 (Discipline Agents)**               | Sisyphus가 Hephaestus, Oracle, Librarian, Explore를 오케스트레이션한다. 완전한 AI 개발팀이 병렬로 돌아간다.                                                                                                          |
+|   ⚡   | **`ultrawork` / `ulw`**                                  | 단어 하나면 된다. 모든 에이전트가 활성화되고 다 끝날 때까지 멈추지 않는다.                                                                                                                                           |
+|   🚪   | **[IntentGate](https://factory.ai/news/terminal-bench)** | 사용자의 진짜 의도를 분석한 뒤 분류하거나 행동한다. 더 이상 문자 그대로 오해해서 헛짓거리는 일이 없다.                                                                                                           |
+|   🔗   | **해시 기반 편집 툴**                                    | `LINE#ID` 콘텐츠 해시로 모든 변경 사항을 검증한다. stale-line 에러 0%. [oh-my-pi](https://github.com/can1357/oh-my-pi)에서 영감을 받았다. [하네스 프로블러 →](https://blog.can.ac/2026/02/12/the-harness-problem/) |
+|   🛠️   | **LSP + AST-Grep**                                       | 워크스페이스 단위 이름 변경, 빌드 전 진단, AST 기반 재작성. 에이전트에게 IDE급 정밀도를 제공한다.                                                                                                                      |
+|   🧠   | **백그라운드 에이전트**                                  | 5명 이상의 전문가를 병렬로 투입한다. 컨텍스트는 가볍게 유지하고 결과는 준비될 때 받는다.                                                                                                                             |
+|   📚   | **기본 내장 MCP**                                        | Exa(웹 검색), Context7(공식 문서), Grep.app(GitHub 검색). 항상 켜져 있다.                                                                                                                                            |
+|   🔁   | **Ralph Loop / `/ulw-loop`**                             | 자기 참조 루프. 100% 완료될 때까지 절대 멈추지 않는다.                                                                                                                                                                 |
+|   ✅   | **Todo 강제 집행**                                       | 에이전트가 딴짓한다고? 시스템이 멱살 잡고 끌고 온다. 당신의 작업은 무조건 끝난다.                                                                                                                                  |
+|   💬   | **주석 검사기**                                          | 주석에 AI 냄새나는 헛소리를 빼버린다. 시니어 개발자가 짠 것 같은 코드가 된다.                                                                                                                                        |
+|   🖥️   | **Tmux 연동**                                            | 완전한 인터랙티브 터미널. REPL, 디버거, TUI 앱들 모두 실시간으로 돌아간다.                                                                                                                                             |
+|   🔌   | **Claude Code 호환성**                                   | 기존 훅, 명령어, 스킬, MCP, 플러그인? 전부 여기서 그대로 돌아간다.                                                                                                                                                     |
+|   🎯   | **스킬 내장 MCP**                                        | 스킬이 자기만의 MCP 서버를 들고 다닌다. 컨텍스트가 부풀어 오르지 않는다.                                                                                                                                             |
+|   📋   | **Prometheus 플래너**                                    | 인터뷰 모드로 코드 한 줄 만지기 전에 전략적인 계획부터 세운다.                                                                                                                                                         |
+|   🔍   | **`/init-deep`**                                         | 프로젝트 전체에 걸쳐 계층적인 `AGENTS.md` 파일을 자동 생성한다. 토큰 효율과 에이전트 성능 둘 다 잡는다.                                                                                                              |
 
 ### 기강 잡힌 에이전트 (Discipline Agents)
 
@@ -179,12 +179,12 @@ Read this and tell me why it's not another boilerplate: https://raw.githubuserco
 
 Sisyphus가 하위 에이전트에게 일을 맡길 때, 모델을 직접 고르지 않는다. **카테고리**를 고른다. 카테고리는 자동으로 올바른 모델에 매핑된다:
 
-| 카테고리   | 용도     |
+| 카테고리             | 용도                      |
 | :------------------- | :------------------------ |
 | `visual-engineering` | 프론트엔드, UI/UX, 디자인 |
-| `deep`    | 자율 리서치 및 실행  |
-| `quick`   | 단일 파일 변경, 오타 수정 |
-| `ultrabrain`   | 하드 로직, 아키텍처 결정 |
+| `deep`               | 자율 리서치 및 실행       |
+| `quick`              | 단일 파일 변경, 오타 수정 |
+| `ultrabrain`         | 하드 로직, 아키텍처 결정  |
 
 에이전트가 어떤 작업인지 말하면, 하네스가 알아서 적합한 모델을 꺼내온다. 손댈 게 없다.
 
@@ -221,7 +221,7 @@ MCP 서버들이 당신의 컨텍스트 예산을 다 잡아먹는다. 고쳤다
 
 ```
 11#VK| function hello() {
-22#XJ|  return "world";
+22#XJ|   return "world";
 33#MB| }
 ```
 
@@ -235,11 +235,11 @@ Grok Code Fast 1 기준으로 성공률이 **6.7% → 68.3%** 로 올랐다. 오
 
 ```
 project/
-├── AGENTS.md   ← 프로젝트 전체 컨텍스트
+├── AGENTS.md              ← 프로젝트 전체 컨텍스트
 ├── src/
-│  ├── AGENTS.md   ← src 전용 컨텍스트
-│  └── components/
-│  └── AGENTS.md ← 컴포넌트 전용 컨텍스트
+│   ├── AGENTS.md          ← src 전용 컨텍스트
+│   └── components/
+│       └── AGENTS.md      ← 컴포넌트 전용 컨텍스트
 ```
 
 에이전트가 알아서 관련된 컨텍스트만 쏙쏙 읽어간다. 수동으로 관리할 필요가 없다.
@@ -276,31 +276,31 @@ oh-my-opencode를 지우려면:
 
 1. **OpenCode 설정에서 플러그인 제거**
 
-  `~/.config/opencode/opencode.json` (또는 `opencode.jsonc`)를 열고 `plugin` 배열에서 `"oh-my-opencode"`를 지워라.
+   `~/.config/opencode/opencode.json` (또는 `opencode.jsonc`)를 열고 `plugin` 배열에서 `"oh-my-opencode"`를 지워라.
 
-  ```bash
-  # jq 사용 시
-  jq '.plugin = [.plugin[] | select(. != "oh-my-opencode")]' \
-  ~/.config/opencode/opencode.json > /tmp/oc.json && \
-  mv /tmp/oc.json ~/.config/opencode/opencode.json
-  ```
+   ```bash
+   # jq 사용 시
+   jq '.plugin = [.plugin[] | select(. != "oh-my-opencode")]' \
+       ~/.config/opencode/opencode.json > /tmp/oc.json && \
+       mv /tmp/oc.json ~/.config/opencode/opencode.json
+   ```
 
 2. **설정 파일 제거 (선택 사항)**
 
-  ```bash
-  # 사용자 설정 제거
-  rm -f ~/.config/opencode/oh-my-opencode.json ~/.config/opencode/oh-my-opencode.jsonc
+   ```bash
+   # 사용자 설정 제거
+   rm -f ~/.config/opencode/oh-my-opencode.json ~/.config/opencode/oh-my-opencode.jsonc
 
-  # 프로젝트 설정 제거 (있는 경우)
-  rm -f .opencode/oh-my-opencode.json .opencode/oh-my-opencode.jsonc
-  ```
+   # 프로젝트 설정 제거 (있는 경우)
+   rm -f .opencode/oh-my-opencode.json .opencode/oh-my-opencode.jsonc
+   ```
 
 3. **제거 확인**
 
-  ```bash
-  opencode --version
-  # 이제 플러그인이 로드되지 않아야 한다
-  ```
+   ```bash
+   opencode --version
+   # 이제 플러그인이 로드되지 않아야 한다
+   ```
 
 ## 작가의 말
 
@@ -341,10 +341,10 @@ OpenCode가 Debian/Arch라면, OmO는 Ubuntu/[Omarchy](https://omarchy.org/)다.
 ## 함께하는 전문가들
 
 - [Indent](https://indentcorp.com)
- - 인플루언서 마케팅 솔루션 Spray, 크로스보더 커머스 플랫폼 vovushop, AI 커머스 리뷰 마케팅 솔루션 vreview 제작
+  - 인플루언서 마케팅 솔루션 Spray, 크로스보더 커머스 플랫폼 vovushop, AI 커머스 리뷰 마케팅 솔루션 vreview 제작
 - [Google](https://google.com)
 - [Microsoft](https://microsoft.com)
 - [ELESTYLE](https://elestyle.jp)
- - 멀티 모바일 결제 게이트웨이 elepay, 캐시리스 솔루션을 위한 모바일 애플리케이션 SaaS OneQR 제작
+  - 멀티 모바일 결제 게이트웨이 elepay, 캐시리스 솔루션을 위한 모바일 애플리케이션 SaaS OneQR 제작
 
 *멋진 히어로 이미지를 만들어주신 [@junhoyeo](https://github.com/junhoyeo)님께 특별히 감사드린다.*

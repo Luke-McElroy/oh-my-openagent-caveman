@@ -1,4 +1,4 @@
-# src/ — Plugin Source
+# src/ Plugin Source
 
 **Generated:** 2026-04-18
 
@@ -10,7 +10,7 @@ Entry point `index.ts` orchestrates 5-step initialization: loadConfig → create
 
 | File | Purpose |
 |------|---------|
-| `index.ts` | Plugin entry, default-exports `pluginModule: PluginModule` with `{ id, server }` |
+| `index.ts` | Plugin entry, default-exports `pluginModule: PluginModule` w`{ id, server }` |
 | `plugin-config.ts` | JSONC parse, multi-level merge, Zod v4 validation |
 | `create-managers.ts` | TmuxSessionManager, BackgroundManager, SkillMcpManager, ConfigHandler |
 | `create-tools.ts` | SkillContext + AvailableCategories + ToolRegistry (26 tools) |
@@ -21,21 +21,21 @@ Entry point `index.ts` orchestrates 5-step initialization: loadConfig → create
 
 ```
 loadPluginConfig(directory, ctx)
-  1. User: ~/.config/opencode/oh-my-opencode.jsonc
-  2. Project: .opencode/oh-my-opencode.jsonc
-  3. mergeConfigs(user, project) → deepMerge for agents/categories, Set union for disabled_*
-  4. Zod safeParse → defaults for omitted fields
-  5. migrateConfigFile() → legacy key transformation
+ 1. User: ~/.config/opencode/oh-my-opencode.jsonc
+ 2. Project: .opencode/oh-my-opencode.jsonc
+ 3. mergeConfigs(user, project) → deepMerge agents/categories, Set union disabled_*
+ 4. Zod safeParse → defaults omitted fields
+ 5. migrateConfigFile() → legacy key transformation
 ```
 
 ## HOOK COMPOSITION
 
 ```
 createHooks()
-  ├─→ createCoreHooks()           # 43 hooks
-  │   ├─ createSessionHooks()     # 24: contextWindowMonitor, thinkMode, ralphLoop, modelFallback, runtimeFallback, noSisyphusGpt, noHephaestusNonGpt, anthropicEffort, intentGate, legacyPluginToast...
-  │   ├─ createToolGuardHooks()   # 14: commentChecker, rulesInjector, writeExistingFileGuard, jsonErrorRecovery, hashlineReadEnhancer, bashFileReadGuard, readImageResizer, todoDescriptionOverride, webfetchRedirectGuard...
-  │   └─ createTransformHooks()   # 5: claudeCodeHooks, keywordDetector, contextInjector, thinkingBlockValidator, toolPairValidator
-  ├─→ createContinuationHooks()   # 7: todoContinuationEnforcer, atlas, stopContinuationGuard, compactionContextInjector...
-  └─→ createSkillHooks()          # 2: categorySkillReminder, autoSlashCommand
+ ├─→ createCoreHooks()  # 43 hooks
+ │  ├─ createSessionHooks() # 24: contextWindowMonitor, thinkMode, ralphLoop, modelFallback, runtimeFallback, noSisyphusGpt, noHephaestusNonGpt, anthropicEffort, intentGate, legacyPluginToast...
+ │  ├─ createToolGuardHooks()  # 14: commentChecker, rulesInjector, writeExistingFileGuard, jsonErrorRecovery, hashlineReadEnhancer, bashFileReadGuard, readImageResizer, todoDescriptionOverride, webfetchRedirectGuard...
+ │  └─ createTransformHooks()  # 5: claudeCodeHooks, keywordDetector, contextInjector, thinkingBlockValidator, toolPairValidator
+ ├─→ createContinuationHooks()  # 7: todoContinuationEnforcer, atlas, stopContinuationGuard, compactionContextInjector...
+ └─→ createSkillHooks()   # 2: categorySkillReminder, autoSlashCommand
 ```
